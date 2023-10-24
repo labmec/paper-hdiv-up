@@ -1,0 +1,212 @@
+%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english,11pt,3p,number,sort&compress]{elsarticle}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm,headheight=2cm,headsep=2cm,footskip=1cm}
+
+\usepackage{color}
+%\definecolor{MyRed}{rgb}{1,0,0}
+\definecolor{MyRed}{rgb}{0,0,0}
+
+\usepackage{array}
+\usepackage{float}
+\usepackage{bm}
+\usepackage{algorithm2e}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\usepackage{graphicx}
+\usepackage{lipsum} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+%\usepackage[latin1]{inputenc}
+
+%\usepackage{amsmath}
+\usepackage{natbib}
+%\usepackage{subfigure}
+\usepackage{eucal}
+\usepackage{dsfont}
+\usepackage{comment}
+\usepackage{ifthen}    
+\usepackage{lscape}
+\usepackage{graphicx}
+
+
+\usepackage{amsmath}
+
+\usepackage{stmaryrd} % for \llbracket and \rrbracket
+
+\usepackage{hyperref}
+\usepackage{bm}
+
+\usepackage[subpreambles=true]{standalone}
+\usepackage{xspace}
+\usepackage[percent]{overpic}
+
+%tikz stuff
+\usepackage[customcolors]{hf-tikz}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{calc,shadings,patterns,tikzmark, plotmarks, spy, 
+pgfplots.polar, external, matrix, shapes.symbols,shadings,shapes, 
+decorations.shapes,decorations.pathmorphing,fit,backgrounds}
+\pgfplotsset{compat=1.10}   %% <-- this added
+
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{calc}
+\usepackage{pgfplotstable}
+
+\usepackage{xcolor}
+
+% WARNING: This folder must exist
+\tikzexternalize[prefix=./figs_pgfplots/tikz/]
+
+\newcommand{\includetikz}[1]{%
+	\tikzsetnextfilename{#1}%
+	\input{#1}%
+}
+
+% compatibility for pgf figure
+\pgfplotsset{compat=newest}
+
+\hypersetup{urlcolor=blue, colorlinks=true}
+
+\usepackage{amssymb}%% The amsthm package provides extended theorem environments
+
+% Useful when sending to journals.
+% Do not provide path to figures in includegraphics comand. Set them
+% here instead.
+\graphicspath{ {./figs/} }
+
+% path to tikz files. Do not use path in \includetikz command
+\makeatletter
+\def\input@path{{./figs_pgfplots/}{./fig/}}
+\makeatother
+
+\makeatletter
+\@ifundefined{showcaptionsetup}{}{%
+ \PassOptionsToPackage{caption=false}{subfig}}
+\usepackage{subfig}
+\makeatother
+
+\usepackage{babel}
+
+\journal{Engineering Fracture Mechanics}
+
+\begin{document}
+
+\begin{frontmatter}{}
+
+\title{Tentative title: A Mixed Formulation for Incompressible Elasticity Problems using H(div) Approximation Spaces}
+
+\author[uni]{Giovane Avancini}
+
+\ead{giovanea@unicamp.br}
+
+\author[uni]{Nathan Shauer}
+
+\ead{shauer@unicamp.br}
+
+\author[uni]{Hugo Luiz Oliveira}
+
+\ead{hluiz@unicamp.br}
+
+\author[uni]{Philippe R. B. Devloo}
+
+\ead{phil@unicamp.br}
+
+\address[uni]{Universidade Estadual de Campinas, R. Josiah Willard Gibbs 85 - Cidade Universitaria, Campinas SP, Brazil, CEP 13083-839}
+
+\begin{abstract}
+\lipsum[1-1]
+\end{abstract}
+\begin{keyword}
+\textit{Mixed finite elements; Elasticity; Imcompressibilityl H(div) approximation space}
+\end{keyword}
+
+\end{frontmatter}{}
+
+\section{Introduction}
+
+
+According to \cite{DURAN2019}, mixed finite element formulation can \lipsum[1-2]
+
+\section{Governing equations \label{sec:Governing-equations}}
+
+\subsection{Strong form}
+
+\lipsum[1-1]
+
+\subsection{Weak form}
+
+\lipsum[1-1]
+
+\section{Discretization \label{sec:Discretization}}
+
+\subsection{Finite element discretization using H(div) approximation spaces}
+
+\lipsum[1-1]
+
+\subsection{Comparison with H1-hybrid formulation}
+
+\lipsum[1-1]
+
+\subsection{Static condensation of the internal degrees of freedom}
+
+\lipsum[1-1]
+
+\section{Examples\label{sec:Examples}}
+
+\subsection{Verification with manufactured solution \label{subsec:manufacsol}}
+
+
+\subsubsection{Results}
+
+
+\subsection{Cook's membrane problem\label{subsec:cook}}
+
+
+\subsubsection{Results}
+
+
+\subsection{Timoshenko beam problem\label{subsec:timo}}
+
+
+\subsubsection{Results}
+
+
+\subsection{Application problem\label{subsec:module}}
+
+
+\subsubsection{Results}
+
+
+\section{Conclusions}
+
+\lipsum[1-1]
+
+\bigskip\noindent {\bf Acknowledgments:} Authors  Nat, Gio, Hug, and Phil acknowledge the support from...
+
+\appendix
+
+\section{An Automatic Differentiation methodology to compute derivatives of H(div) shape functions \label{sec:Appendix-A.-Derivation}}
+
+\lipsum[1-1]
+
+\subsection*{The FAD package}
+
+\lipsum[1-1]
+
+%\bibliographystyle{plainnat}
+\bibliographystyle{elsarticle-num} 
+\addcontentsline{toc}{section}{\refname}
+\bibliography{%
+	references}
+
+\end{document}

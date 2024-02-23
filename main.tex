@@ -123,11 +123,12 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 
 \address[uni]{Universidade Estadual de Campinas, R. Josiah Willard Gibbs 85 - Cidade Universitaria, Campinas SP, Brazil, CEP 13083-839}
 
+%Definir se vamosar usar double-hybrid ou hybrid-hybrid. Adotei a segunda opção por enquanto
 \begin{abstract}
-\lipsum[1-1]
+	This work is devoted to the development of a novel primal hybrid-hybrid finite element formulation for the solution of tridimensional compressible, quasi-incompressible and incompressible elasticity problems. Hybrid-mixed methods are typically derived from an extended variational principle, where the requirement for the interlement continuity of the functions spaces is relaxed and weakly imposed using Lagrange multipliers over the element interfaces. In this sense, we propose the usage of a De Rham compatible pair H(div)-L2 for displacements and pressure, respectively. H(div) spaces naturally guarantees the continuity of the normal displacement across elements, so the tangential component conformity can be retrieved at the expense of introducing a shear stress approximation on the element edges. This leads to a semi-hybrid approach with two Lagrange multipliers so solving a saddle-point problem is inevitably even in the compreesible regime. To overcome this drawback, the shear stress can be further hybridized a second time and statically condensed to recover a positive-definite block matrix that depends on the primal variable components. In fact, there is still the need of solving a saddle point system when the bulk modulus tends to infinity, however, results have shown that this approach presents a superior stability compared to the semi-hybrid formulation. The stability, consistency and local conservation features are discussed in details. The formulation is tested and verified using 3D benchmarks for which analytical and/or numerical solutions are available, exhibiting optimal convergence rate independent of the poisson coefficient. The proposed methodology is also applied to a real-world problem, where the performance of the method is assessed in terms of accuracy and computational cost.
 \end{abstract}
 \begin{keyword}
-\textit{Mixed finite elements; Elasticity; Imcompressibilityl H(div) approximation space}
+\textit{Hybrid finite elements; Elasticity; H(div) approximation space; Incompressibility; Local conservation}
 \end{keyword}
 
 \end{frontmatter}{}

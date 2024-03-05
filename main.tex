@@ -171,10 +171,7 @@ According to \cite{DURAN2019}, mixed finite element formulation can \lipsum[1-2]
 \subsubsection{Results}
 
 
-\subsection{Cook's membrane problem\label{subsec:cook}}
 
-
-\subsubsection{Results}
 
 
 \subsection{Cantilever beam subjected to an end shear load \label{subsec:bishop}}
@@ -226,7 +223,7 @@ Two types of partitions are used, one with hexahedral $\mathcal{S}$-elements and
 % 	\label{fig:bishop-meshes}
 % \end{figure}
 
-The convergence results for the aforementioned errors are shown in Figures \ref{fig:bishop-convergence-nu-03-hex}-\ref{fig:bishop-convergence-nu-03-tet}. The results show optimal convergence rates of $k+1$ for the displacement and $k$ for the remaining variables with both types of partitions. Figure \ref{fig:bishop-snapshot} plots the displacement, pressure, normal and shear stress distributions obtained with the finest hexahedral mesh using $k=2$ over the deformed configuration of the beam. The results are qualitatively similar to the reference solution, which is a strong indication of the accuracy of the proposed formulation.
+The convergence results for the aforementioned errors are shown in Figures \ref{fig:bishop-convergence-nu-03-hex}-\ref{fig:bishop-convergence-nu-03-tet}. The results show optimal convergence rates of $k+1$ for the displacement and $k$ for the remaining variables with both types of partitions. Figure \ref{fig:bishop-snapshot} plots the displacement, pressure, normal and shear stresses distributions obtained with the finest hexahedral mesh using $k=2$ over the deformed configuration of the beam. The results qualitatively agress with the reference solution, which is a strong indication of the accuracy of the proposed formulation.
 
 % \begin{figure}
 %     \centering
@@ -295,6 +292,29 @@ In order to assess the proposed methodology in different compressibility regimes
 %     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-05.pdf}
 %     \caption{Cantilever beam subjected to an end shear load - convergence analysis for the incompressible case ($\nu=0.5$)}
 %     \label{fig:bishop-convergence-nu-05}
+% \end{figure}
+
+\subsection{Cook's membrane \label{subsec:cook}}
+
+The Cook's membrane is a classical benchmark for the study of locking phenomena of incompressible or nearly-incompressible elasticity problems under shear and bending conditions. It consists of a tapered cantilever beam clamped at its left side and subjected to a shear load in the $y$ direction at the right end, according to Figure \ref{fig:cooks-geometry}. The material is assumed to have a linear behaviour as in \cite{elguedj2008b}, with a constant Young modulus $E=240.565$ MPa and different Poisson coefficients in the range $0.3 \leq \nu \leq 0.5$.
+
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[width=0.5\textwidth]{bishop-beam-geometry}
+% 	\caption{Cook's membrane - geometry}
+% 	\label{fig:cooks-geometry}
+% \end{figure}
+
+At first, we perform a plane strain analysis using structured meshes with triangular $BDM$ and quadrilateral $\mathcal{Q}$ partitions, following by sucessive uniform refinements so that the number of elements per edge is given by $N_e=2^n$, with $n={0,1,2,3,4,5}$. The coarsest and finest meshes for both partitions are depicted in Figure \ref{fig:cooks-2d-meshes}. Figure \ref{} shows a comparison of the vertical displacement of point A with some numerical results from the literature \cite{elguedj2008b,cesar1999new}.
+
+% \begin{figure}[H]
+% 	\centering
+% 	\subfloat[Coarsest triangular mesh]{\includegraphics[width=0.25\textwidth]{cooks-2d-meshes-a}}
+% 	\subfloat[Finest triangular mesh]{\includegraphics[width=0.25\textwidth]{cooks-2d-meshes-b}}
+% 	\subfloat[Coarsest quadrilateral mesh]{\includegraphics[width=0.25\textwidth]{cooks-2d-meshes-c}}
+% 	\subfloat[Finest quadrilateral mesh]{\includegraphics[width=0.25\textwidth]{cooks-2d-meshes-d}}
+% 	\caption{Cook's membrane - plane strain meshes}
+% 	\label{fig:cooks-2d-meshes}
 % \end{figure}
 
 \subsection{Application problem\label{subsec:module}}

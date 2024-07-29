@@ -136,6 +136,75 @@ In this work we extend the semi-hybrid approach proposed in \cite{carvalho2024se
 
 \section{Governing equations \label{sec:Governing-equations}}
 
+In this section, the governing equations for the linear elasticity problem shall be defined. Firstly, the primal displacement based formulation is presented, followed by the mixed version using the additive decomposition of the Cauchy stress tensor.
+
+Let $\Omega \in \mathbb{R}^d : d\in\{2,3\}$ be an open domain with Lipschitz boundary $\partial\Omega=\partial\Omega_D\cup\partial\Omega_N$, where $\partial\Omega_D$ and $\partial\Omega_N$ stand for the boundary portion where Dirichlet and Neumann boundary conditions are applied, respectively. The conservation of linear momentum for a generic continuum body is given by::
+\vskip-.2cm
+\begin{equation} \label{eq:momentum}
+		-\nabla \cdot \boldsymbol{\sigma} - \mathbf{b} = \mathbf{0} \hspace{0.2cm} \text{in } \Omega \text{,}
+\end{equation}
+
+\noindent where $\mathbf{b} \in L^2(\Omega)$ is the body forces vector and $\boldsymbol{\sigma} \in H(\text{div},\Omega)$ denotes the Cauchy stress tensor.
+
+The Generalized Hook law relates the stresses and strains in a isotropic body as:
+\vskip-.2cm
+\begin{equation} \label{eq:hook}
+    \boldsymbol{\sigma} = 2\mu \boldsymbol{\varepsilon} + \lambda \text{tr}(\boldsymbol{\varepsilon}) \mathbf{I}^d \text{,}
+\end{equation}
+
+\noindent where $\mathbf{I}^d$ is the identity matrix of dimension $d$, $\mu$ and $\lambda$ are known as Lam\'{e} constants, given respectively by
+\vskip-.2cm
+\begin{equation}
+	\lambda = \frac{E\nu}{(1+\nu)(1-2\nu)} \text{,} \quad \mu = \frac{E}{2(1+\nu)} \text{,}
+\end{equation}
+
+\noindent with $E$ and $\nu$ standing for the Young modulus and Poisson coefficient. The infinitesimal strain tensor $\boldsymbol{\varepsilon}$ is the symmetric countepart of the displacement gradient:
+\vskip-.2cm
+\begin{equation} \label{eq:strain}
+    \boldsymbol{\varepsilon}=\frac{1}{2}(\nabla\mathbf{u}^T+\nabla\mathbf{u}) \text{.}
+\end{equation}
+
+By substituting Eqs. \eqref{eq:hook} and \eqref{eq:strain} into Eq. \eqref{eq:momentum}, the pure displacement boundary value problem, also known as the Navier-Cauchy problem, reads: find displacement $\mathbf{u} \in H^2_D(\Omega)$, where $H^2_D(\Omega)=\{\mathbf{u}\in H^2(\Omega) : \mathbf{u}\lvert_{\partial\Omega_D} = \mathbf{u}_D  \}$, such that
+\vskip-.2cm
+\begin{equation} \label{eq:navier-cauchy}
+	\begin{aligned}
+		-\mu\nabla^2\mathbf{u} -\left(\mu+\lambda \right)\nabla\left(\nabla \cdot \mathbf{u} \right) - \mathbf{b} = \mathbf{0} \hspace{0.2cm} \text{in } \Omega \text{,}&\\
+		\mathbf{u} = \mathbf{u}_D \hspace{0.2cm} \text{on } \partial\Omega_D \text{,}&\\
+		\boldsymbol{\sigma} \cdot \mathbf{n} = \mathbf{t} \hspace{0.2cm} \text{on } \partial\Omega_N \text{,}&
+	\end{aligned}
+\end{equation}
+
+\noindent where {\giovane check the following spaces} $\mathbf{u}_D \in H^{1/2}(\partial\Omega_D)$ and $\mathbf{t} \in H^{-1/2}(\partial\Omega_N)$ are the prescribed displacements and tractions on $\partial\Omega_D$ and $\partial\Omega_N$, respectively.
+
+The elasticity problem can also be formulated using two state variables by applying the additive decomposition on the Cauchy stress tensor in its deviatoric and hydrostatic counterparts, resulting in:
+\vskip-.2cm
+\begin{equation} \label{eq:stress-decomposition}
+	\boldsymbol{\sigma} = \boldsymbol{\sigma}' - p\mathbf{I}^d \text{,}
+\end{equation}
+
+\noindent where p is the hydrostatic pressure, computed as
+\vskip-.2cm
+\begin{equation} \label{eq:pressure}
+	p = -\kappa \text{tr}(\boldsymbol{\varepsilon}) \text{,}
+\end{equation}
+
+\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, comes from the expression $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case {\giovane should we put the derivation in an appendix?}. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
+\vskip-.2cm
+\begin{equation} \label{eq:deviatoric-stress}
+	\boldsymbol{\sigma}' = 2\mu \left(\boldsymbol{\varepsilon} - \frac{1}{3}\text{tr}(\boldsymbol{\varepsilon})\mathbf{I}\right) \text{.}
+\end{equation}
+
+Substituting Eqs. \eqref{eq:stress-decomposition}, \eqref{eq:pressure}, \eqref{eq:deviatoric-stress} in Eq. \eqref{eq:momentum}, the mixed elasticity problem yields: find $\mathbf{u} \in H^2_D(\Omega)$ and $p \in H^1(\Omega)$ such that
+\vskip-.2cm
+\begin{equation} \label{eq:mixed-elasticity}
+	\begin{aligned}
+		-\mu\nabla^2\mathbf{u} -\frac{2}{3}\mu\nabla\left(\nabla \cdot \mathbf{u} \right) + \nabla p -\mathbf{b}= \mathbf{0} \hspace{0.2cm} \text{in } \Omega \text{,}&\\
+		-\nabla \cdot \mathbf{u} -\frac{1}{\kappa}p= 0 \hspace{0.2cm} \text{in } \Omega \text{,}&\\
+		\mathbf{u} = \mathbf{u}_D \hspace{0.2cm} \text{on } \partial\Omega_D \text{,}&\\
+		\boldsymbol{\sigma} \cdot \mathbf{n} = \mathbf{t} \hspace{0.2cm} \text{on } \partial\Omega_N \text{.}&
+	\end{aligned}
+\end{equation}
+
 \subsection{Strong form}
 
 \lipsum[1-1]

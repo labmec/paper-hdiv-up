@@ -7,16 +7,13 @@
 \geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm,headheight=2cm,headsep=2cm,footskip=1cm}
 
 \usepackage{color}
-%\definecolor{MyRed}{rgb}{1,0,0}
-\definecolor{MyRed}{rgb}{0,0,0}
-
 \usepackage{array}
 \usepackage{float}
-\usepackage{bm}
 \usepackage{algorithm2e}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{stmaryrd}
+\usepackage{bm}
 \usepackage{graphicx}
 \usepackage{lipsum} 
 
@@ -27,23 +24,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 %\usepackage[latin1]{inputenc}
 
-%\usepackage{amsmath}
 \usepackage{natbib}
-%\usepackage{subfigure}
-% \usepackage{eucal}
 \usepackage{dsfont}
 \usepackage{comment}
 \usepackage{ifthen}    
 \usepackage{lscape}
 \usepackage{graphicx}
-
-
-\usepackage{amsmath}
-
-\usepackage{stmaryrd} % for \llbracket and \rrbracket
-
 \usepackage{hyperref}
-\usepackage{bm}
 
 \usepackage[subpreambles=true]{standalone}
 \usepackage{xspace}
@@ -77,8 +64,6 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 
 \hypersetup{urlcolor=blue, colorlinks=true}
 
-\usepackage{amssymb}%% The amsthm package provides extended theorem environments
-
 % Useful when sending to journals.
 % Do not provide path to figures in includegraphics comand. Set them
 % here instead.
@@ -97,14 +82,16 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 
 \usepackage{babel}
 
-\journal{Engineering Fracture Mechanics}
+\newcommand{\giovane}{\color{red}{\bf\Large GA} \color{cyan} }
+
+\journal{Engineering with Computers}
 
 \begin{document}
 
 \begin{frontmatter}{}
 
 %Um primeiro título
-\title{A primal hybrid-hybrid finite element method to solve tridimensional compressible, quasi-incompressible and incompressible elasticity using De Rham compatible H(div)-L2 spaces}
+\title{A primal double-hybrid finite element method to solve tridimensional compressible, quasi-incompressible and incompressible elasticity using de Rham compatible H(div)-L2 spaces}
 
 \author[uni]{Giovane Avancini}
 

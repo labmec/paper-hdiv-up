@@ -134,9 +134,11 @@ In this work we extend the semi-hybrid approach proposed in \cite{carvalho2024se
 \section{Preliminaries and notation}
 {\giovane should we make a section for this?}
 
-\section{Governing equations \label{sec:Governing-equations}}
+\section{Elasticity problem \label{sec:Governing-equations}}
 
-In this section, the governing equations for the linear elasticity problem shall be defined. Firstly, the primal displacement based formulation is presented, followed by the mixed version using the additive decomposition of the Cauchy stress tensor.
+In this section, the governing equations for the linear elasticity problem shall be defined. Firstly, the primal displacement based formulation is presented, followed by the mixed version introducing the pressure as an indepent variable.
+
+\subsection{Strong form}
 
 Let $\Omega \in \mathbb{R}^d : d\in\{2,3\}$ be an open domain with Lipschitz boundary $\partial\Omega=\partial\Omega_D\cup\partial\Omega_N$, where $\partial\Omega_D$ and $\partial\Omega_N$ stand for the boundary portion where Dirichlet and Neumann boundary conditions are applied, respectively. The conservation of linear momentum for a generic continuum body is given by::
 \vskip-.2cm
@@ -188,7 +190,7 @@ The elasticity problem can also be formulated using two state variables by apply
 	p = -\kappa \text{tr}(\boldsymbol{\varepsilon}) \text{,}
 \end{equation}
 
-\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, comes from the expression $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case {\giovane should we put the derivation in an appendix?}. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
+\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, comes from the expression $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case {\giovane should we put the derivation of the bulk modulus for the plane analyses in an appendix?}. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
 \vskip-.2cm
 \begin{equation} \label{eq:deviatoric-stress}
 	\boldsymbol{\sigma}' = 2\mu \left(\boldsymbol{\varepsilon} - \frac{1}{3}\text{tr}(\boldsymbol{\varepsilon})\mathbf{I}\right) \text{.}
@@ -205,13 +207,19 @@ Substituting Eqs. \eqref{eq:stress-decomposition}, \eqref{eq:pressure}, \eqref{e
 	\end{aligned}
 \end{equation}
 
-\subsection{Strong form}
-
-\lipsum[1-1]
-
 \subsection{Weak form}
 
-\lipsum[1-1]
+The variational form of the problems described by Eqs. \eqref{eq:navier-cauchy} and \eqref{eq:mixed-elasticity} can be obtained by means of the weighted residual method. Depending on the choice of test functions and approximation spaces, different formulations can be derived.
+
+The weak form of the Navier-Cauchy problem is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test functions $\mathbf{v} \in H^1_0(\Omega)$, where $H^1_0(\Omega)=\{\mathbf{v} \in H^1(\Omega) : \mathbf{v} \lvert_{\partial\Omega_D}=0 \}$ and integrating over the domain $\Omega$ \cite{becker1981finite}. The weak statement then reads: find $\mathbf{u} \in H^1(\Omega)$ such that for all $\mathbf{v} \in H^1_0(\Omega)$:
+
+\begin{equation} \label{eq:weak-primal-displacement}
+    \int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega = \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\Gamma_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{.}
+\end{equation}
+
+In the above equation, $\mathcal{D}$ refers to the elasticity constitutive tensor, defined for an isotropic solid as $\mathcal{D}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})+\lambda\delta_{ij}\delta_{kl}$, where $\delta_{ij}$ is the Kronecker delta. Equation \eqref{eq:weak-primal-displacement} is the starting point for the $H^1$ primal displacement based finite element formulations.
+
+The weak form of the mixed problem is obtained by multiplying 
 
 \section{Discretization \label{sec:Discretization}}
 

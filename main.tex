@@ -214,18 +214,64 @@ The variational form of the problems described by Eqs. \eqref{eq:navier-cauchy} 
 The weak form of the Navier-Cauchy problem is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test functions $\mathbf{v} \in H^1_0(\Omega)$, where $H^1_0(\Omega)=\{\mathbf{v} \in H^1(\Omega) : \mathbf{v} \lvert_{\partial\Omega_D}=0 \}$ and integrating over the domain $\Omega$ \cite{becker1981finite}. The weak statement then reads: find $\mathbf{u} \in H^1(\Omega)$ such that for all $\mathbf{v} \in H^1_0(\Omega)$:
 
 \begin{equation} \label{eq:weak-primal-displacement}
-    \int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega = \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\Gamma_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{.}
+    \int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega = \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{.}
 \end{equation}
 
 In the above equation, $\mathcal{D}$ refers to the elasticity constitutive tensor, defined for an isotropic solid as $\mathcal{D}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})+\lambda\delta_{ij}\delta_{kl}$, where $\delta_{ij}$ is the Kronecker delta. Equation \eqref{eq:weak-primal-displacement} is the starting point for the $H^1$ primal displacement based finite element formulations.
 
-The weak form of the mixed problem is obtained by multiplying 
+In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-elasticity}, we multiply the first equation by displacement test functions $\mathbf{v} \in H^1_0(\Omega)$ and the second equation by pressure test functions $q \in L^2(\Omega)$. Integrating over the domain $\Omega$ and applying the divergence theorem, the weak form consists in finding $\mathbf{u} \in H^1(\Omega)$ and $p \in L^2(\Omega)$ such that for all $\mathbf{v} \in H^1_0(\Omega)$ and $q \in L^2(\Omega)$:
 
+\begin{equation} \label{eq:weak-mixed1}
+	\int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D}^{'} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega - \int_{\Omega_e} p \;(\nabla \cdot \mathbf{v}) d\Omega =  \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{,}
+\end{equation}
+\begin{equation} \label{eq:weak-mixed2}
+-\int_{\Omega} (\nabla \cdot \mathbf{u}) \;q\; d\Omega -\int_{\Omega} \frac{1}{\kappa}\;p \;q\; d\Omega = \mathbf{0} \text{,}
+\end{equation}
+
+\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Although Eqs. \eqref{eq:weak-mixed1}-\eqref{eq:weak-mixed2} use independent approximation spaces for displacement and pressure, their choice must follow a specific criteria to ensure stability. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and a saddle-point problem needs to be solved. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, and a convenient way to ensure this is to use the Taylor-Hood elements \cite{taylor1973numerical} which is described in Section.
 \section{Discretization \label{sec:Discretization}}
 
 \subsection{Finite element discretization using H(div) approximation spaces}
+{\giovane A first shot, need to improve it}
 
-\lipsum[1-1]
+In \cite{carvalho2024semi}, the authors proposed a semi-hybrid formulation for Stokes-Brinkman flows that uses $H(\text{div})$ conforming velocity functions and discontinuos $L^2$ approximation for pressure. The same ideia can also be applied to elasticity. Let $\mathcal{V} = \mathbf{V}\cap H(\text{div},\Omega)$, $\Psi \subset L^2(\Omega)$ be spaces of vector functions and piece-wise scalars, respectively, for which the relation $\nabla \cdot \mathcal{V} \in \Psi$ holds. As $H(\text{div})$ approximation only guarantees the continuity of normal componentes of a vector across elements interface, a hybridization of the tangential velocity is performed. We introduce a third space defined as $\boldsymbol{\Lambda}^t \subset H^{-1/2}(\partial\Omega_e)$, for which the Lagrange multiplier $\boldsymbol{\lambda}^t \in \boldsymbol{\Lambda}^t$ has the meaning of a shear traction to weakly enforce the tangential displacement continuity. 
+
+The weak statement for the semi-hybrid formulation thus reads: find $\{\mathbf{u},p,\boldsymbol{\lambda}^t\} \in \mathcal{V} \times \Psi \times \boldsymbol{\Lambda}^t$ such that for all $\{\mathbf{v},q,\boldsymbol{\eta}^t\} \in \mathcal{V}\times \Psi \times \boldsymbol{\Lambda}^t$:
+
+\begin{equation} \label{eq:semihybrid1}
+    \begin{split}
+        \sum_{\Omega_e \in \mathcal{T}} \left( \int_{\Omega_e} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D}^{'} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega_e - \int_{\Omega_e} p\; (\nabla \cdot \mathbf{v}) d\Omega_e \right) + \int_{\mathcal{E}^0} \boldsymbol{\lambda}^t \cdot \llbracket \mathbf{v} \rrbracket \;d\mathcal{E}^0 = \\ \sum_{\Omega_e \in \mathcal{T}} \left( \int_{\Omega_e} \mathbf{v} \cdot \mathbf{b} d\Omega_e + \int_{\Gamma} \mathbf{v} \cdot \boldsymbol{\sigma}_N \; d\partial\Omega_e \right)
+    \end{split}
+\end{equation}
+\begin{equation} \label{eq:semihybrid2}
+    \sum_{\Omega_e \in \mathcal{T}} \left(-\int_{\Omega_e} (\nabla \cdot \mathbf{u}) \;q\; d\Omega_e -\int_{\Omega_e} \frac{3}{2\mu+\lambda}\;p\; q\; d\Omega_e \right) = \mathbf{0}
+\end{equation}
+\begin{equation} \label{eq:semihybrid3}
+    \int_{\mathcal{E}^0} \llbracket \mathbf{u} \rrbracket \cdot \mathbf{\eta}^t \;d\mathcal{E}^0 = \mathbf{0} \text{,}
+\end{equation}
+
+\noindent where $\mathbf{v}$, $q$ and $\boldsymbol{\eta}^t$ are test functions for velocity, pressure and tangential traction, respectively, $\llbracket \cdot \rrbracket$ stands for the jump operator on the interface $\mathcal{E}^0$ between two neighbour elements $\Omega_1$ and $\Omega_2$, defined as $\llbracket \mathbf{v} \rrbracket = \mathbf{v} \vert_{\Omega_1} - \mathbf{v} \vert_{\Omega_2}$. Equation \eqref{eq:semihybrid3} plays the role of weakly enforcing the tangential displacement continuity over the element interfaces.
+
+Although mathematically consistent, the semi-hybrid formulation poses some challenges from a numerical perspective. It gives rise to a saddle-point problem with two different constraints: $p$ and $\boldsymbol{\lambda}^t$. This structure significantly increases the efforts required to consistently and stably solve the linear system.
+
+We propose a second hybridization of the tangential stresses in order to recover its primal form. Introducing the space $\mathcal{L}^t \subset H^{1/2}(\partial\Omega_e)$ for the tangential velocity, the hybrid form thus reads: find $\{\mathbf{u},p,\boldsymbol{\lambda}^t_e,\mathbf{u}^t\} \in \mathcal{V} \times \Psi \times \boldsymbol{\Lambda}^t \times \mathcal{L}^t$ such that for all $\{\mathbf{v},q,\boldsymbol{\eta}^t_e,\mathbf{v}^t\} \in \mathcal{V} \times \Psi \times \boldsymbol{\Lambda}^t\times \mathcal{L}^t$, the following equations are satisfied:
+
+\begin{equation} \label{eq:hybrid1}
+    \begin{split}
+        \sum_{\Omega_e \in \mathcal{T}} \left( \int_{\Omega_e} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D}^{'} : \boldsymbol{\varepsilon}(\mathbf{u})\; d\Omega_e - \int_{\Omega_e} p \;(\nabla \cdot \mathbf{v}) d\Omega_e - \int_{\partial\Omega_e} \boldsymbol{\lambda}^t_e \cdot \mathbf{v}\; d\partial\Omega_e \right) = \\ \sum_{\Omega_e \in \mathcal{T}} \left( \int_{\Omega_e} \mathbf{v} \cdot \mathbf{b} \;d\Omega_e + \int_{\Gamma} \mathbf{v} \cdot \boldsymbol{\sigma}_N\; d\partial\Omega_e \right)
+    \end{split}
+\end{equation}
+\begin{equation} \label{eq:hybrid2}
+    \sum_{\Omega_e \in \mathcal{T}} \left(-\int_{\Omega_e} (\nabla \cdot \mathbf{u})\; q \;d\Omega_e -\int_{\Omega_e} \frac{3}{2\mu+\lambda}\;p \;q \;d\Omega_e \right) = \mathbf{0}
+\end{equation}
+\begin{equation} \label{eq:hybrid3}
+    \sum_{\Omega_e \in \mathcal{T}} \left(\int_{\partial\Omega_e} (\mathbf{u}^t-\mathbf{u}) \cdot \boldsymbol{\eta}^t_e\; d\partial\Omega_e \right)  = \mathbf{0}
+\end{equation}
+\begin{equation} \label{eq:hybrid4}
+    \sum_{\Omega_e \in \mathcal{T}} \int_{\partial\Omega_e} \boldsymbol{\lambda}^t_e \cdot \mathbf{v}^t\; d\partial\Omega_e = \mathbf{0} \text{,}
+\end{equation}
+
+\noindent where Eq. \eqref{eq:hybrid4} was introduced to impose the continuity of the tangential traction across $\mathcal{E}^0$. Even though an additional constraint is introduced, $\boldsymbol{\lambda}^t$ is now associated to a single element therefore it can be statically condensed and eliminated from the global system. For a compressible solid, a symmetric positive-definite matrix is obtained with two unknowns, namely $\mathbf{u} \in H(\text{div},\Omega)$ and $\mathbf{u}^t \in H^{1/2}(\partial\Omega_e)$. For the incompressible case where pressures cannot be computed explicitly from the displacements, one mean pressure per element acts as a Lagrange multiplier in the global system. This still gives rise to a saddle-point matrix, however, with much better spectral properties and easier to solve compared to Eqs. \eqref{eq:semihybrid1}-\eqref{eq:semihybrid3}.
 
 \subsection{Comparison with H1-hybrid formulation}
 
@@ -235,27 +281,24 @@ The weak form of the mixed problem is obtained by multiplying
 
 \lipsum[1-1]
 
-\section{Examples\label{sec:Examples}}
+\section{Examples \label{sec:Examples}}
 
-\subsection{Verification with manufactured solution \label{subsec:manufacsol}}
+In this section, the proposed methodology is tested and verified through three benchmarks for which analytical and/or numerical solutions are available and a real-world problem. In the first case, a non-homogeneous solid under pure stretch is analyzed to show the advantage of the hybrid formulation to represent stress discontinuities over element interfaces in comparison to the Taylor-Hood scheme. In the second example, a cantilever beam is investigated in different compressibility regime to show the independency of the convergence rate to the poisson coefficient. Next, the classical Cook's membrane problem is solved, followed by a real-world problem where the applicability of the method is demonstrated.
 
+\subsection{Uniform stretch of a non-homogeneous solid \label{subsec:non-homogeneous}}
 
-\subsubsection{Results}
-
-
-
-
+{\giovane to do next}
 
 \subsection{Cantilever beam subjected to an end shear load \label{subsec:bishop}}
 
 The case of a tridimensional cantilever beam under an end shear-load is considered. Its initial geometry is depicted in Figure \ref{fig:bishop-beam-geometry}, with $L=5$, $a=0.5$, $b=0.5$. The beam is assumed to be fixed at $z=0$ and subjected to a shear-force $F=1$ at $z=L$ pointing downwards in the $y$ direction, while the other faces are traction-free. The material is assumed to have a linear isotropic behaviour with a constant Young modulus $E=1$ whereas different values are used for the poisson coefficient in order to test the formulation for a wide range of compressibility.
 
-% \begin{figure}[H]
-% 	\centering
-% 	\includegraphics[width=0.5\textwidth]{bishop-beam-geometry}
-% 	\caption{Cantilever beam subjected to an end shear load - geometry}
-% 	\label{fig:bishop-beam-geometry}
-% \end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1.0]{bishop-beam-geometry}
+	\caption{Cantilever beam subjected to an end shear load - geometry}
+	\label{fig:bishop-beam-geometry}
+\end{figure}
 
 The analytical stress state for the problem is given in \cite{bishop2014displacement} and written below:
 

@@ -1,5 +1,3 @@
-%% LyX 2.3.6 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
 \documentclass[english,11pt,3p,number,sort&compress]{elsarticle}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
@@ -59,6 +57,9 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 	\input{#1}%
 }
 
+% Commands for equations
+\newcommand{\m}{\,\text{m}}
+
 % compatibility for pgf figure
 \pgfplotsset{compat=newest}
 
@@ -71,7 +72,7 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 
 % path to tikz files. Do not use path in \includetikz command
 \makeatletter
-\def\input@path{{./figs_pgfplots/}{./fig/}}
+\def\input@path{{./figs_pgfplots/}{./figs/}}
 \makeatother
 
 \makeatletter
@@ -83,6 +84,9 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 \usepackage{babel}
 
 \newcommand{\giovane}{\color{red}{\bf\Large GA} \color{cyan} }
+\newcommand{\nathan}{\color{red}{\bf\Large NS} \color{cyan} }
+\newcommand{\carlos}{\color{blue}{\bf\Large CP} \color{cyan} }
+\newcommand{\phil}{\color{yellow}{\bf\Large PD} \color{cyan} }
 
 \journal{Engineering with Computers}
 
@@ -436,6 +440,19 @@ A convergence test is also performed for different levels of compressibility: $\
 
 \subsection{Application problem\label{subsec:module}}
 
+With the objective of testing the method's robustness regarding complex geometries, the proposed methodology is applied to a real-world problem. The geometry of a structural hull is depicted in Figure \ref{fig:module-geometry}, with dimensions $L=1\m$, $H=2\m$, $W=2\m$. The hull is subjected to an internal pressure of $p=10.34$ MPa and fixed in the normal direction of all other faces. The material is assumed to have a linear behaviour with a constant Young modulus $E=210000$ MPa and Poisson coefficient $\nu=0.3$. Since the problem is axisymmetric, only one-forth of the domain is modeled, as shown in Figure REF. The results obtained with the proposed formulation are compared with the results obtained using classical $H^1$ shape-functions.
+
+\begin{figure}[h]
+    \centering
+    \def\svgwidth{450pt} 
+    % \includegraphics{bishop-beam-geometry.pdf}
+    \input{hull-domain.pdf_tex}
+    % \includegraphics{hull-domain.pdf}
+    \caption{Geometry of the structural hull. Only one-forth of the domain is modeled due to axisymmetry of the domain.}
+    \label{fig:module-geometry}
+\end{figure}
+
+The problem is solved using an unstructured tetrahedral mesh with X elements and the adopted polynomial orders are {\nathan DISPORDER=2 and LAMBDAORDER=1. WE NEED TO CHANGE THIS TO THE RIGHT NOTATION LATER}. The adopted finite element mesh is depicted in Figure REF. For the traditional $H^1$ simulation, the same mesh is used with quadratic shape functions.
 
 \subsubsection{Results}
 

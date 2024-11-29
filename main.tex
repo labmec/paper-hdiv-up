@@ -413,9 +413,9 @@ In order to assess the proposed methodology in different compressibility regimes
 %     \label{fig:bishop-convergence-nu-05}
 % \end{figure}
 
-\subsection{Cook's membrane \label{subsec:cook}}
+\subsection{Cook's membrane \label{subsec:cook}},
 
-The Cook's membrane is a classical benchmark for the study of locking phenomena of incompressible or nearly-incompressible elasticity problems under shear and bending conditions. It consists of a tapered cantilever beam clamped at its left side and subjected to a shear load in the $y$ direction at the right end, according to Figure \ref{fig:cooks-geometry}. The material is assumed to have a linear behaviour as in \cite{elguedj2008b}, with a constant Young modulus $E=240.565$ MPa. Different Poisson coefficients in the range $0.3 \leq \nu \leq 0.5$ were .
+The Cook's membrane is a classical benchmark for the study of locking phenomena of incompressible or nearly-incompressible elasticity problems under shear and bending conditions. It consists of a tapered cantilever beam clamped at its left side and subjected to a shear load in the $y$ direction at the right end, according to Figure \ref{fig:cooks-geometry}. The material is assumed to have a linear behaviour with a constant Young modulus $E=240.565$ MPa. Three different Poisson coefficients were tested: $\nu=0.3333$, $\nu=0.4999$ and $\nu=0.5$. This problem can be seen in many books and papers, such as in \cite{cook1989concepts,elguedj2008b}, with different material properties, geometries and boundary conditions. Some works also present a geometric non-linear analysis, under elastic and elastoplastic regimes. In this work, we only focus on the linear elastic regime.
 
 % \begin{figure}[H]
 % 	\centering
@@ -424,19 +424,36 @@ The Cook's membrane is a classical benchmark for the study of locking phenomena 
 % 	\label{fig:cooks-geometry}
 % \end{figure}
 
-At first, we perform a plane strain analysis using structured meshes with triangular $BDM$ and quadrilateral $\mathcal{Q}$ partitions keeping $k=1$, following by sucessive uniform refinements so that the number of elements per edge is given by $N_e=2^n$, with $n={0,1,2,3,4,5}$. The coarsest and finest meshes for both partitions are depicted in Figure \ref{fig:cooks-2d-meshes}. Figure \ref{} shows a comparison of the vertical displacement of point A for two values of $\nu$ with some numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained with classical $\mathcal{Q}^1$ and $\mathcal{T}^1$ quadrilateral and triangular elements, respectively, with $H^1$ functions. One notices that our approach leads to a locking-free solution and converges to the reference solutions, while the solutions obtained with classical $H^1$ shape-functions clearly exhibit an excessive bending stiffness leading to a wrong representation of the problem's cinematic.
+At first, we perform plane strain analyses using structured meshes with triangular and quadrilateral partitions with uniform refinements, so that the number of elements per edge is given by $N_e=2^n$, with $n={0,1,2,3,4,5}$. Some of the meshes employed are depicted in Figures \ref{fig:cooks-2d-tri-meshes}-\ref{fig:cooks-2d-quad-meshes}.
 
-% \begin{figure}[H]
-% 	\centering
-% 	\subfloat[Coarsest triangular mesh]{\includegraphics[width=0.25\textwidth]{cooks-2d-meshes-a}}
-% 	\subfloat[Finest triangular mesh]{\includegraphics[width=0.25\textwidth]{cooks-2d-meshes-b}}
-% 	\subfloat[Coarsest quadrilateral mesh]{\includegraphics[width=0.25\textwidth]{cooks-2d-meshes-c}}
-% 	\subfloat[Finest quadrilateral mesh]{\includegraphics[width=0.25\textwidth]{cooks-2d-meshes-d}}
-% 	\caption{Cook's membrane - plane strain meshes}
-% 	\label{fig:cooks-2d-meshes}
-% \end{figure}
+\begin{figure}[H]
+	\centering
+	\subfloat[$N_e=1$]{\includegraphics[width=0.25\textwidth, trim={4cm 4cm 4cm 3.5cm}, clip]{cooks-2d-tri-mesh-1.png}}
+	\subfloat[$N_e=2$]{\includegraphics[width=0.25\textwidth, trim={4cm 4cm 4cm 3.5cm}, clip]{cooks-2d-tri-mesh-2.png}}
+	\subfloat[$N_e=8$]{\includegraphics[width=0.25\textwidth, trim={4cm 4cm 4cm 3.5cm}, clip]{cooks-2d-tri-mesh-8.png}}
+	\subfloat[$N_e=32$]{\includegraphics[width=0.25\textwidth, trim={4cm 4cm 4cm 3.5cm}, clip]{cooks-2d-tri-mesh-32.png}}
+	\caption{Cook's membrane. Plane strain meshes with triangular partitions.}
+	\label{fig:cooks-2d-tri-meshes}
+\end{figure}
 
-A convergence test is also performed for different levels of compressibility: $\nu=0.49,$
+\begin{figure}[H]
+	\centering
+	\subfloat[$N_e=1$]{\includegraphics[width=0.25\textwidth, trim={4cm 4cm 4cm 3.5cm}, clip]{cooks-2d-quad-mesh-1.png}} \hfill
+	\subfloat[$N_e=2$]{\includegraphics[width=0.25\textwidth, trim={4cm 4cm 4cm 3.5cm}, clip]{cooks-2d-quad-mesh-2.png}} \hfill
+	\subfloat[$N_e=8$]{\includegraphics[width=0.25\textwidth, trim={4cm 4cm 4cm 3.5cm}, clip]{cooks-2d-quad-mesh-8.png}} \hfill
+	\subfloat[$N_e=32$]{\includegraphics[width=0.25\textwidth, trim={4cm 4cm 4cm 3.5cm}, clip]{cooks-2d-quad-mesh-32.png}}
+	\caption{Cook's membrane. Plane strain meshes with quadrilateral partitions.}
+	\label{fig:cooks-2d-quad-meshes}
+\end{figure}
+
+Figure \ref{fig:cooks-2d-displacement} shows a comparison of the vertical displacement of point A for two values of $\nu$ with some numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained with classical $\mathcal{Q}^1$ and $\mathcal{T}^1$ quadrilateral and triangular elements, respectively, with $H^1$ functions. One notices that our approach leads to a locking-free solution and converges to the reference solutions, while the solutions obtained with classical $H^1$ shape-functions clearly exhibit an excessive bending stiffness leading to a wrong representation of the problem's cinematic.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1.0]{cook-2d-disp-0.4999}
+	\caption{Cook's membrane. Vertical displacement of point A.}
+	\label{fig:cooks-2d-displacement}
+\end{figure}
 
 \subsection{Application problem\label{subsec:module}}
 

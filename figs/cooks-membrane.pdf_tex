@@ -38,7 +38,7 @@
   \newcommand*\fsize{\dimexpr\f@size pt\relax}%
   \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
   \ifx\svgwidth\undefined%
-    \setlength{\unitlength}{300.47244094bp}%
+    \setlength{\unitlength}{453.54330709bp}%
     \ifx\svgscale\undefined%
       \relax%
     \else%
@@ -50,19 +50,23 @@
   \global\let\svgwidth\undefined%
   \global\let\svgscale\undefined%
   \makeatother%
-  \begin{picture}(1,0.75471698)%
+  \begin{picture}(1,0.4625)%
     \lineheight{1}%
     \setlength\tabcolsep{0pt}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{cooks-membrane.pdf}}%
-    \put(0.89845672,0.56767208){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$16 \text{ mm}$\end{tabular}}}}%
-    \put(0.3374083,0.64821008){\rotatebox{11.14572}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$48 \text{ mm}$\end{tabular}}}}}%
-    \put(0.06778833,0.34357841){\rotatebox{90}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$44 \text{ mm}$\end{tabular}}}}}%
-    \put(0.03848664,0.06181926){\rotatebox{-37.023794}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$1 \text{ mm}$\end{tabular}}}}}%
+    \put(0.96065331,0.29101098){\rotatebox{90}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$16 \text{ mm}$\end{tabular}}}}}%
+    \put(0.70412218,0.41703876){\rotatebox{0.74538518}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$48 \text{ mm}$\end{tabular}}}}}%
+    \put(0.51159277,0.20151558){\rotatebox{90}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$44 \text{ mm}$\end{tabular}}}}}%
+    \put(0.0899142,0.03322706){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$z$\end{tabular}}}}%
+    \put(0.15059217,0.08260837){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x$\end{tabular}}}}%
+    \put(0.38703759,0.38077979){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$A$\end{tabular}}}}%
+    \put(0.42281575,0.38207194){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$F$\end{tabular}}}}%
+    \put(0.92862101,0.38637638){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$A$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{cooks-membrane.pdf}}%
-    \put(0.24797519,0.03159152){\color[rgb]{1,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$z$\end{tabular}}}}%
-    \put(0.14249882,0.23083813){\color[rgb]{1,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y$\end{tabular}}}}%
-    \put(0.35296361,0.10330063){\color[rgb]{1,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x$\end{tabular}}}}%
-    \put(0.81467531,0.6603678){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$A$\end{tabular}}}}%
+    \put(0.03330798,0.14984169){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y$\end{tabular}}}}%
+    \put(-0.0013234,0.05129902){\rotatebox{-37.023794}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$1 \text{ mm}$\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{cooks-membrane.pdf}}%
+    \put(0.55477409,0.19106541){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y$\end{tabular}}}}%
+    \put(0.62981758,0.10132761){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x$\end{tabular}}}}%
   \end{picture}%
 \endgroup%

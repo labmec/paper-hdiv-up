@@ -85,10 +85,14 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 
 \newcommand{\giovane}{\color{red}{\bf\Large GA} \color{cyan} }
 \newcommand{\nathan}{\color{red}{\bf\Large NS} \color{cyan} }
-\newcommand{\carlos}{\color{blue}{\bf\Large CP} \color{cyan} }
 \newcommand{\phil}{\color{yellow}{\bf\Large PD} \color{cyan} }
 
-\journal{Engineering with Computers}
+\newcommand{\jump}[1]
+{
+	\llbracket #1 \rrbracket
+}
+
+\journal{Computer Methods in Applied Mechanics and Engineering}
 
 \begin{document}
 
@@ -134,106 +138,159 @@ There are different ways in the literature to overcome these drawbacks. One poss
 
 In this work we extend the semi-hybrid approach proposed in \cite{carvalho2024semi} for Stokes flows to elasticity problems, developing a new formulation by performing a second hybridization on the tangential stresses. This formulation is based on a de Rham compatible pair $H(\text{div})-L^2$ for displacements and pressure. The $H(\text{div})$ functions are constructed using a systematic methodology described in \cite{devloo2022efficient,de2013new}.
 
-
 \section{Preliminaries and notation}
-{\giovane should we make a section for this?}
+
+Firstly, we shall introduce basic notation, functional spaces and definitions that will be used throughout this work. Elasticity problems involves scalar, vector and tensor valued variables. Hereinafter, vector fields are denoted by bold Latin letters, tensors are written using bold symbols or bold Greek letters, whislt plain Latin or Greek letters are chosen for scalars.
+
+Let $\Omega \subset \mathbb{R}^d$, $d \in \{2, 3\}$, be a closed domain with Lipschitz boundary $\partial \Omega \subset \mathbb{R}^{d-1}$ whose  associated unit outward normal vector is denoted by $\bm{n}$. The scalar Hilbert spaces $L^2(\Omega)$ and $H^1(\Omega)$ have their usual meanings:
+\begin{equation*}
+    L^2(\Omega) = \left\{f: \int_{\Omega} f^2  ~d \Omega < \infty \right\},
+\end{equation*}
+\begin{equation*}
+    H^1(\Omega) = \left\{v \in L^2(\Omega) : \partial_i v \in L^2 
+    (\Omega) : i \in\{2,3\} \right\},
+\end{equation*}
+
+\noindent associated with their respective norms $\| \cdot \|_{L^2}$ and $\| \cdot \|_{H^1}$.
+
+The space $H(\text{div},\Omega,\mathbb{R}^d)$ comprises square-integrable vector fields whose divergence is also square-integrable:
+\begin{equation*}
+	H(\text{div},\Omega,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) : \nabla \cdot \bm{v} \in L^2(\Omega) \right\},
+\end{equation*}
+\noindent equipped with the norm $\lVert \cdot \rVert_{H(\text{div})}$ and \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{2,3\} \}\). 
+
+The notation used for the $L^2$ inner product is $(\cdot,\cdot)_{\Omega}$, whilst $\langle \cdot,\cdot\rangle_{\partial\Omega}$ stands for the duality pairing between the trace spaces
+\begin{equation*}
+	H^{1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{v} \lvert_{\partial\Omega}, \bm{u} \in H^1(\Omega,\mathbb{R}^d)\right\},
+\end{equation*}
+\begin{equation*}
+	H^{-1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{\sigma} \,\bm{n} \lvert_{\partial\Omega}, \bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\},
+\end{equation*}
+
+\noindent with $H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) = \left\{\bm{\sigma} \in L^2(\Omega,\mathbb{R}^{d \times d}) : \nabla \cdot \bm{\sigma} \in L^2(\Omega,\mathbb{R}^d) \right\}$ representing the space of tensor fields whose divergence is a vector field.
+
+Let $\mathcal{T}_h=\left\{K_i \right\}, i\in \{1,...,N\}$ be a partition of $\Omega$ into non-overlapping elements $K$ with usual shape such that $\Omega = \cup_{i=1}^{N} K_i$. The boundary of each element is denoted by $\partial K$ with outward unit normal vector to the boundary $\bm{n}^K$. The set $\Gamma_h$ is named the mesh skeleton, and comprises the union of all element boundary segments (lines for 2D and facets for 3D). It can be decomposed into a boundary subset $\Gamma_{\partial\Omega}=\{E \in \Gamma_h : E \subset \partial\Omega\}$ and an interior subset $\mathring{\Gamma}_h =\{E \in \Gamma_h \setminus \Gamma_{\partial\Omega}\}$. Over an element interface $E \in \mathring{\Gamma}_h$ between two elements $K_i$ and $K_j$, the jump operator of a function $v$ is defined as
+\begin{equation*}
+	\jump{v}_E = v_i \lvert_{E} - v_j \lvert_{E} \text{.}
+\end{equation*}
+
+Over the partitioned domain, a broken Sobolev space of the square-integrable functions can be defined as
+\begin{equation*}
+	H^1(\mathcal{T}_h) = \left\{v \in L^2(\Omega) : v \lvert_{K} \in H^1(K), \,\forall \, K\in\mathcal{T}_h \right\} \text{.}
+\end{equation*}
+
+\textcolor{red}{Acho que, ao contrario do artigo do Stokes, vou colocar os espacos discretos conforme eles forem aparecendo nas secoes.}
 
 \section{Elasticity problem \label{sec:Governing-equations}}
 
 In this section, the governing equations for the linear elasticity problem shall be defined. Firstly, the primal displacement based formulation is presented, followed by the mixed version introducing the pressure as an indepent variable.
 
-\subsection{Strong form}
+\subsection{Problem definition}
 
-Let $\Omega \in \mathbb{R}^d : d\in\{2,3\}$ be an open domain with Lipschitz boundary $\partial\Omega=\partial\Omega_D\cup\partial\Omega_N$, where $\partial\Omega_D$ and $\partial\Omega_N$ stand for the boundary portion where Dirichlet and Neumann boundary conditions are applied, respectively. The conservation of linear momentum for a generic continuum body is given by::
-\vskip-.2cm
+The conservation of linear momentum for a generic continuum body is given by:
 \begin{equation} \label{eq:momentum}
-		-\nabla \cdot \boldsymbol{\sigma} - \mathbf{b} = \mathbf{0} \hspace{0.2cm} \text{in } \Omega \text{,}
+		-\nabla \cdot \bm{\sigma} - \bm{b} = \bm{0} \hspace{0.2cm} \text{in } \Omega ,
 \end{equation}
-
-\noindent where $\mathbf{b} \in L^2(\Omega)$ is the body forces vector and $\boldsymbol{\sigma} \in H(\text{div},\Omega)$ denotes the Cauchy stress tensor.
-
-The Generalized Hook law relates the stresses and strains in a isotropic body as:
-\vskip-.2cm
+\noindent where $\bm{b}$ is the body forces vector and $\bm{\sigma}$ denotes the Cauchy stress tensor. The Generalized Hook law relates the stresses and strains in a isotropic body as:
 \begin{equation} \label{eq:hook}
-    \boldsymbol{\sigma} = 2\mu \boldsymbol{\varepsilon} + \lambda \text{tr}(\boldsymbol{\varepsilon}) \mathbf{I}^d \text{,}
+    \bm{\sigma} = 2\mu \bm{\varepsilon}(\bm{u}) + \lambda \text{tr}(\bm{\varepsilon}(\bm{u})) \bm{I}^d ,
 \end{equation}
 
-\noindent where $\mathbf{I}^d$ is the identity matrix of dimension $d$, $\mu$ and $\lambda$ are known as Lam\'{e} constants, given respectively by
-\vskip-.2cm
+\noindent where $\mathbf{I}^d$ is the identity tensor of dimension $d$, $\mu$ and $\lambda$ are scalars known as Lam\'{e} constants, given respectively by
 \begin{equation}
 	\lambda = \frac{E\nu}{(1+\nu)(1-2\nu)} \text{,} \quad \mu = \frac{E}{2(1+\nu)} \text{,}
 \end{equation}
 
-\noindent with $E$ and $\nu$ standing for the Young modulus and Poisson coefficient. The infinitesimal strain tensor $\boldsymbol{\varepsilon}$ is the symmetric countepart of the displacement gradient:
-\vskip-.2cm
+\noindent with $E$ and $\nu$ standing for the Young modulus and Poisson coefficient. The infinitesimal strain tensor $\bm{\varepsilon}(\bm{u})$ is the symmetric countepart of the displacement gradient:
 \begin{equation} \label{eq:strain}
-    \boldsymbol{\varepsilon}=\frac{1}{2}(\nabla\mathbf{u}^T+\nabla\mathbf{u}) \text{.}
+    \bm{\varepsilon}(\bm{u})=\frac{1}{2}(\nabla\bm{u}^T+\nabla\bm{u}) \text{.}
 \end{equation}
 
-By substituting Eqs. \eqref{eq:hook} and \eqref{eq:strain} into Eq. \eqref{eq:momentum}, the pure displacement boundary value problem, also known as the Navier-Cauchy problem, reads: find displacement $\mathbf{u} \in H^2_D(\Omega)$, where $H^2_D(\Omega)=\{\mathbf{u}\in H^2(\Omega) : \mathbf{u}\lvert_{\partial\Omega_D} = \mathbf{u}_D  \}$, such that
-\vskip-.2cm
-\begin{equation} \label{eq:navier-cauchy}
-	\begin{aligned}
-		-\mu\nabla^2\mathbf{u} -\left(\mu+\lambda \right)\nabla\left(\nabla \cdot \mathbf{u} \right) - \mathbf{b} = \mathbf{0} \hspace{0.2cm} \text{in } \Omega \text{,}&\\
-		\mathbf{u} = \mathbf{u}_D \hspace{0.2cm} \text{on } \partial\Omega_D \text{,}&\\
-		\boldsymbol{\sigma} \cdot \mathbf{n} = \mathbf{t} \hspace{0.2cm} \text{on } \partial\Omega_N \text{,}&
-	\end{aligned}
-\end{equation}
+By substituting Eqs. \eqref{eq:hook} and \eqref{eq:strain} into Eq. \eqref{eq:momentum}, the pure displacement boundary value problem, also known as the Navier-Cauchy problem, reads: find displacement $\bm{u}$ such that
+\begin{subequations} \label{eq:navier-cauchy}
+	\begin{align}
+		-\mu\nabla^2\bm{u} -\left(\mu+\lambda \right)\nabla\left(\nabla \cdot \bm{u} \right) - \bm{b} = \bm{0} \hspace{0.2cm} \text{in } \Omega ,&\\
+		\bm{u} = \bm{u}_D \hspace{0.2cm} \text{on } \partial\Omega_D ,&\\
+		\bm{\sigma} \mathbf{n} = \bm{t} \hspace{0.2cm} \text{on } \partial\Omega_N ,&
+	\end{align}
+\end{subequations}
 
-\noindent where {\giovane check the following spaces} $\mathbf{u}_D \in H^{1/2}(\partial\Omega_D)$ and $\mathbf{t} \in H^{-1/2}(\partial\Omega_N)$ are the prescribed displacements and tractions on $\partial\Omega_D$ and $\partial\Omega_N$, respectively.
+\noindent where $\bm{u}_D$ and $\bm{t}$ are the prescribed displacements and tractions on the Dirichlet $\partial\Omega_D$ and Neumann $\partial\Omega_N$ boundaries, respectively.
 
 The elasticity problem can also be formulated using two state variables by applying the additive decomposition on the Cauchy stress tensor in its deviatoric and hydrostatic counterparts, resulting in:
-\vskip-.2cm
 \begin{equation} \label{eq:stress-decomposition}
-	\boldsymbol{\sigma} = \boldsymbol{\sigma}' - p\mathbf{I}^d \text{,}
+	\bm{\sigma} = \bm{\sigma}' - p\bm{I}^d ,
 \end{equation}
 
-\noindent where p is the hydrostatic pressure, computed as
-\vskip-.2cm
+\noindent where the scalar p is the hydrostatic pressure, computed as
 \begin{equation} \label{eq:pressure}
-	p = -\kappa \text{tr}(\boldsymbol{\varepsilon}) \text{,}
+	p = -\kappa \text{tr}(\bm{\varepsilon}) ,
 \end{equation}
 
-\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, comes from the expression $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case {\giovane should we put the derivation of the bulk modulus for the plane analyses in an appendix?}. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
-\vskip-.2cm
+\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, is computed as $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case {\giovane should we put the derivation of the bulk modulus for the plane analyses in an appendix?}. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
 \begin{equation} \label{eq:deviatoric-stress}
 	\boldsymbol{\sigma}' = 2\mu \left(\boldsymbol{\varepsilon} - \frac{1}{3}\text{tr}(\boldsymbol{\varepsilon})\mathbf{I}\right) \text{.}
 \end{equation}
 
-Substituting Eqs. \eqref{eq:stress-decomposition}, \eqref{eq:pressure}, \eqref{eq:deviatoric-stress} in Eq. \eqref{eq:momentum}, the mixed elasticity problem yields: find $\mathbf{u} \in H^2_D(\Omega)$ and $p \in H^1(\Omega)$ such that
-\vskip-.2cm
-\begin{equation} \label{eq:mixed-elasticity}
-	\begin{aligned}
-		-\mu\nabla^2\mathbf{u} -\frac{2}{3}\mu\nabla\left(\nabla \cdot \mathbf{u} \right) + \nabla p -\mathbf{b}= \mathbf{0} \hspace{0.2cm} \text{in } \Omega \text{,}&\\
-		-\nabla \cdot \mathbf{u} -\frac{1}{\kappa}p= 0 \hspace{0.2cm} \text{in } \Omega \text{,}&\\
-		\mathbf{u} = \mathbf{u}_D \hspace{0.2cm} \text{on } \partial\Omega_D \text{,}&\\
-		\boldsymbol{\sigma} \cdot \mathbf{n} = \mathbf{t} \hspace{0.2cm} \text{on } \partial\Omega_N \text{.}&
-	\end{aligned}
-\end{equation}
+Substituting Eqs. \eqref{eq:stress-decomposition}, \eqref{eq:pressure}, \eqref{eq:deviatoric-stress} in Eq. \eqref{eq:momentum}, the mixed elasticity problem yields: find $\mathbf{u}$ and $p$ such that
+\begin{subequations} \label{eq:mixed-elasticity}
+	\begin{align}
+		-\mu\nabla^2\bm{u} -\frac{2}{3}\mu\nabla\left(\nabla \cdot \bm{u} \right) + \nabla p -\bm{b}= \bm{0} \hspace{0.2cm} \text{in } \Omega ,& \label{eq:mixed-elasticity-a}\\ 
+		-\nabla \cdot \bm{u} -\frac{1}{\kappa}p= 0 \hspace{0.2cm} \text{in } \Omega ,& \label{eq:mixed-elasticity-b}\\ 
+		\bm{u} = \bm{u}_D \hspace{0.2cm} \text{on } \partial\Omega_D ,&\\
+		\bm{\sigma} \bm{n} = \bm{t} \hspace{0.2cm} \text{on } \partial\Omega_N .&
+	\end{align}
+\end{subequations}
 
 \subsection{Weak form}
 
-The variational form of the problems described by Eqs. \eqref{eq:navier-cauchy} and \eqref{eq:mixed-elasticity} can be obtained by means of the weighted residual method. Depending on the choice of test functions and approximation spaces, different formulations can be derived.
+The weak form of the problems described by Eqs. \eqref{eq:navier-cauchy} and \eqref{eq:mixed-elasticity} can be obtained by means of the weighted residual method. Depending on the choice of test functions and approximation spaces, different formulations can be derived.
 
-The weak form of the Navier-Cauchy problem is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test functions $\mathbf{v} \in H^1_0(\Omega)$, where $H^1_0(\Omega)=\{\mathbf{v} \in H^1(\Omega) : \mathbf{v} \lvert_{\partial\Omega_D}=0 \}$ and integrating over the domain $\Omega$ \cite{becker1981finite}. The weak statement then reads: find $\mathbf{u} \in H^1(\Omega)$ such that for all $\mathbf{v} \in H^1_0(\Omega)$:
-
+The simplest one is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test functions $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$, where $H^1_0(\Omega,\mathbb{R}^d)=\{\bm{v} \in H^1(\Omega,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=0 \}$ and integrating over the domain $\Omega$ \cite{becker1981finite}. The weak statement then reads: find $\mathbf{u} \in H^1_D(\Omega,\mathbb{R}^d)$ such that for all $\mathbf{v} \in H^1_0(\Omega,\mathbb{R}^d)$:
 \begin{equation} \label{eq:weak-primal-displacement}
-    \int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega = \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{.}
+    a\left(\bm{u},\bm{v}\right)_\Omega = \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t},\bm{v\cdot\bm{n}}\rangle_{\partial\Omega_N},
 \end{equation}
+% \begin{equation} \label{eq:weak-primal-displacement}
+%     \int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega = \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{.}
+% \end{equation}
 
-In the above equation, $\mathcal{D}$ refers to the elasticity constitutive tensor, defined for an isotropic solid as $\mathcal{D}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})+\lambda\delta_{ij}\delta_{kl}$, where $\delta_{ij}$ is the Kronecker delta. Equation \eqref{eq:weak-primal-displacement} is the starting point for the $H^1$ primal displacement based finite element formulations.
+\noindent where $H^1_D(\Omega,\mathbb{R}^d)=\{\bm{u} \in H^1(\Omega,\mathbb{R}^d) : \bm{u} \lvert_{\partial\Omega_D}=\bm{u}_D\}$, $a\left(\bm{u},\bm{v}\right)_\Omega$ is a bilinear operator computed as
+\begin{equation*}
+	a\left(\bm{u},\bm{v}\right)_\Omega = \int_{\Omega} \bm{\varepsilon}(\bm{v}) : \mathcal{D} : \bm{\varepsilon}(\bm{u}) d\Omega
+\end{equation*}
 
-In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-elasticity}, we multiply the first equation by displacement test functions $\mathbf{v} \in H^1_0(\Omega)$ and the second equation by pressure test functions $q \in L^2(\Omega)$. Integrating over the domain $\Omega$ and applying the divergence theorem, the weak form consists in finding $\mathbf{u} \in H^1(\Omega)$ and $p \in L^2(\Omega)$ such that for all $\mathbf{v} \in H^1_0(\Omega)$ and $q \in L^2(\Omega)$:
+In the above equations, $\mathcal{D}$ refers to the elasticity constitutive tensor, defined for an isotropic solid as $\mathcal{D}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})+\lambda\delta_{ij}\delta_{kl}$, where $\delta_{ij}$ is the Kronecker delta. Equation \eqref{eq:weak-primal-displacement} is the starting point for the $H^1$ primal displacement based finite element formulations.
 
-\begin{equation} \label{eq:weak-mixed1}
-	\int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D}^{'} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega - \int_{\Omega_e} p \;(\nabla \cdot \mathbf{v}) d\Omega =  \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{,}
-\end{equation}
-\begin{equation} \label{eq:weak-mixed2}
--\int_{\Omega} (\nabla \cdot \mathbf{u}) \;q\; d\Omega -\int_{\Omega} \frac{1}{\kappa}\;p \;q\; d\Omega = \mathbf{0} \text{,}
-\end{equation}
+In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-elasticity}, we multiply Eq. \eqref{eq:mixed-elasticity-a} by displacement test functions $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$ and the Eq. \eqref{eq:mixed-elasticity-b} by pressure test functions $q \in L^2(\Omega)$. Integrating over the domain $\Omega$ and applying the divergence theorem, the weak form consists in finding $\bm{u} \in H^1_D(\Omega,\mathbb{R}^d)$ and $p \in L^2(\Omega)$ such that for all $\bm{v} \in H^1_0(\Omega)$ and $q \in L^2(\Omega)$:
+\begin{subequations} \label{eq:weak-mixed}
+	\begin{align}
+		a\left(\bm{u},\bm{v}\right)_\Omega - b\left( p, \nabla \cdot \bm{v}\right)_\Omega &= \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t},\bm{v\cdot\bm{n}}\rangle_{\partial\Omega_N} ,\label{eq:weak-mixed-a}\\ 
+		-b\left(\nabla \cdot \bm{u}, q\right)_\Omega - c\left(p,q \right)_\Omega &= 0 . \label{eq:weak-mixed-b}
+	\end{align}
+\end{subequations}
 
-\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Although Eqs. \eqref{eq:weak-mixed1}-\eqref{eq:weak-mixed2} use independent approximation spaces for displacement and pressure, their choice must follow a specific criteria to ensure stability. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and a saddle-point problem needs to be solved. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, and a convenient way to ensure this is to use the Taylor-Hood elements \cite{taylor1973numerical} which is described in Section.
-\section{Discretization \label{sec:Discretization}}
+% \begin{equation} \label{eq:weak-mixed1}
+% 	\int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D}^{'} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega - \int_{\Omega_e} p \;(\nabla \cdot \mathbf{v}) d\Omega =  \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{,}
+% \end{equation}
+% \begin{equation} \label{eq:weak-mixed2}
+% -\int_{\Omega} (\nabla \cdot \mathbf{u}) \;q\; d\Omega -\int_{\Omega} \frac{1}{\kappa}\;p \;q\; d\Omega = \mathbf{0} \text{,}
+% \end{equation}
+\noindent Here, the bilinear forms are computed as
+\begin{equation*}
+	a\left(\bm{u},\bm{v}\right)_\Omega = \int_{\Omega} \bm{\varepsilon}(\bm{v}) : \mathcal{D}^{'} : \bm{\varepsilon}(\bm{u}) d\Omega ,
+\end{equation*}
+\begin{equation*}
+	b\left(p, \nabla \cdot \bm{v}\right)_\Omega = \int_{\Omega} p \,\nabla \cdot \bm{v} \, d\Omega ,
+\end{equation*}
+\begin{equation*}
+	c\left(p,q \right)_\Omega = \int_{\Omega} \frac{1}{\kappa} \,p \,q \, d\Omega ,
+\end{equation*}
+
+\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle point problem with pressure playing the role as a Lagrange multiplier. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and the choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, and a convenient way to ensure this is to use the Taylor-Hood elements \cite{taylor1973numerical} which is described in Section \ref{sec:taylor-hood}.
+
+\section{Mixed displacement-pressure Taylor Hood elements \label{sec:taylor-hood}}
+
+{\giovane Parei aqui}
 
 \subsection{Finite element discretization using H(div) approximation spaces}
 {\giovane A first shot, need to improve it}
@@ -279,11 +336,12 @@ We propose a second hybridization of the tangential stresses in order to recover
 
 \subsection{Comparison with H1-hybrid formulation}
 
+\giovane{O Phil trabalhou nisso na China, talvez ele poderia escrever essa parte?}
 \lipsum[1-1]
 
 \subsection{Static condensation of the internal degrees of freedom}
 
-\lipsum[1-1]
+{\giovane Separei o material para essa parte. Voltarei em 29/01}
 
 \section{Examples \label{sec:Examples}}
 

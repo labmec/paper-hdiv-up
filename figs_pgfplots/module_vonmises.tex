@@ -1,0 +1,51 @@
+% \documentclass{standalone}
+% \usepackage{pgfplots}
+% \usepackage{textcomp}
+% \usepackage{gensymb}
+
+% \begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+	width=0.40\textwidth,
+	height=0.38\textwidth,
+	legend pos=south east,
+	xmin=0, xmax=1000,
+	ymin=30, ymax=80,
+	xlabel={Arc length $(\text{mm})$},
+  ylabel=Von Mises Stress $(\text{kN}/\text{mm}^2)$,
+	grid=major,
+	legend style={font=\fontsize{7.8}{7.8}\selectfont},
+	% title = Middle Fracture,
+%	legend cell align=left,	
+%	legend style={at={(0.0,1.15)},anchor=center},
+%	legend columns=2,
+%	legend style={
+%	at={(1.15,1.25)},
+%    },
+%    legend style={at={(0.4,0.45)},anchor=west},
+%	yticklabel style={
+%		/pgf/number format/fixed,
+%		/pgf/number format/precision=5
+%	},	
+]
+
+\addplot [color=green, solid, line width=2, mark size=1.5pt] table []%
+{figs_pgfplots/s_th_2.txt};
+\addlegendentry{TH $k=2$}
+
+\addplot [color=blue, solid, line width=1.6, mark size=1.5pt] table []%
+{figs_pgfplots/s_th_3.txt};
+\addlegendentry{TH $k=3$}
+
+\addplot [color=brown, solid, line width=1.2, mark size=0.5] table []%
+{figs_pgfplots/s_hdiv_2.txt};
+\addlegendentry{Hybrid-Hdiv $k=2$}
+
+\addplot [color=red, solid, line width=0.8, mark size=0.5] table []%
+{figs_pgfplots/s_hdiv_3.txt};
+\addlegendentry{Hybrid-Hdiv $k=3$}
+
+
+\end{axis}
+\end{tikzpicture}
+% \end{document}

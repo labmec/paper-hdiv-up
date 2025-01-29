@@ -1,0 +1,4 @@
+./figs_pgfplots/tikz/module_vonmises.pdf: figs_pgfplots/s_th_2.txt
+./figs_pgfplots/tikz/module_vonmises.pdf: figs_pgfplots/s_th_3.txt
+./figs_pgfplots/tikz/module_vonmises.pdf: figs_pgfplots/s_hdiv_2.txt
+./figs_pgfplots/tikz/module_vonmises.pdf: figs_pgfplots/s_hdiv_3.txt

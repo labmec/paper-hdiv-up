@@ -562,7 +562,7 @@ Figure \ref{fig:cooks-2d-displacement} shows a comparison of the vertical displa
 
 \subsection{Application problem\label{subsec:module}}
 
-With the objective of testing the method's robustness regarding complex geometries, the proposed methodology is applied to a real-world problem. The geometry of a structural hull is depicted in Figure \ref{fig:module-geometry}, with dimensions $L=1\m$, $r_i=0.345\m$, $r_e=0.39\m$. The hull is subjected to an internal pressure of $p=10.34$ MPa and fixed in the normal direction of all other faces. The material is assumed to have a linear behaviour with a constant Young modulus $E=210000$ MPa and Poisson coefficient $\nu=0.3$. Since the problem is axisymmetric, only one-forth of the domain is modeled, as shown in Figure \ref{fig:module-geometry}. The results obtained with the proposed formulation are compared with the results obtained using classical $H^1$ shape-functions.
+With the objective of testing the method's robustness regarding complex geometries, the proposed methodology is applied to a real-world problem. The geometry of a structural hull is depicted in Figure \ref{fig:module-geometry}, with dimensions $L=1\m$, $r_i=0.345\m$, $r_e=0.390\m$. The hull is subjected to an internal pressure of $p=10.34$ MPa and fixed in the normal direction of all other faces. The material is assumed to have a linear behaviour with a constant Young modulus $E=210000$ MPa and Poisson coefficient $\nu=0.3$. Since the problem is axisymmetric, only one-forth of the domain is modeled, as shown in Figure \ref{fig:module-geometry}. The results obtained with the proposed formulation are compared with the results obtained using the classical Taylor-Hood formulation.
 
 \begin{figure}[h]
     \centering
@@ -574,10 +574,30 @@ With the objective of testing the method's robustness regarding complex geometri
     \label{fig:module-geometry}
 \end{figure}
 
-The problem is solved using an unstructured tetrahedral mesh with X elements and the adopted polynomial orders are {\nathan DISPORDER=2 and LAMBDAORDER=1. WE NEED TO CHANGE THIS TO THE RIGHT NOTATION LATER}. The adopted finite element mesh is depicted in Figure REF. For the traditional $H^1$ simulation, the same mesh is used with quadratic shape functions.
+The problem is solved using an unstructured tetrahedral mesh with 68,258 elements, as shown in Figure \ref{fig:module-mesh}. Both the proposed Hybrid-Hdiv and the Taylor-Hood formulations are tested with polynomial degrees $k=2$ and $k=3$, resulting in four different simulations. The results are compared in terms of displacement magnitude, pressure, and Von Mises stresses along a line defined by the points $(259.86, 259.86, 0)$ mm and $(259.86, 259.86, 1000)$ mm. 
 
-\subsubsection{Results}
+The number of degrees of freedom  for the Hybrid-Hdiv formulation is 1,336,260 for $k=2$ and 2,440,900 for $k=3$. For the Taylor-Hood formulation, the number of DOF is 322,447 for $k=2$ and 1,060,639 for $k=3$. The high number of degrees of freedom when using the Hybrid-Hdiv formulation in this problem is due to the use of tetrahedral elements, which increase the number of faces in the mesh. In the Hybrid-Hdiv method, the number of degrees of freedom is significantly influenced by the number of element faces in the mesh.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.75]{hull-mesh.pdf}
+	\caption{Adopted finite element mesh of the hull with zoom in showing the details of the top region of the domain.}
+	\label{fig:module-mesh}
+\end{figure}
+
+The results for the displacement magnitude, pressure, and Von Mises stresses are shown in Figure \ref{fig:module-results}. The results show that the proposed Hybrid-Hdiv formulation is able to capture the correct stress and displacement distributions for this application example. Smoother solution fields were obtained at the beginning and end of the line for the Hybrid-Hdiv formulation compared to the Taylor-Hood formulation. This is explained by larger amount of degrees of freedom when adopting the Hybrid-Hdiv formulation. 
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Displacement magnitude]{\includetikz{module_disp}}
+	\subfloat[Pressure]{\includetikz{module_pressure}}
+
+	\subfloat[Von Mises Stress]{\includetikz{module_vonmises}}
+	\subfloat[Von Mises Stress - Zoom]{\includetikz{module_vonmises_zoom}}
+		
+	\caption{Comparison of displacement magnitude, pressure, and Von Mises stress distributions along the defined line for the Hybrid-Hdiv and Taylor-Hood formulations with polynomial degrees $k=2$ and $k=3$.\label{fig:module-results}}
+	
+\end{figure}
 
 \section{Conclusions}
 

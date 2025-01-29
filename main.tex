@@ -248,7 +248,7 @@ The weak form of the problems described by Eqs. \eqref{eq:navier-cauchy} and \eq
 
 The simplest one is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test functions $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$, where $H^1_0(\Omega,\mathbb{R}^d)=\{\bm{v} \in H^1(\Omega,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=0 \}$ and integrating over the domain $\Omega$ \cite{becker1981finite}. The weak statement then reads: find $\mathbf{u} \in H^1_D(\Omega,\mathbb{R}^d)$ such that for all $\mathbf{v} \in H^1_0(\Omega,\mathbb{R}^d)$:
 \begin{equation} \label{eq:weak-primal-displacement}
-    a\left(\bm{u},\bm{v}\right)_\Omega = \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t},\bm{v\cdot\bm{n}}\rangle_{\partial\Omega_N},
+    a\left(\bm{u},\bm{v}\right)_\Omega = \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t},\bm{v}\rangle_{\partial\Omega_N},
 \end{equation}
 % \begin{equation} \label{eq:weak-primal-displacement}
 %     \int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega = \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{.}
@@ -259,13 +259,13 @@ The simplest one is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test
 	a\left(\bm{u},\bm{v}\right)_\Omega = \int_{\Omega} \bm{\varepsilon}(\bm{v}) : \mathcal{D} : \bm{\varepsilon}(\bm{u}) d\Omega
 \end{equation*}
 
-In the above equations, $\mathcal{D}$ refers to the elasticity constitutive tensor, defined for an isotropic solid as $\mathcal{D}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})+\lambda\delta_{ij}\delta_{kl}$, where $\delta_{ij}$ is the Kronecker delta. Equation \eqref{eq:weak-primal-displacement} is the starting point for the $H^1$ primal displacement based finite element formulations.
+In the above equations, $\mathcal{D}$ refers to the elasticity constitutive tensor, defined for an isotropic solid as $\mathcal{D}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})+\lambda\delta_{ij}\delta_{kl}$, where $\delta_{ij}$ is the Kronecker delta, and $:$ is a double contraction operator i.e. $\bm{\sigma}:\bm{\varepsilon} = \sigma_{ij}\varepsilon_{ji}$. Equation \eqref{eq:weak-primal-displacement} is the starting point for the $H^1$ primal displacement based finite element formulations.
 
 In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-elasticity}, we multiply Eq. \eqref{eq:mixed-elasticity-a} by displacement test functions $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$ and the Eq. \eqref{eq:mixed-elasticity-b} by pressure test functions $q \in L^2(\Omega)$. Integrating over the domain $\Omega$ and applying the divergence theorem, the weak form consists in finding $\bm{u} \in H^1_D(\Omega,\mathbb{R}^d)$ and $p \in L^2(\Omega)$ such that for all $\bm{v} \in H^1_0(\Omega)$ and $q \in L^2(\Omega)$:
 \begin{subequations} \label{eq:weak-mixed}
 	\begin{align}
-		a\left(\bm{u},\bm{v}\right)_\Omega - b\left( p, \nabla \cdot \bm{v}\right)_\Omega &= \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t},\bm{v\cdot\bm{n}}\rangle_{\partial\Omega_N} ,\label{eq:weak-mixed-a}\\ 
-		-b\left(\nabla \cdot \bm{u}, q\right)_\Omega - c\left(p,q \right)_\Omega &= 0 . \label{eq:weak-mixed-b}
+		a\left(\bm{u},\bm{v}\right)_\Omega - b\left( p, \bm{v}\right)_\Omega &= \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t},\bm{v}\rangle_{\partial\Omega_N} ,\label{eq:weak-mixed-a}\\ 
+		-b\left(\bm{u}, q\right)_\Omega - c\left(p,q \right)_\Omega &= 0 . \label{eq:weak-mixed-b}
 	\end{align}
 \end{subequations}
 
@@ -280,7 +280,7 @@ In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-e
 	a\left(\bm{u},\bm{v}\right)_\Omega = \int_{\Omega} \bm{\varepsilon}(\bm{v}) : \mathcal{D}^{'} : \bm{\varepsilon}(\bm{u}) d\Omega ,
 \end{equation*}
 \begin{equation*}
-	b\left(p, \nabla \cdot \bm{v}\right)_\Omega = \int_{\Omega} p \,\nabla \cdot \bm{v} \, d\Omega ,
+	b\left(p, \bm{v}\right)_\Omega = \int_{\Omega} p \,\nabla \cdot \bm{v} \, d\Omega ,
 \end{equation*}
 \begin{equation*}
 	c\left(p,q \right)_\Omega = \int_{\Omega} \frac{1}{\kappa} \,p \,q \, d\Omega ,
@@ -290,7 +290,54 @@ In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-e
 
 \section{Mixed displacement-pressure Taylor Hood elements \label{sec:taylor-hood}}
 
-{\giovane Parei aqui}
+Let $\mathbb{Q}_k(K)$ represent the space of scalar polynomial functions of order $k$ over an element $K\in\mathcal{T}_h$. For vector functions, the notation $\mathbb{Q}_k(K,\mathbb{R}^d)$ is used. For the Taylor-Hood element, the discrete FE spaces used for displacement and pressure are defined, respectively, by:
+\begin{equation}
+    \label{eq:uTH}
+    \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{v} \in H^1(\Omega,\mathbb{R}^d) : \bm{v}\lvert_{K} \in \mathbb{Q}_k(K,\mathbb{R}^d), \,\forall \,K \in \mathcal{T}_h, \, k\geq 2 \right\}.
+\end{equation}
+\begin{equation}
+    \label{eq:qTH}
+    \mathcal{Q}_k(\mathcal{T}_h) = \left\{q \in H^1(\Omega) \,:\, q\lvert_{K} \, \in \mathbb{Q}_{k-1}(K), \,\forall \, K \in \mathcal{T}_h, \, k\geq 2\right\},
+\end{equation}
+
+For the forthcoming FE spaces whose boundary conditions need to be enforced directly in the space, it is convenient to perform a decomposition into homogeneous and non-homogeneous counterparts as follows:
+\begin{equation}
+    \label{eq:uTH0}
+    \mathcal{U}^0_k(\mathcal{T}_h,\mathbb{R}^d)=\left\{ \bm{v} \in \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=\bm{0}\right\},
+\end{equation}
+\begin{equation}
+    \label{eq:uTHD}
+    \mathcal{U}^D_k(\mathcal{T}_h,\mathbb{R}^d)=\left\{ \bm{v} \in \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=\bm{u}_D\right\}.
+\end{equation}
+
+\noindent Hereinafter, the superscripts $(\cdot)^0$ and $(\cdot)^D$ refer to this type of decomposition. Throughout this paper, the notation $P_k P_{k-1}$ is used to denote the pair $\mathcal{U}_k \times \mathcal{Q}_k$ when referring to a specific Taylor-Hood element.
+
+Then, the discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity} using Taylor-Hood elements is formulated is follows: find $\{\bm{u},p\}$ $\in \mathcal{U}^D_k \times \mathcal{Q}_k$ such that
+\begin{subequations} \label{eq:TH-weak}
+	\begin{align}
+		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t},\bm{v}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{U}^0_k,\label{eq:TH-weak-a}\\ 
+		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in \mathcal{Q}_k, \label{eq:TH-weak-b}
+	\end{align}
+\end{subequations}
+
+\noindent where the discretized operators are:
+\begin{equation*}
+	a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} = \sum_{K \in \mathcal{T}_h} \int_{K} \bm{\varepsilon}(\bm{v}) : \mathcal{D}^{'} : \bm{\varepsilon}(\bm{u}) dK ,
+\end{equation*}
+\begin{equation*}
+	b\left(p, \bm{v}\right)_{\mathcal{T}_h} = \sum_{K \in \mathcal{T}_h} \int_{K} p \,\nabla \cdot \bm{v} \, dK ,
+\end{equation*}
+\begin{equation*}
+	c\left(p,q \right)_{\mathcal{T}_h} = \sum_{K \in \mathcal{T}_h} \int_{K} \frac{1}{\kappa} \,p \,q \, dK ,
+\end{equation*}
+\begin{equation*}
+	\left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} = \sum_{K \in \mathcal{T}_h} \int_{K} \bm{v} \cdot \bm{b} \, dK ,
+\end{equation*}
+\begin{equation*}
+	\langle\bm{t},\bm{v}\rangle_{\partial\Omega_N} = \sum_{E \in \partial\Omega_N} \int_{E} \bm{t} \cdot \bm{v} \, d\partial K .
+\end{equation*}
+
+In this approach, displacements are strongly imposed on the Dirichlet boundary $\partial \Omega_D$ through the restricted space $\mathcal{U}^D_k$ whilst surface tractions are weakly imposed on the boundary $\partial \Omega_N$.
 
 \subsection{Finite element discretization using H(div) approximation spaces}
 {\giovane A first shot, need to improve it}

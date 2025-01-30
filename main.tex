@@ -164,12 +164,14 @@ The notation used for the $L^2$ inner product is $(\cdot,\cdot)_{\Omega}$, whils
 	H^{1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{v} \lvert_{\partial\Omega}, \bm{u} \in H^1(\Omega,\mathbb{R}^d)\right\},
 \end{equation*}
 \begin{equation*}
-	H^{-1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{\sigma} \,\bm{n} \lvert_{\partial\Omega}, \bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\},
+	H^{-1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{t}=\bm{\sigma} \,\bm{n} \lvert_{\partial\Omega}, \bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\},
 \end{equation*}
 
 \noindent with $H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) = \left\{\bm{\sigma} \in L^2(\Omega,\mathbb{R}^{d \times d}) : \nabla \cdot \bm{\sigma} \in L^2(\Omega,\mathbb{R}^d) \right\}$ representing the space of tensor fields whose divergence is a vector field.
 
-Let $\mathcal{T}_h=\left\{K_i \right\}, i\in \{1,...,N\}$ be a partition of $\Omega$ into non-overlapping elements $K$ with usual shape such that $\Omega = \cup_{i=1}^{N} K_i$. The boundary of each element is denoted by $\partial K$ with outward unit normal vector to the boundary $\bm{n}^K$. The set $\Gamma_h$ is named the mesh skeleton, and comprises the union of all element boundary segments (lines for 2D and facets for 3D). It can be decomposed into a boundary subset $\Gamma_{\partial\Omega}=\{E \in \Gamma_h : E \subset \partial\Omega\}$ and an interior subset $\mathring{\Gamma}_h =\{E \in \Gamma_h \setminus \Gamma_{\partial\Omega}\}$. Over an element interface $E \in \mathring{\Gamma}_h$ between two elements $K_i$ and $K_j$, the jump operator of a function $v$ is defined as
+Let $\mathcal{T}_h=\left\{K_i \right\}, i\in \{1,...,N\}$ be a partition of $\Omega$ into non-overlapping elements $K$ with usual shape such that $\Omega = \cup_{i=1}^{N} K_i$. The boundary of each element is denoted by $\partial K$ with outward unit normal vector to the boundary $\bm{n}^K$. The set $\Gamma_h=\cup_{K \in \mathcal{T}_h} \partial K$ is named the mesh skeleton, and comprises the union of all element boundary segments (lines for 2D and facets for 3D). It can be decomposed into a boundary subset $\Gamma_{\partial\Omega}=\{E \in \Gamma_h : E \subset \partial\Omega\}$ and an interior subset $\mathring{\Gamma}_h =\{E \in \Gamma_h \setminus \Gamma_{\partial\Omega}\}$. Analogously, $\partial\mathcal{T}_h=\bigcup_{K \in \mathcal{T}_h} \partial K$ denotes the disjoint union of all element boundaries. Note that $\Gamma_h$ differs from $\partial\mathcal{T}_h$ since for every $E \in \mathring{\Gamma}$, the latter includes the boundaries from both adjacent elements.
+
+Over an element interface $E \in \mathring{\Gamma}_h$ between two elements $K_i$ and $K_j$, the jump operator of a function $v$ is defined as
 \begin{equation*}
 	\jump{v}_E = v_i \lvert_{E} - v_j \lvert_{E} \text{.}
 \end{equation*}
@@ -341,7 +343,6 @@ In this approach, displacements are strongly imposed on the Dirichlet boundary $
 
 \section{Hybrid-FEM formulations}
 
-An equivalent form of postulating the mixed problem of Eqs. \eqref{eq:weak-mixed} is relaxing the continuity requirement of the displacement field across element interfaces, i.e. $\bm{u} \in H^1(\mathcal{T}_h)$, at the expense of introducing a new variable defined over the mesh skeleton.
 
 {\giovane To be continued...}
 

@@ -136,6 +136,8 @@ In the context of linear elasticity, several numerical methods have been develop
 
 There are different ways in the literature to overcome these drawbacks. One possible choice is to employ a mixed formulation \cite{brezzi2012mixed,arnold1988new} where the displacements and the stresses (or pressure) are approximated independently - i.e. the Taylor Hood elements \cite{taylor1973numerical} fulfill the \textit{inf-sup} condition yielding stable results for incompressible regime. This kind of approximation, on the other hand, is not locally conservative as it does not satisfy the divergence constraint in a strong manner. Another possibility is to use hybrid methods where the interelement continuity of a given field is broken and weakly imposed by means of a Lagrange multiplier (see for instance \cite{raviart1977primal,harder2016hybrid,farhloul1997dual}).
 
+{\giovane escrevi esse texto na secao 5.1, mas ele fica melhor aqui.}In the context of Stokes-Brinkman flows, the authors in \cite{carvalho2024semi} developed a variant of the hybrid-mixed formulation that uses $H(\text{div},\Omega)$ velocity functions. In fact, the mixed problem of Eq. \eqref{eq:weak-mixed} and the hybrid version \eqref{eq:hybrid-weak} are stable, but none of them are locally conservative. This implies that, for Stokes flows, mass conservation does not hold strongly. Making a parallel to the incompressible elasticity, neither the incompressibility constraint is satisfied nor an equilibrated stress state is obtained element-wise.
+
 In this work we extend the semi-hybrid approach proposed in \cite{carvalho2024semi} for Stokes flows to elasticity problems, developing a new formulation by performing a second hybridization on the tangential stresses. This formulation is based on a de Rham compatible pair $H(\text{div})-L^2$ for displacements and pressure. The $H(\text{div})$ functions are constructed using a systematic methodology described in \cite{devloo2022efficient,de2013new}.
 
 \section{Preliminaries and notation}
@@ -176,12 +178,17 @@ Over an element interface $E \in \mathring{\Gamma}_h$ between two elements $K_i$
 	\jump{v}_E = v_i \lvert_{E} - v_j \lvert_{E} \text{.}
 \end{equation*}
 
-Over the partitioned domain, a broken Sobolev space of the square-integrable functions can be defined as
+Moreover, a broken Sobolev space of the square-integrable functions on the discretized domain can be defined as
 \begin{equation*}
-	H^1(\mathcal{T}_h) = \left\{v \in L^2(\Omega) : v \lvert_{K} \in H^1(K), \,\forall \, K\in\mathcal{T}_h \right\} \text{.}
+	X(\mathcal{T}_h) = \left\{v \in L^2(\Omega) : v \lvert_{K} \in H^1(K), \,\forall \, K\in\mathcal{T}_h \right\} ,
 \end{equation*}
 
-\textcolor{red}{Acho que, ao contrario do artigo do Stokes, vou colocar os espacos discretos conforme eles forem aparecendo nas secoes.}
+\noindent and the space of functions whose trace normal component is continuous across elements is denoted by
+\begin{equation*}
+	\mathcal{V}(\mathcal{T}_h,\mathbb{R}^d) = X(\mathcal{T}_h,\mathbb{R}^d) \cap H(\text{div},\Omega) .
+\end{equation*} 
+
+{\giovane Acho que, ao contrario do artigo do Stokes, vou colocar os espacos discretos conforme eles forem aparecendo nas secoes.}
 
 \section{Elasticity problem \label{sec:Governing-equations}}
 
@@ -213,7 +220,7 @@ By substituting Eqs. \eqref{eq:hook} and \eqref{eq:strain} into Eq. \eqref{eq:mo
 	\begin{align}
 		-\mu\nabla^2\bm{u} -\left(\mu+\lambda \right)\nabla\left(\nabla \cdot \bm{u} \right) - \bm{b} = \bm{0} \hspace{0.2cm} \text{in } \Omega ,&\\
 		\bm{u} = \bm{u}_D \hspace{0.2cm} \text{on } \partial\Omega_D ,&\\
-		\bm{\sigma} \mathbf{n} = \bm{t} \hspace{0.2cm} \text{on } \partial\Omega_N ,&
+		\bm{\sigma} \mathbf{n} = \bm{t}_N \hspace{0.2cm} \text{on } \partial\Omega_N ,&
 	\end{align}
 \end{subequations}
 
@@ -240,7 +247,7 @@ Substituting Eqs. \eqref{eq:stress-decomposition}, \eqref{eq:pressure}, \eqref{e
 		-\mu\nabla^2\bm{u} -\frac{2}{3}\mu\nabla\left(\nabla \cdot \bm{u} \right) + \nabla p -\bm{b}= \bm{0} \hspace{0.2cm} \text{in } \Omega ,& \label{eq:mixed-elasticity-a}\\ 
 		-\nabla \cdot \bm{u} -\frac{1}{\kappa}p= 0 \hspace{0.2cm} \text{in } \Omega ,& \label{eq:mixed-elasticity-b}\\ 
 		\bm{u} = \bm{u}_D \hspace{0.2cm} \text{on } \partial\Omega_D ,&\\
-		\bm{\sigma} \bm{n} = \bm{t} \hspace{0.2cm} \text{on } \partial\Omega_N .&
+		\bm{\sigma} \bm{n} = \bm{t}_N \hspace{0.2cm} \text{on } \partial\Omega_N .&
 	\end{align}
 \end{subequations}
 
@@ -250,7 +257,7 @@ The weak form of the problems described by Eqs. \eqref{eq:navier-cauchy} and \eq
 
 The simplest one is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test functions $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$, where $H^1_0(\Omega,\mathbb{R}^d)=\{\bm{v} \in H^1(\Omega,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=0 \}$ and integrating over the domain $\Omega$ \cite{becker1981finite}. The weak statement then reads: find $\mathbf{u} \in H^1_D(\Omega,\mathbb{R}^d)$ such that for all $\mathbf{v} \in H^1_0(\Omega,\mathbb{R}^d)$:
 \begin{equation} \label{eq:weak-primal-displacement}
-    a\left(\bm{u},\bm{v}\right)_\Omega = \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t},\bm{v}\rangle_{\partial\Omega_N},
+    a\left(\bm{u},\bm{v}\right)_\Omega = \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N},
 \end{equation}
 % \begin{equation} \label{eq:weak-primal-displacement}
 %     \int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega = \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{.}
@@ -266,7 +273,7 @@ In the above equations, $\mathcal{D}$ refers to the elasticity constitutive tens
 In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-elasticity}, we multiply Eq. \eqref{eq:mixed-elasticity-a} by displacement test functions $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$ and the Eq. \eqref{eq:mixed-elasticity-b} by pressure test functions $q \in L^2(\Omega)$. Integrating over the domain $\Omega$ and applying the divergence theorem, the weak form consists in finding $\bm{u} \in H^1_D(\Omega,\mathbb{R}^d)$ and $p \in L^2(\Omega)$ such that for all $\bm{v} \in H^1_0(\Omega)$ and $q \in L^2(\Omega)$:
 \begin{subequations} \label{eq:weak-mixed}
 	\begin{align}
-		a\left(\bm{u},\bm{v}\right)_\Omega - b\left( p, \bm{v}\right)_\Omega &= \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t},\bm{v}\rangle_{\partial\Omega_N} ,\label{eq:weak-mixed-a}\\ 
+		a\left(\bm{u},\bm{v}\right)_\Omega - b\left( p, \bm{v}\right)_\Omega &= \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N} ,\label{eq:weak-mixed-a}\\ 
 		-b\left(\bm{u}, q\right)_\Omega - c\left(p,q \right)_\Omega &= 0 . \label{eq:weak-mixed-b}
 	\end{align}
 \end{subequations}
@@ -288,7 +295,12 @@ In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-e
 	c\left(p,q \right)_\Omega = \int_{\Omega} \frac{1}{\kappa} \,p \,q \, d\Omega ,
 \end{equation*}
 
-\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle point problem with pressure playing the role as a Lagrange multiplier. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and the choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, and a convenient way to ensure this is to use the Taylor-Hood elements \cite{taylor1973numerical} which is described in Section \ref{sec:taylor-hood}.
+\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle point problem with pressure playing the role as a Lagrange multiplier. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and the choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, that is, there exist a constant $\beta>0$ such that
+\begin{equation*}
+	\inf_{q \in L^2,q\neq0} \sup_{\bm{v} \in H^1_0,\bm{v}\neq\bm{0}} \frac{b\left(\bm{v},q\right)}{\|\bm{v}\|_{H^1} \|q\|_{L^2}} \geq \beta .
+\end{equation*}
+
+\noindent A convenient choice that fulfills this requirement is the Taylor-Hood elements \cite{taylor1973numerical} described in Section \ref{sec:taylor-hood}.
 
 \section{Mixed displacement-pressure Taylor Hood elements \label{sec:taylor-hood}}
 
@@ -317,7 +329,7 @@ For the forthcoming FE spaces whose boundary conditions need to be enforced dire
 Then, the discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity} using Taylor-Hood elements is formulated is follows: find $\{\bm{u},p\}$ $\in \mathcal{U}^D_k \times \mathcal{Q}_k$ such that
 \begin{subequations} \label{eq:TH-weak}
 	\begin{align}
-		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t},\bm{v}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{U}^0_k,\label{eq:TH-weak-a}\\ 
+		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{U}^0_k,\label{eq:TH-weak-a}\\ 
 		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in \mathcal{Q}_k, \label{eq:TH-weak-b}
 	\end{align}
 \end{subequations}
@@ -336,19 +348,55 @@ Then, the discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity
 	\left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} = \sum_{K \in \mathcal{T}_h} \int_{K} \bm{v} \cdot \bm{b} \, dK ,
 \end{equation*}
 \begin{equation*}
-	\langle\bm{t},\bm{v}\rangle_{\partial\Omega_N} = \sum_{E \in \partial\Omega_N} \int_{E} \bm{t} \cdot \bm{v} \, d\partial K .
+	\langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N} = \sum_{E \in \partial\Omega_N} \int_{E} \bm{t}_N \cdot \bm{v} \, d\partial K .
 \end{equation*}
 
 In this approach, displacements are strongly imposed on the Dirichlet boundary $\partial \Omega_D$ through the restricted space $\mathcal{U}^D_k$ whilst surface tractions are weakly imposed on the boundary $\partial \Omega_N$ in the right-hand side of Eq. \eqref{eq:TH-weak-b}.
 
-\section{Hybrid-FEM formulations}
+\section{Hybrid-mixed formulations}
 
+The mixed problem of Eq. \eqref{eq:weak-mixed} can be presented in an alternative way by relaxing the continuity requirement of the displacement functions across elements. Let define the space of the stress traces over the mesh skeleton as
+\begin{equation}
+	\label{eq:space-traction}
+	\mathcal{L}(\Gamma_h,\mathbb{R}^d) = \left\{\bm{t} \in H^{-1/2}(\Gamma_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, E \in \Gamma_h ~:~\bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\}.
+\end{equation}
 
-{\giovane To be continued...}
+Then, a hybrid-mixed problem is derived by finding $\{\bm{u},p,\bm{t}\} \in X^D \times L^2 \times \mathcal{L}^N$ such that:
+\begin{subequations} \label{eq:hybrid-weak}
+	\begin{align}
+		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} -\langle\bm{t},\jump{\bm{v}}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} ~~\forall\, \bm{v} \in X^0,\label{eq:hybrid-weak-a}\\ 
+		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in L^2, \label{eq:hybrid-weak-b}\\
+		-\langle\jump{\bm{u}},\bm{z}\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{z} \in \mathcal{L}^0, \label{eq:hybrid-weak-c}
+	\end{align}
+\end{subequations}
+
+\noindent where the spaces $\mathcal{L}^0$ and $\mathcal{L}^N$ can be written using the same notation as in Eqs. \eqref{eq:uTH0} and \eqref{eq:uTHD} but restricted on $\partial\Omega_N$. The new traction variable $\bm{t}$ acts as a Lagrange multiplier weakly imposing the displacement continuity over the discretized domain.
+
+The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqref{eq:weak-mixed} was proven in \cite{raviart1977primal}. The hybridization technique is often used to improve the conditioning and spectral properties of the system matrix, and we will explore this feature in the following sections \cite{arnold1985mixed}.
 
 \subsection{Semi-hybrid formulation using \(H(\text{div},\Omega)\) approximation space}
 
-In \cite{carvalho2024semi}, the authors proposed a semi-hybrid formulation for Stokes-Brinkman flows that uses $H(\text{div})$ conforming velocity functions and discontinuos $L^2$ approximation for pressure. The same ideia can also be applied to elasticity. Let $\mathcal{V} = \mathbf{V}\cap H(\text{div},\Omega)$, $\Psi \subset L^2(\Omega)$ be spaces of vector functions and piece-wise scalars, respectively, for which the relation $\nabla \cdot \mathcal{V} \in \Psi$ holds. As $H(\text{div})$ approximation only guarantees the continuity of normal componentes of a vector across elements interface, a hybridization of the tangential velocity is performed. We introduce a third space defined as $\boldsymbol{\Lambda}^t \subset H^{-1/2}(\partial\Omega_e)$, for which the Lagrange multiplier $\boldsymbol{\lambda}^t \in \boldsymbol{\Lambda}^t$ has the meaning of a shear traction to weakly enforce the tangential displacement continuity. 
+In \cite{carvalho2024semi}, the authors proposed a variant of the hybrid-mixed formulation for Stokes-Brinkman flows that uses \(H(\text{div})\) functions to approximate velocities. As a consequence, the normal component of its trace is continuous between adjacent elements, meaning that only the continuity requirement of the tangential component is weakened compared to $H^1(\Omega)$-conforming methods. We show next that its extension to elasticity is straightforward.
+
+Firstly, the traction $\bm{t} \in \mathcal{L}$ can be decomposed into normal and tangential components $\bm{t} = \bm{t}^n + \bm{t}^t$, so we write the decomposed spaces as:
+
+\begin{subequations}
+	\begin{align}
+		\mathcal{L}^n(\Gamma_h,\mathbb{R}^d) &= \left\{\bm{t}^n=((\bm{t}\cdot\bm{n})\bm{n})\lvert_{\partial K}, ~\bm{t} \in \mathcal{L}(\Gamma_h,\mathbb{R}^d) \right\}\label{eq:space-traction-normal}\\
+		\mathcal{L}^t(\Gamma_h,\mathbb{R}^d) &= \left\{\bm{t}^t=\bm{t}-\bm{t}^n, ~\bm{t} \in \mathcal{L}(\Gamma_h,\mathbb{R}^d) \right\}\label{eq:space-traction-tangential}
+	\end{align}
+\end{subequations}
+
+
+
+
+, the authors proposed a semi-hybrid formulation for Stokes-Brinkman flows that uses $H(\text{div})$ conforming velocity functions and discontinuos $L^2$ approximation for pressure. The same ideia can also be applied to elasticity. Let $\mathcal{V} = \mathbf{V}\cap H(\text{div},\Omega)$, $\Psi \subset L^2(\Omega)$ be spaces of vector functions and piece-wise scalars, respectively, for which the relation $\nabla \cdot \mathcal{V} \in \Psi$ holds. As $H(\text{div})$ approximation only guarantees the continuity of normal componentes of a vector across elements interface, a hybridization of the tangential velocity is performed. We introduce a third space defined as $\boldsymbol{\Lambda}^t \subset H^{-1/2}(\partial\Omega_e)$, for which the Lagrange multiplier $\boldsymbol{\lambda}^t \in \boldsymbol{\Lambda}^t$ has the meaning of a shear traction to weakly enforce the tangential displacement continuity. 
+
+Moreover, we set a discontinuous pressure space
+\begin{equation}
+	\mathcal{P}(\mathcal{T}_h) = \{q \, \in L^2(\Omega) ~\lvert~ q\lvert_K \in \mathbb{Q}_k(K) ~:~ \forall K \in \mathcal{T}_h\}
+\end{equation}
+\noindent which admits the following decomposition $\mathcal{P}=\bar{\mathcal{P}} \oplus \mathcal{P}^\perp$, where $\mathcal{P}$ stands for piece-wise constant functions over $\mathcal{T}_h$ and $\mathcal{P}^\perp$ is the piece-wise zero-mean functions over $\mathcal{T}_h$.
 
 The weak statement for the semi-hybrid formulation thus reads: find $\{\mathbf{u},p,\boldsymbol{\lambda}^t\} \in \mathcal{V} \times \Psi \times \boldsymbol{\Lambda}^t$ such that for all $\{\mathbf{v},q,\boldsymbol{\eta}^t\} \in \mathcal{V}\times \Psi \times \boldsymbol{\Lambda}^t$:
 

@@ -159,7 +159,7 @@ The space $H(\text{div},\Omega,\mathbb{R}^d)$ comprises square-integrable vector
 \begin{equation*}
 	H(\text{div},\Omega,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) : \nabla \cdot \bm{v} \in L^2(\Omega) \right\},
 \end{equation*}
-\noindent equipped with the norm $\lVert \cdot \rVert_{H(\text{div})}$ and \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{2,3\} \}\). 
+\noindent equipped with the norm $\| \cdot \|_{H(\text{div})}$ and \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{2,3\} \}\). 
 
 The notation used for the $L^2$ inner product is $(\cdot,\cdot)_{\Omega}$, whilst $\langle \cdot,\cdot\rangle_{\partial\Omega}$ stands for the duality pairing between the trace spaces
 \begin{equation*}
@@ -186,7 +186,9 @@ Moreover, a broken Sobolev space of the square-integrable functions on the discr
 \noindent and the space of functions whose trace normal component is continuous across elements is denoted by
 \begin{equation*}
 	\mathcal{V}(\mathcal{T}_h,\mathbb{R}^d) = X(\mathcal{T}_h,\mathbb{R}^d) \cap H(\text{div},\Omega) .
-\end{equation*} 
+\end{equation*}
+
+\noindent Both spaces $X(\mathcal{T}_h)$ and $\mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$ are equipped with the broken $H^1$-norm $\| \cdot \|_{H^1,\mathcal{T}_h}$ and the inner product $(\bm{u},\bm{v})_{H^1,\mathcal{T}_h}=(\bm{u},\bm{v})+\sum_{K \in \mathcal{T}_h}(\nabla\bm{u},\nabla\bm{v})_K$.
 
 {\giovane Acho que, ao contrario do artigo do Stokes, vou colocar os espacos discretos conforme eles forem aparecendo nas secoes.}
 
@@ -358,8 +360,10 @@ In this approach, displacements are strongly imposed on the Dirichlet boundary $
 The mixed problem of Eq. \eqref{eq:weak-mixed} can be presented in an alternative way by relaxing the continuity requirement of the displacement functions across elements. Let define the space of the stress traces over the mesh skeleton as
 \begin{equation}
 	\label{eq:space-traction}
-	\mathcal{L}(\Gamma_h,\mathbb{R}^d) = \left\{\bm{t} \in H^{-1/2}(\Gamma_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, E \in \Gamma_h ~:~\bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\}.
+	\mathcal{L}(\Gamma_h,\mathbb{R}^d) = \left\{\bm{t} \in H^{-1/2}(\Gamma_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, E \in \Gamma_h ~:~\bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\},
 \end{equation}
+
+\noindent with the associated dual norm $\lVert\bm{t}\rVert_{\mathcal{L}}=\sup_{\bm{v}\in\mathcal{V}}\frac{\langle\bm{t},\bm{v} \rangle_{\Gamma_h}}{\lVert\bm{v}\rVert_{H^1,\mathcal{T}_h}}$.
 
 Then, a hybrid-mixed problem is derived by finding $\{\bm{u},p,\bm{t}\} \in X^D \times L^2 \times \mathcal{L}^N$ such that:
 \begin{subequations} \label{eq:hybrid-weak}
@@ -376,18 +380,18 @@ The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqr
 
 \subsection{Semi-hybrid formulation using \(H(\text{div},\Omega)\) approximation space}
 
-In \cite{carvalho2024semi}, the authors proposed a variant of the hybrid-mixed formulation for Stokes-Brinkman flows that uses \(H(\text{div})\) functions to approximate velocities. As a consequence, the normal component of its trace is continuous between adjacent elements, meaning that only the continuity requirement of the tangential component is weakened compared to $H^1(\Omega)$-conforming methods. We show next that its extension to elasticity is straightforward.
+In \cite{carvalho2024semi}, the authors proposed a variant of the hybrid-mixed formulation for Stokes-Brinkman flows that uses \(H(\text{div})\) functions to approximate velocities, that is, $\bm{u} \in \mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$. As a consequence, the normal component of its trace is continuous between adjacent elements, meaning that only the continuity requirement of the tangential component is weakened compared to $H^1(\Omega)$-conforming methods. We show next that its extension to elasticity is straightforward.
 
 Firstly, the traction $\bm{t} \in \mathcal{L}$ can be decomposed into normal and tangential components $\bm{t} = \bm{t}^n + \bm{t}^t$, so we write the decomposed spaces as:
 
 \begin{subequations}
 	\begin{align}
-		\mathcal{L}^n(\Gamma_h,\mathbb{R}^d) &= \left\{\bm{t}^n=((\bm{t}\cdot\bm{n})\bm{n})\lvert_{\partial K}, ~\bm{t} \in \mathcal{L}(\Gamma_h,\mathbb{R}^d) \right\}\label{eq:space-traction-normal}\\
-		\mathcal{L}^t(\Gamma_h,\mathbb{R}^d) &= \left\{\bm{t}^t=\bm{t}-\bm{t}^n, ~\bm{t} \in \mathcal{L}(\Gamma_h,\mathbb{R}^d) \right\}\label{eq:space-traction-tangential}
+		\mathcal{L}^n(\Gamma_h,\mathbb{R}^d) &= \left\{\bm{t}^n=((\bm{t}\cdot\bm{n})\bm{n})\lvert_{\partial K}, ~\bm{t} \in \mathcal{L}(\Gamma_h,\mathbb{R}^d) \right\} , \label{eq:space-traction-normal}\\
+		\mathcal{L}^t(\Gamma_h,\mathbb{R}^d) &= \left\{\bm{t}^t=\bm{t}-\bm{t}^n, ~\bm{t} \in \mathcal{L}(\Gamma_h,\mathbb{R}^d) \right\} , \label{eq:space-traction-tangential}
 	\end{align}
 \end{subequations}
 
-
+\noindent for which $\langle\bm{t},\bm{v}\rangle_{\Gamma_h}=\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h}+\langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}=\langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}$ holds $\forall \bm{v} \in \mathcal{V}$. The equivalent dual norm restricted to the tangential traction space can be analogously written as $\lVert\bm{t}^t\rVert_{\mathcal{L}}=\sup_{\bm{v}\in\mathcal{V}}\frac{\langle\bm{t}^t,\bm{v} \rangle_{\Gamma_h}}{\lVert\bm{v}\rVert_{H^1,\mathcal{T}_h}}$.
 
 
 , the authors proposed a semi-hybrid formulation for Stokes-Brinkman flows that uses $H(\text{div})$ conforming velocity functions and discontinuos $L^2$ approximation for pressure. The same ideia can also be applied to elasticity. Let $\mathcal{V} = \mathbf{V}\cap H(\text{div},\Omega)$, $\Psi \subset L^2(\Omega)$ be spaces of vector functions and piece-wise scalars, respectively, for which the relation $\nabla \cdot \mathcal{V} \in \Psi$ holds. As $H(\text{div})$ approximation only guarantees the continuity of normal componentes of a vector across elements interface, a hybridization of the tangential velocity is performed. We introduce a third space defined as $\boldsymbol{\Lambda}^t \subset H^{-1/2}(\partial\Omega_e)$, for which the Lagrange multiplier $\boldsymbol{\lambda}^t \in \boldsymbol{\Lambda}^t$ has the meaning of a shear traction to weakly enforce the tangential displacement continuity. 

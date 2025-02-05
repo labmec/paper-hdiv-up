@@ -368,13 +368,13 @@ The mixed problem of Eq. \eqref{eq:weak-mixed} can be presented in an alternativ
 Then, a hybrid-mixed problem is derived by finding $\{\bm{u},p,\bm{t}\} \in X^D \times L^2 \times \mathcal{L}^N$ such that:
 \begin{subequations} \label{eq:hybrid-weak}
 	\begin{align}
-		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} -\langle\bm{t},\jump{\bm{v}}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} ~~\forall\, \bm{v} \in X^0,\label{eq:hybrid-weak-a}\\ 
+		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} -\langle\bm{t},\bm{v}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} ~~\forall\, \bm{v} \in X^0,\label{eq:hybrid-weak-a}\\ 
 		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in L^2, \label{eq:hybrid-weak-b}\\
-		-\langle\jump{\bm{u}},\bm{z}\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{z} \in \mathcal{L}^0, \label{eq:hybrid-weak-c}
+		-\langle\bm{u},\bm{z}\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{z} \in \mathcal{L}^0, \label{eq:hybrid-weak-c}
 	\end{align}
 \end{subequations}
 
-\noindent where the spaces $\mathcal{L}^0$ and $\mathcal{L}^N$ can be written using the same notation as in Eqs. \eqref{eq:uTH0} and \eqref{eq:uTHD} but restricted on $\partial\Omega_N$. The new traction variable $\bm{t}$ acts as a Lagrange multiplier weakly imposing the displacement continuity over the discretized domain.
+\noindent where the spaces $\mathcal{L}^0$ and $\mathcal{L}^N$ can be written using the same notation as in Eqs. \eqref{eq:uTH0} and \eqref{eq:uTHD} but restricted on $\partial\Omega_N$, and $\langle\bm{t},\bm{v}\rangle_{\Gamma_h}=\sum_{E \in \Gamma_h}\int_{E} \bm{t} \cdot \jump{\bm{v}} \,d\partial K$. The new traction variable $\bm{t}$ acts as a Lagrange multiplier weakly imposing the displacement continuity over the discretized domain.
 
 The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqref{eq:weak-mixed} was proven in \cite{raviart1977primal}. The hybridization technique is often used to improve the conditioning and spectral properties of the system matrix, and we will explore this feature in the following sections \cite{arnold1985mixed}.
 

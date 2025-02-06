@@ -418,7 +418,7 @@ From Eqs. \eqref{eq:traction-decomposed} and \eqref{eq:normal-traction2}, the se
 
 \subsection{The double-hybrid $H(\text{div},\Omega)$ formulation}
 
-Although mathematically consistent, the semi-hybrid formulation poses some challenges from a numerical perspective. It gives rise to a saddle-point problem with two different constraints: $p$ and $\boldsymbol{\lambda}^t$. This structure significantly increases the efforts required to consistently and stably solve the linear system.
+The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ were proven in \cite{carvalho2024semi,carvalho2024two} when an appropriated combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some challenges from a numerical perspective. It gives rise to a saddle-point problem with two different constraints: $p$ and $\boldsymbol{\lambda}^t$. This structure significantly increases the efforts required to consistently and stably solve the linear system.
 
 We propose a second hybridization of the tangential stresses in order to recover its primal form. Introducing the space $\mathcal{L}^t \subset H^{1/2}(\partial\Omega_e)$ for the tangential velocity, the hybrid form thus reads: find $\{\mathbf{u},p,\boldsymbol{\lambda}^t_e,\mathbf{u}^t\} \in \mathcal{V} \times \Psi \times \boldsymbol{\Lambda}^t \times \mathcal{L}^t$ such that for all $\{\mathbf{v},q,\boldsymbol{\eta}^t_e,\mathbf{v}^t\} \in \mathcal{V} \times \Psi \times \boldsymbol{\Lambda}^t\times \mathcal{L}^t$, the following equations are satisfied:
 

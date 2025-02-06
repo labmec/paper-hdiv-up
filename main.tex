@@ -319,19 +319,19 @@ Let $\mathbb{Q}_k(K)$ represent the space of scalar polynomial functions of orde
 For the forthcoming FE spaces whose boundary conditions need to be enforced directly in the space, it is convenient to perform a decomposition into homogeneous and non-homogeneous counterparts as follows:
 \begin{equation}
     \label{eq:uTH0}
-    \mathcal{U}^0_k(\mathcal{T}_h,\mathbb{R}^d)=\left\{ \bm{v} \in \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=\bm{0}\right\},
+    \mathcal{U}_{0,k}(\mathcal{T}_h,\mathbb{R}^d)=\left\{ \bm{v} \in \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=\bm{0}\right\},
 \end{equation}
 \begin{equation}
     \label{eq:uTHD}
-    \mathcal{U}^D_k(\mathcal{T}_h,\mathbb{R}^d)=\left\{ \bm{v} \in \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=\bm{u}_D\right\}.
+    \mathcal{U}_{D,k}(\mathcal{T}_h,\mathbb{R}^d)=\left\{ \bm{v} \in \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=\bm{u}_D\right\}.
 \end{equation}
 
-\noindent Hereinafter, the superscripts $(\cdot)^0$ and $(\cdot)^D$ refer to this type of decomposition. Throughout this paper, the notation $P_k P_{k-1}$ is used to denote the pair $\mathcal{U}_k \times \mathcal{Q}_k$ when referring to a specific Taylor-Hood element.
+\noindent Hereinafter, the subindexes $(\cdot)_0$ and $(\cdot)_D$ refer to this type of decomposition. Throughout this paper, the notation $P_k P_{k-1}$ is used to denote the pair $\mathcal{U}_k \times \mathcal{Q}_k$ when referring to a specific Taylor-Hood element.
 
-Then, the discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity} using Taylor-Hood elements is formulated is follows: find $\{\bm{u},p\}$ $\in \mathcal{U}^D_k \times \mathcal{Q}_k$ such that
+Then, the discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity} using Taylor-Hood elements is formulated is follows: find $\{\bm{u},p\}$ $\in \mathcal{U}_{D,k} \times \mathcal{Q}_k$ such that
 \begin{subequations} \label{eq:TH-weak}
 	\begin{align}
-		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{U}^0_k,\label{eq:TH-weak-a}\\ 
+		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{U}_{0,k},\label{eq:TH-weak-a}\\ 
 		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in \mathcal{Q}_k, \label{eq:TH-weak-b}
 	\end{align}
 \end{subequations}
@@ -353,7 +353,7 @@ Then, the discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity
 	\langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N} = \sum_{E \in \partial\Omega_N} \int_{E} \bm{t}_N \cdot \bm{v} \, d\partial K .
 \end{equation*}
 
-In this approach, displacements are strongly imposed on the Dirichlet boundary $\partial \Omega_D$ through the restricted space $\mathcal{U}^D_k$ whilst surface tractions are weakly imposed on the boundary $\partial \Omega_N$ in the right-hand side of Eq. \eqref{eq:TH-weak-b}.
+In this approach, displacements are strongly imposed on the Dirichlet boundary $\partial \Omega_D$ through the restricted space $\mathcal{U}_{D,k}$ whilst surface tractions are weakly imposed on the boundary $\partial \Omega_N$ in the right-hand side of Eq. \eqref{eq:TH-weak-b}.
 
 \section{Hybrid-mixed formulations}
 
@@ -365,16 +365,16 @@ The mixed problem of Eq. \eqref{eq:weak-mixed} can be presented in an alternativ
 
 \noindent with the associated dual norm $\lVert\bm{t}\rVert_{\mathcal{L}}=\sup_{\bm{v}\in\mathcal{V}}\frac{\langle\bm{t},\bm{v} \rangle_{\Gamma_h}}{\lVert\bm{v}\rVert_{H^1,\mathcal{T}_h}}$.
 
-Then, a hybrid-mixed problem is derived by finding $\{\bm{u},p,\bm{t}\} \in X^D \times L^2 \times \mathcal{L}^N$ such that:
+Then, a hybrid-mixed problem is derived by finding $\{\bm{u},p,\bm{t}\} \in X_D \times L^2 \times \mathcal{L}_N$ such that:
 \begin{subequations} \label{eq:hybrid-weak}
 	\begin{align}
-		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} -\langle\bm{t},\bm{v}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} ~~\forall\, \bm{v} \in X^0,\label{eq:hybrid-weak-a}\\ 
+		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} +\langle\bm{t},\bm{v}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} ~~\forall\, \bm{v} \in X_0,\label{eq:hybrid-weak-a}\\ 
 		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in L^2, \label{eq:hybrid-weak-b}\\
-		-\langle\bm{u},\bm{z}\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{z} \in \mathcal{L}^0, \label{eq:hybrid-weak-c}
+		\langle\bm{u},\bm{z}\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{z} \in \mathcal{L}_0, \label{eq:hybrid-weak-c}
 	\end{align}
 \end{subequations}
 
-\noindent where the spaces $\mathcal{L}^0$ and $\mathcal{L}^N$ can be written using the same notation as in Eqs. \eqref{eq:uTH0} and \eqref{eq:uTHD} but restricted on $\partial\Omega_N$, and $\langle\bm{t},\bm{v}\rangle_{\Gamma_h}=\sum_{E \in \Gamma_h}\int_{E} \bm{t} \cdot \jump{\bm{v}} \,d\partial K$. The new traction variable $\bm{t}$ acts as a Lagrange multiplier weakly imposing the displacement continuity over the discretized domain.
+\noindent where the spaces $\mathcal{L}_0$ and $\mathcal{L}_N$ can be written using the same notation as in Eqs. \eqref{eq:uTH0} and \eqref{eq:uTHD} but restricted on $\partial\Omega_N$, and $\langle\bm{t},\bm{v}\rangle_{\Gamma_h}=\sum_{E \in \Gamma_h}\int_{E} \bm{t} \cdot \jump{\bm{v}} \,d\partial K$. The new traction variable $\bm{t}$ acts as a Lagrange multiplier weakly imposing the displacement continuity over the discretized domain.
 
 The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqref{eq:weak-mixed} was proven in \cite{raviart1977primal}. The hybridization technique is often used to improve the conditioning and spectral properties of the system matrix, and we will explore this feature in the following sections \cite{arnold1985mixed}.
 
@@ -383,7 +383,6 @@ The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqr
 In \cite{carvalho2024semi}, the authors proposed a variant of the hybrid-mixed formulation for Stokes-Brinkman flows that uses \(H(\text{div})\) functions to approximate velocities, that is, $\bm{u} \in \mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$. As a consequence, the normal component of its trace is continuous between adjacent elements, meaning that only the continuity requirement of the tangential component is weakened compared to $H^1(\Omega)$-conforming methods. We show next that its extension to elasticity is straightforward.
 
 Firstly, the traction $\bm{t} \in \mathcal{L}$ can be decomposed into normal and tangential components $\bm{t} = \bm{t}^n + \bm{t}^t$, so we write the decomposed spaces as:
-
 \begin{subequations}
 	\begin{align}
 		\mathcal{L}^n(\Gamma_h,\mathbb{R}^d) &= \left\{\bm{t}^n=((\bm{t}\cdot\bm{n})\bm{n})\lvert_{\partial K}, ~\bm{t} \in \mathcal{L}(\Gamma_h,\mathbb{R}^d) \right\} , \label{eq:space-traction-normal}\\
@@ -391,32 +390,33 @@ Firstly, the traction $\bm{t} \in \mathcal{L}$ can be decomposed into normal and
 	\end{align}
 \end{subequations}
 
-\noindent for which $\langle\bm{t},\bm{v}\rangle_{\Gamma_h}=\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h}+\langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}=\langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}$ holds $\forall \bm{v} \in \mathcal{V}$. The equivalent dual norm restricted to the tangential traction space can be analogously written as $\lVert\bm{t}^t\rVert_{\mathcal{L}}=\sup_{\bm{v}\in\mathcal{V}}\frac{\langle\bm{t}^t,\bm{v} \rangle_{\Gamma_h}}{\lVert\bm{v}\rVert_{H^1,\mathcal{T}_h}}$.
-
-
-, the authors proposed a semi-hybrid formulation for Stokes-Brinkman flows that uses $H(\text{div})$ conforming velocity functions and discontinuos $L^2$ approximation for pressure. The same ideia can also be applied to elasticity. Let $\mathcal{V} = \mathbf{V}\cap H(\text{div},\Omega)$, $\Psi \subset L^2(\Omega)$ be spaces of vector functions and piece-wise scalars, respectively, for which the relation $\nabla \cdot \mathcal{V} \in \Psi$ holds. As $H(\text{div})$ approximation only guarantees the continuity of normal componentes of a vector across elements interface, a hybridization of the tangential velocity is performed. We introduce a third space defined as $\boldsymbol{\Lambda}^t \subset H^{-1/2}(\partial\Omega_e)$, for which the Lagrange multiplier $\boldsymbol{\lambda}^t \in \boldsymbol{\Lambda}^t$ has the meaning of a shear traction to weakly enforce the tangential displacement continuity. 
-
-Moreover, we set a discontinuous pressure space
-\begin{equation}
-	\mathcal{P}(\mathcal{T}_h) = \{q \, \in L^2(\Omega) ~\lvert~ q\lvert_K \in \mathbb{Q}_k(K) ~:~ \forall K \in \mathcal{T}_h\}
-\end{equation}
-\noindent which admits the following decomposition $\mathcal{P}=\bar{\mathcal{P}} \oplus \mathcal{P}^\perp$, where $\mathcal{P}$ stands for piece-wise constant functions over $\mathcal{T}_h$ and $\mathcal{P}^\perp$ is the piece-wise zero-mean functions over $\mathcal{T}_h$.
-
-The weak statement for the semi-hybrid formulation thus reads: find $\{\mathbf{u},p,\boldsymbol{\lambda}^t\} \in \mathcal{V} \times \Psi \times \boldsymbol{\Lambda}^t$ such that for all $\{\mathbf{v},q,\boldsymbol{\eta}^t\} \in \mathcal{V}\times \Psi \times \boldsymbol{\Lambda}^t$:
-
-\begin{equation} \label{eq:semihybrid1}
-    \begin{split}
-        \sum_{\Omega_e \in \mathcal{T}} \left( \int_{\Omega_e} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D}^{'} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega_e - \int_{\Omega_e} p\; (\nabla \cdot \mathbf{v}) d\Omega_e \right) + \int_{\mathcal{E}^0} \boldsymbol{\lambda}^t \cdot \llbracket \mathbf{v} \rrbracket \;d\mathcal{E}^0 = \\ \sum_{\Omega_e \in \mathcal{T}} \left( \int_{\Omega_e} \mathbf{v} \cdot \mathbf{b} d\Omega_e + \int_{\Gamma} \mathbf{v} \cdot \boldsymbol{\sigma}_N \; d\partial\Omega_e \right)
-    \end{split}
-\end{equation}
-\begin{equation} \label{eq:semihybrid2}
-    \sum_{\Omega_e \in \mathcal{T}} \left(-\int_{\Omega_e} (\nabla \cdot \mathbf{u}) \;q\; d\Omega_e -\int_{\Omega_e} \frac{3}{2\mu+\lambda}\;p\; q\; d\Omega_e \right) = \mathbf{0}
-\end{equation}
-\begin{equation} \label{eq:semihybrid3}
-    \int_{\mathcal{E}^0} \llbracket \mathbf{u} \rrbracket \cdot \mathbf{\eta}^t \;d\mathcal{E}^0 = \mathbf{0} \text{,}
+\noindent for which the equivalent dual norm restricted to the tangential traction space is written as $\lVert\bm{t}^t\rVert_{\mathcal{L}}=\sup_{\bm{v}\in\mathcal{V}}\frac{\langle\bm{t}^t,\bm{v} \rangle_{\Gamma_h}}{\lVert\bm{v}\rVert_{H^1,\mathcal{T}_h}}$. Thus, the hybridization term is now separated as
+\begin{equation} \label{eq:traction-decomposed}
+	\langle\bm{t},\bm{v}\rangle_{\Gamma_h}=\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h}+\langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h} .
 \end{equation}
 
-\noindent where $\mathbf{v}$, $q$ and $\boldsymbol{\eta}^t$ are test functions for velocity, pressure and tangential traction, respectively, $\llbracket \cdot \rrbracket$ stands for the jump operator on the interface $\mathcal{E}^0$ between two neighbour elements $\Omega_1$ and $\Omega_2$, defined as $\llbracket \mathbf{v} \rrbracket = \mathbf{v} \vert_{\Omega_1} - \mathbf{v} \vert_{\Omega_2}$. Equation \eqref{eq:semihybrid3} plays the role of weakly enforcing the tangential displacement continuity over the element interfaces.
+\noindent The normal component can be written following its internal and boundary counterparts as
+\begin{equation} \label{eq:normal-traction1}
+	\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} = \langle\bm{t}^n,\bm{v}\rangle_{\mathring{\Gamma}_h} + \langle\bm{t}^n,\bm{v}\rangle_{\partial\Omega} .
+\end{equation}
+
+\noindent Recalling that $\jump{\bm{v\cdot\bm{n}}}\lvert_E=0 ~\forall E \in \mathring{\Gamma}_h, ~\forall \bm{v}\in \mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$, the first term on the right-hand side of Eq. \eqref{eq:normal-traction1} vanishes. In addition, test functions $\bm{v} \in \mathcal{V}_0$ vanishes on $\partial\Omega_D$, and considering that $\bm{t}\lvert_{\partial\Omega_N}=\bm{t}_N$, Eq. \eqref{eq:normal-traction1} simplifies to:
+\begin{equation} \label{eq:normal-traction2}
+	\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} = \langle\bm{t}_N\cdot\bm{n},\bm{v}\cdot\bm{n}\rangle_{\partial\Omega_N} .
+\end{equation}
+
+From Eqs. \eqref{eq:traction-decomposed} and \eqref{eq:normal-traction2}, the semi-hybrid weak form searches for $\{\bm{u},p,\bm{t}^t\} \in \mathcal{V}_D \times L^2 \times \mathcal{L}^t_N$ such that:
+\begin{subequations} \label{eq:semi-hybrid-weak}
+	\begin{align}
+		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N\cdot\bm{n},\bm{v}\cdot\bm{n}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{V}_0,\label{eq:semi-hybrid-weak-a}\\ 
+		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in L^2, \label{eq:semi-hybrid-weak-b}\\
+		\langle\bm{u},\bm{z}^t\rangle_{\Gamma_h} &= \langle\bm{u}_D,\bm{z}^t\rangle_{\partial\Omega_D} ~~\forall\, \bm{z}^t \in \mathcal{L}^t_0, \label{eq:semi-hybrid-weak-c}
+	\end{align}
+\end{subequations}
+
+\noindent where $\bm{z}^t$ stands for tangential traction test functions. Equation \eqref{eq:semi-hybrid-weak-c} plays the role of weakly enforcing the tangential displacement continuity over the element interfaces, as the normal component continuity is naturally satisfied for $\bm{u} \in \mathcal{V}$. Thus, the formulation is named semi-hybrid because only the tangential component of the traction vector is hybridized. In this approach, the velocities normal to the Dirichlet boundary are strongly imposed through the restricted space $\mathcal{V}_D$ whilst its tangential counterpart is weakly prescribed on the right-hand side of Eq. \eqref{eq:semi-hybrid-weak-c}. Similarly, the normal component of the surface traction is weakly applied on the right-hand side of Eq. \eqref{eq:semi-hybrid-weak-a} and the tangential component is strongly imposed through the restricted space $\mathcal{L}^t_N$.
+
+\subsection{The double-hybrid $H(\text{div},\Omega)$ formulation}
 
 Although mathematically consistent, the semi-hybrid formulation poses some challenges from a numerical perspective. It gives rise to a saddle-point problem with two different constraints: $p$ and $\boldsymbol{\lambda}^t$. This structure significantly increases the efforts required to consistently and stably solve the linear system.
 
@@ -438,6 +438,13 @@ We propose a second hybridization of the tangential stresses in order to recover
 \end{equation}
 
 \noindent where Eq. \eqref{eq:hybrid4} was introduced to impose the continuity of the tangential traction across $\mathcal{E}^0$. Even though an additional constraint is introduced, $\boldsymbol{\lambda}^t$ is now associated to a single element therefore it can be statically condensed and eliminated from the global system. For a compressible solid, a symmetric positive-definite matrix is obtained with two unknowns, namely $\mathbf{u} \in H(\text{div},\Omega)$ and $\mathbf{u}^t \in H^{1/2}(\partial\Omega_e)$. For the incompressible case where pressures cannot be computed explicitly from the displacements, one mean pressure per element acts as a Lagrange multiplier in the global system. This still gives rise to a saddle-point matrix, however, with much better spectral properties and easier to solve compared to Eqs. \eqref{eq:semihybrid1}-\eqref{eq:semihybrid3}.
+
+
+Moreover, we set a discontinuous pressure space
+\begin{equation}
+	\mathcal{P}(\mathcal{T}_h) = \{q \, \in L^2(\Omega) ~\lvert~ q\lvert_K \in \mathbb{Q}_k(K) ~:~ \forall K \in \mathcal{T}_h\}
+\end{equation}
+\noindent which admits the following decomposition $\mathcal{P}=\bar{\mathcal{P}} \oplus \mathcal{P}^\perp$, where $\mathcal{P}$ stands for piece-wise constant functions over $\mathcal{T}_h$ and $\mathcal{P}^\perp$ is the piece-wise zero-mean functions over $\mathcal{T}_h$.
 
 \subsection{Comparison with H1-hybrid formulation}
 

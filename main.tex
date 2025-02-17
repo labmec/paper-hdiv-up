@@ -709,6 +709,18 @@ The number of degrees of freedom  for the Hybrid-Hdiv formulation is 1,336,260 f
 	\label{fig:module-mesh}
 \end{figure}
 
+Figure \ref{fig:module-shapes} shows the structural hull in both undeformed and deformed configurations. Subfigure \ref{fig:module-shapes-a} presents the undeformed shape with a color map representing the displacement field, highlighting the regions with higher displacements. Subfigure \ref{fig:module-shapes-b} illustrates the deformed shape (scaled by 2000 for better visualization) with a color map of the Von Mises stress field, indicating the stress distribution throughout the structure.
+
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Undeformed shape with displacement field]{\includegraphics[width=0.45\textwidth]{hull-undeformed.png}\label{fig:module-shapes-a}}
+	\hfill
+	\subfloat[Deformed shape with Von Mises stress field]{\includegraphics[width=0.45\textwidth]{hull-deformed.png}\label{fig:module-shapes-b}}
+	\caption{Structural hull: (a) undeformed shape with displacement field, (b) deformed shape with Von Mises stress field.}
+	\label{fig:module-shapes}
+\end{figure}
+
 The results for the displacement magnitude, pressure, and Von Mises stresses are shown in Figure \ref{fig:module-results}. The results show that the proposed Hybrid-Hdiv formulation is able to capture the correct stress and displacement distributions for this application example. Smoother solution fields were obtained at the beginning and end of the line for the Hybrid-Hdiv formulation compared to the Taylor-Hood formulation. This is explained by larger amount of degrees of freedom when adopting the Hybrid-Hdiv formulation. 
 
 \begin{figure}[H]

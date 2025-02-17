@@ -15,6 +15,7 @@
 \usepackage{graphicx}
 \usepackage{lipsum}
 \usepackage{nicematrix}
+\usepackage[normalem]{ulem}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
 %% Because html converters don't know tabularnewline
@@ -143,7 +144,7 @@ In this work we extend the semi-hybrid approach proposed in \cite{carvalho2024se
 
 \section{Preliminaries and notation}
 
-Firstly, we shall introduce basic notation, functional spaces and definitions that will be used throughout this work. Elasticity problems involves scalar, vector and tensor valued variables. Hereinafter, vector fields are denoted by bold Latin letters, tensors are written using bold symbols or bold Greek letters, whislt plain Latin or Greek letters are chosen for scalars.
+Firstly, we introduce basic notation, functional spaces, and definitions that will be used throughout this work. Elasticity problems involve scalar, vector and tensor-valued fields. Hereinafter, vector fields are denoted by bold Latin letters, tensors are written using bold symbols or bold Greek letters, whilst plain Latin or Greek letters are chosen for scalars.
 
 Let $\Omega \subset \mathbb{R}^d$, $d \in \{2, 3\}$, be a closed domain with Lipschitz boundary $\partial \Omega \subset \mathbb{R}^{d-1}$ whose  associated unit outward normal vector is denoted by $\bm{n}$. The scalar Hilbert spaces $L^2(\Omega)$ and $H^1(\Omega)$ have their usual meanings:
 \begin{equation*}
@@ -160,12 +161,15 @@ The space $H(\text{div},\Omega,\mathbb{R}^d)$ comprises square-integrable vector
 \begin{equation*}
 	H(\text{div},\Omega,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) : \nabla \cdot \bm{v} \in L^2(\Omega) \right\},
 \end{equation*}
+{\nathan I am not sure you can just say $\bm{v} \in L^2(\Omega,\mathbb{R}^d)$. You might need $\bm{v} \in [L^2(\Omega,\mathbb{R}^d)]^d$}
+
 \noindent equipped with the norm $\| \cdot \|_{H(\text{div})}$ and \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{2,3\} \}\). 
 
-The notation used for the $L^2$ inner product is $(\cdot,\cdot)_{\Omega}$, whilst $\langle \cdot,\cdot\rangle_{\partial\Omega}$ stands for the duality pairing between the trace spaces
+The notation used for the $L^2$ inner product is $(\cdot,\cdot)_{\Omega}$, while $\langle \cdot,\cdot\rangle_{\partial\Omega}$ stands for the duality pairing between the trace spaces
 \begin{equation*}
 	H^{1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{v} \lvert_{\partial\Omega}, \bm{u} \in H^1(\Omega,\mathbb{R}^d)\right\},
 \end{equation*}
+{\nathan the above equations looks weird. Is v the trace of u?}
 \begin{equation*}
 	H^{-1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{t}=\bm{\sigma} \,\bm{n} \lvert_{\partial\Omega}, \bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\},
 \end{equation*}
@@ -191,11 +195,11 @@ Moreover, a broken Sobolev space of the square-integrable functions on the discr
 
 \noindent Both spaces $X(\mathcal{T}_h)$ and $\mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$ are equipped with the broken $H^1$-norm $\| \cdot \|_{H^1,\mathcal{T}_h}$ and the inner product $(\bm{u},\bm{v})_{H^1,\mathcal{T}_h}=(\bm{u},\bm{v})+\sum_{K \in \mathcal{T}_h}(\nabla\bm{u},\nabla\bm{v})_K$.
 
-{\giovane Acho que, ao contrario do artigo do Stokes, vou colocar os espacos discretos conforme eles forem aparecendo nas secoes.}
+{\giovane Acho que, ao contrario do artigo do Stokes, vou colocar os espacos discretos conforme eles forem aparecendo nas secoes.} {\nathan de acordo}
 
 \section{Elasticity problem \label{sec:Governing-equations}}
 
-In this section, the governing equations for the linear elasticity problem shall be defined. Firstly, the primal displacement based formulation is presented, followed by the mixed version introducing the pressure as an indepent variable.
+In this section, the governing equations for the linear elasticity problem are defined. First, the primal displacement based formulation is presented, followed by the mixed version introducing the pressure as an indepent variable.
 
 \subsection{Problem definition}
 
@@ -203,7 +207,7 @@ The conservation of linear momentum for a generic continuum body is given by:
 \begin{equation} \label{eq:momentum}
 		-\nabla \cdot \bm{\sigma} - \bm{b} = \bm{0} \hspace{0.2cm} \text{in } \Omega ,
 \end{equation}
-\noindent where $\bm{b}$ is the body forces vector and $\bm{\sigma}$ denotes the Cauchy stress tensor. The Generalized Hook law relates the stresses and strains in a isotropic body as:
+\noindent where $\bm{b}$ is the body force vector and $\bm{\sigma}$ denotes the Cauchy stress tensor. The Generalized Hooke's law relates the stresses and strains in a isotropic body as:
 \begin{equation} \label{eq:hook}
     \bm{\sigma} = 2\mu \bm{\varepsilon}(\bm{u}) + \lambda \text{tr}(\bm{\varepsilon}(\bm{u})) \bm{I}^d ,
 \end{equation}
@@ -239,7 +243,7 @@ The elasticity problem can also be formulated using two state variables by apply
 	p = -\kappa \text{tr}(\bm{\varepsilon}(\bm{u})) ,
 \end{equation}
 
-\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, is computed as $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case {\giovane should we put the derivation of the bulk modulus for the plane analyses in an appendix?}. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
+\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, is computed as $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case {\giovane should we put the derivation of the bulk modulus for the plane analyses in an appendix?} {\nathan I am not sure, I feel these are stanrdard and known coefficients}. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
 \begin{equation} \label{eq:deviatoric-stress}
 	\boldsymbol{\sigma}' = 2\mu \left(\boldsymbol{\varepsilon}(\bm{u}) - \frac{1}{3}\text{tr}(\boldsymbol{\varepsilon}(\bm{u}))\mathbf{I}\right) \text{.}
 \end{equation}
@@ -298,7 +302,7 @@ In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-e
 	c\left(p,q \right)_\Omega = \int_{\Omega} \frac{1}{\kappa} \,p \,q \, d\Omega ,
 \end{equation*}
 
-\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle point problem with pressure playing the role as a Lagrange multiplier. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and the choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, that is, there exist a constant $\beta>0$ such that
+\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle-point problem with pressure playing the role as a Lagrange multiplier. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and the choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, that is, there exist a constant $\beta>0$ such that
 \begin{equation*}
 	\inf_{q \in L^2,q\neq0} \sup_{\bm{v} \in H^1_0,\bm{v}\neq\bm{0}} \frac{b\left(\bm{v},q\right)}{\|\bm{v}\|_{H^1} \|q\|_{L^2}} \geq \beta .
 \end{equation*}
@@ -327,9 +331,9 @@ For the forthcoming FE spaces whose boundary conditions need to be enforced dire
     \mathcal{U}_{D,k}(\mathcal{T}_h,\mathbb{R}^d)=\left\{ \bm{v} \in \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=\bm{u}_D\right\}.
 \end{equation}
 
-\noindent Hereinafter, the subindexes $(\cdot)_0$ and $(\cdot)_D$ refer to this type of decomposition. Throughout this paper, the notation $P_k P_{k-1}$ is used to denote the pair $\mathcal{U}_k \times \mathcal{Q}_k$ when referring to a specific Taylor-Hood element.
+\noindent Henceforth, the subindexes $(\cdot)_0$ and $(\cdot)_D$ refer to this type of decomposition. Throughout this paper, the notation $P_k P_{k-1}$ is used to denote the pair $\mathcal{U}_k \times \mathcal{Q}_k$ when referring to a specific Taylor-Hood element.
 
-Then, the discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity} using Taylor-Hood elements is formulated is follows: find $\{\bm{u},p\}$ $\in \mathcal{U}_{D,k} \times \mathcal{Q}_k$ such that
+The discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity} using Taylor-Hood elements is formulated as follows: find $\{\bm{u},p\}$ $\in \mathcal{U}_{D,k} \times \mathcal{Q}_k$ such that
 \begin{subequations} \label{eq:TH-weak}
 	\begin{align}
 		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{U}_{0,k},\label{eq:TH-weak-a}\\ 
@@ -354,11 +358,11 @@ Then, the discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity
 	\langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N} = \sum_{E \in \partial\Omega_N} \int_{E} \bm{t}_N \cdot \bm{v} \, d\partial K .
 \end{equation*}
 
-In this approach, displacements are strongly imposed on the Dirichlet boundary $\partial \Omega_D$ through the restricted space $\mathcal{U}_{D,k}$ whilst surface tractions are weakly imposed on the boundary $\partial \Omega_N$ in the right-hand side of Eq. \eqref{eq:TH-weak-b}.
+In this approach, displacements are strongly imposed on the Dirichlet boundary $\partial \Omega_D$ through the restricted space $\mathcal{U}_{D,k}$ while surface tractions are weakly imposed on the boundary $\partial \Omega_N$ in the right-hand side of Eq. \eqref{eq:TH-weak-b}.
 
 \section{Hybrid-mixed formulations}
 
-The mixed problem of Eq. \eqref{eq:weak-mixed} can be presented in an alternative way by relaxing the continuity requirement of the displacement functions across elements. Let define the space of the stress traces over the mesh skeleton as
+The mixed problem of Eq. \eqref{eq:weak-mixed} can be presented in an alternative way by relaxing the continuity requirement of the displacement functions across elements. {\nathan\sout{Let d}Define the space of the stress traces over the mesh skeleton as}
 \begin{equation}
 	\label{eq:space-traction}
 	\mathcal{L}(\Gamma_h,\mathbb{R}^d) = \left\{\bm{t} \in H^{-1/2}(\Gamma_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, E \in \Gamma_h ~:~\bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\},
@@ -377,9 +381,9 @@ Then, a hybrid-mixed problem is derived by finding $\{\bm{u},p,\bm{t}\} \in X_D 
 
 \noindent where the spaces $\mathcal{L}_0$ and $\mathcal{L}_N$ can be written using the same notation as in Eqs. \eqref{eq:uTH0} and \eqref{eq:uTHD} but restricted on $\partial\Omega_N$, and $\langle\bm{t},\bm{v}\rangle_{\Gamma_h}=\sum_{E \in \Gamma_h}\int_{E} \bm{t} \cdot \jump{\bm{v}} \,d\partial K$. The new traction variable $\bm{t}$ acts as a Lagrange multiplier weakly imposing the displacement continuity over the discretized domain.
 
-The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqref{eq:weak-mixed} was proven in \cite{raviart1977primal}. The hybridization technique is often used to improve the conditioning and spectral properties of the system matrix, and we will explore this feature in the following sections \cite{arnold1985mixed}.
+The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqref{eq:weak-mixed} is detailed in \cite{raviart1977primal}. The hybridization technique is commonly employed to enhance the conditioning and spectral properties of the system matrix. This aspect will be further explored in the following sections \cite{arnold1985mixed}.
 
-\subsection{Semi-hybrid formulation using \(H(\text{div},\Omega)\) approximation space}
+\subsection{Semi-hybrid formulation using \(H(\mathrm{div},\Omega)\) approximation space}
 
 In \cite{carvalho2024semi}, the authors proposed a variant of the hybrid-mixed formulation for Stokes-Brinkman flows that uses \(H(\text{div})\) functions to approximate velocities, that is, $\bm{u} \in \mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$. As a consequence, the normal component of its trace is continuous between adjacent elements, meaning that only the continuity requirement of the tangential component is weakened compared to $H^1(\Omega)$-conforming methods. We show next that its extension to elasticity is straightforward.
 
@@ -401,7 +405,7 @@ Firstly, the traction $\bm{t} \in \mathcal{L}$ can be decomposed into normal and
 	\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} = \langle\bm{t}^n,\bm{v}\rangle_{\mathring{\Gamma}_h} + \langle\bm{t}^n,\bm{v}\rangle_{\partial\Omega} .
 \end{equation}
 
-\noindent Recalling that $\jump{\bm{v\cdot\bm{n}}}\lvert_E=0 ~\forall E \in \mathring{\Gamma}_h, ~\forall \bm{v}\in \mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$, the first term on the right-hand side of Eq. \eqref{eq:normal-traction1} vanishes. In addition, test functions $\bm{v} \in \mathcal{V}_0$ vanishes on $\partial\Omega_D$, and considering that $\bm{t}\lvert_{\partial\Omega_N}=\bm{t}_N$, Eq. \eqref{eq:normal-traction1} simplifies to:
+\noindent Recalling that $\jump{\bm{v\cdot\bm{n}}}\lvert_E=0 ~\forall E \in \mathring{\Gamma}_h, ~\forall \bm{v}\in \mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$, the first term on the right-hand side of Eq. \eqref{eq:normal-traction1} vanishes. In addition, test functions $\bm{v} \in \mathcal{V}_0$ vanish on $\partial\Omega_D$, and considering that $\bm{t}\lvert_{\partial\Omega_N}=\bm{t}_N$, Eq. \eqref{eq:normal-traction1} simplifies to:
 \begin{equation} \label{eq:normal-traction2}
 	\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} = \langle\bm{t}_N\cdot\bm{n},\bm{v}\cdot\bm{n}\rangle_{\partial\Omega_N} .
 \end{equation}
@@ -420,7 +424,7 @@ From Eqs. \eqref{eq:traction-decomposed} and \eqref{eq:normal-traction2}, the se
 \subsection{The double-hybrid \(H(\mathrm{div},\Omega)\) formulation}
 
 {\giovane Reescrevi esta secao de uma forma mais consistente que em Stokes (eu acho). Poderiam checar?}
-The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ were proven in \cite{carvalho2024semi,carvalho2024two} provided that an appropriated combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some numerical challenges that must be highlighted. After some algebraic operations, the linear system to be solved is a saddle-point problem with two different constraints: the average element pressure $\bar{p} \in L^2(\Omega)$ and the shear component of the interface traction $\bm{t}^t \in \mathcal{L}^t(\Gamma_h,\mathbb{R}^d)$:
+The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are proven in \cite{carvalho2024semi,carvalho2024two} provided that an appropriated combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some numerical challenges that must be highlighted. After some algebraic operations, the linear system to be solved is a saddle-point problem with two different constraints: the average element pressure $\bar{p} \in L^2(\Omega)$ and the shear component of the interface traction $\bm{t}^t \in \mathcal{L}^t(\Gamma_h,\mathbb{R}^d)$:
 \begin{equation*}
 	\bm{K}=
 	\begin{bNiceArray}{c | c | c}[first-row,cell-space-top-limit=4pt,extra-margin=4pt]
@@ -433,11 +437,12 @@ The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ were pro
 
 This structure significantly increases the efforts required to solve the linear system, as a specific permutation order must be chosen when decomposing the equations asociated with the Lagrange multipliers. Moreover, we observed that using numerical techniques to impose shear stress boundary conditions (e.g when using the penalty method) may lead to loss of accuracy which directly affects the convergence rate.
 
-The strategy adopted here to overcome this issue was first proposed in \cite{puga2025stable} in the context of Stokes flows, and consists in performing a second hybridization of the tangential stresses. The same idea can be applied to the elasticity problem with little effort. The tangential traction space defined in Eq. \eqref{eq:space-traction-tangential} do not admit different absolute values when evaluated on the boundary of two adjacent elements. To properly define a broken space of Lagrange multipliers that weakens this continuity requirement, we shall start by introducing the broken $\bar{H}(\text{div})$ space as:
+The strategy adopted here to overcome this issue was first proposed in \cite{puga2025stable} in the context of Stokes flows, and consists in performing a second hybridization of the tangential stresses. This approach can be readily extended to the elasticity problem. The tangential traction space defined in Eq. \eqref{eq:space-traction-tangential} does not admit different absolute values when evaluated on the boundary of two adjacent elements. To properly define a broken space of Lagrange multipliers that weakens this continuity requirement, we shall start by introducing the broken $\bar{H}(\text{div})$ space as:
 \begin{equation}
 	\label{eq:brokenspace-div}
 	\bar{H}(\text{div},\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega) ~:~ \bm{v}\lvert_K \in H(\text{div},K,\mathbb{R}^d), ~\forall K \in \mathcal{T}_h\right\},
 \end{equation}
+{\nathan check if $\bm{v} \in L^2(\Omega)$ should be $\bm{v} \in [L^2(\Omega)]^d$}
 
 \noindent whose functions can now assume discontinuous normal components over the mesh skeleton.
 
@@ -446,6 +451,7 @@ Similarly, the associated broken traction space is written as:
 	\label{eq:space-traction-broken}
 	\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{t} \in L^2(\partial\mathcal{T}_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, \partial K \in \partial\mathcal{T}_h ~:~\bm{\sigma} \in H(\text{div},\mathcal{T}_h,\mathbb{R}^d \times \mathbb{R}^d) \right\},
 \end{equation}
+{\nathan check if $\bm{t} \in L^2(\Omega)$ should be $\bm{t} \in [L^2(\Omega)]^d$}
 
 \noindent which encompasses functions that can assume different values on the common boundary of adjacent elements, so that $\mathcal{L}(\Gamma_h,\mathbb{R}^d) \subset \bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d)$. Equation \eqref{eq:space-traction-broken} can be decomposed in the same way as Eq. \eqref{eq:space-traction}, so that:
 \begin{subequations}
@@ -455,7 +461,7 @@ Similarly, the associated broken traction space is written as:
 	\end{align}
 \end{subequations}
 
-As done before, the inter-element continuity of a discontinuous tangential traction $\bm{t}^t \in \bar{\mathcal{L}}^t(\partial\mathcal{T}_h,\mathbb{R}^d)$ can be weakly imposed by introducing a new set of functions $\bm{w} \in \mathcal{W}(\Gamma_h,\mathbb{R}^d)$ that live on the mesh skeleton, and only admit a single absolute value over a common boundary between two neighbor elements. This procedure is called the second hybridization of the tangential stresses, and the associated space is defined as:
+As done before, the inter-element continuity of a discontinuous tangential traction $\bm{t}^t \in \bar{\mathcal{L}}^t(\partial\mathcal{T}_h,\mathbb{R}^d)$ can be weakly imposed by introducing a new set of functions $\bm{w} \in \mathcal{W}(\Gamma_h,\mathbb{R}^d)$ that live on the mesh skeleton, and only admit a single absolute value over a common boundary between two neighbor elements. This procedure is here denoted as the second hybridization of the tangential stresses, and the associated space is defined as:
 \begin{equation}
 	\label{eq:space-tangential-vel}
 	\mathcal{W}(\Gamma_h,\mathbb{R}^d) = \left\{\bm{w} \in H^{1/2}(\Gamma_h,\mathbb{R}^d), \, \bm{w}=\bm{u}-((\bm{u}\cdot\bm{n})\bm{n})\lvert_{\partial K}, \, \forall \, E \in \Gamma_h \,:\, \bm{u} \in \mathcal{V}(\mathcal{T}_h,\mathbb{R}^d) \right\}.
@@ -463,13 +469,13 @@ As done before, the inter-element continuity of a discontinuous tangential tract
 
 \noindent From Eq. \eqref{eq:space-tangential-vel}, it is clear that $\bm{w}$ plays the role of a Lagrange multiplier whose physical meaning is the tangential component of the displacement field $\bm{u}$, equipped with the dual norm {\giovane existe uma norma para este espaco? $\lVert\bm{w}\rVert_{\mathcal{W}}=\sup_{\bm{s}^t \in \bar{\mathcal{L}}} \frac{\langle\bm{w},\bm{s}^t \rangle_{\Gamma_h}}{\lVert\bm{s}^t\rVert_{\bar{\mathcal{L}}}}$.}
 
-At first, one may notice that a new constraint equation was introduced in the variational problem, which may lead to a more complex linear system. To better illustrate the strategy, Figure \ref{fig:hybrid-variables} shows the resulting variables associated to each method for an arbitrary mesh partition. The advantage of the double-hybrid formulation lies on the fact that the shear component of the traction is now associated to a single element, therefore allowing its static condensation at element level. This results in a positive-semi definite matrix block composed only by the two components of the primal variable, and a single Lagrange multiplier associated to each element standing for the average pressure. This process is better explained in Section \ref{sec:static-condensation}.
+At first glance, one may notice that a new constraint equation was introduced in the variational problem, potentially leading to a more complex linear system. To better illustrate the strategy, Figure \ref{fig:hybrid-variables} depicts the resulting variables associated with each method for an arbitrary mesh partition. The key advantage of the double-hybrid formulation lies on the fact that the shear component of the traction is now associated with a single element, enabling its static condensation at the element level. This procedure leads to a positive-semi definite matrix block composed only by the two components of the primal variable, while a single Lagrange multiplier per element represents the average pressure. This process is further detailed in Section \ref{sec:static-condensation}.
 
 \begin{figure}[htb!]
     \centering 
 	\subfloat[\label{fig:semi-hybrid-variables}]{\includegraphics[scale=.5]{semi-hybrid-variables.pdf}}\hspace{2cm}
     \subfloat[\label{fig:double-hybrid-variables}]{\includegraphics[scale=.5]{double-hybrid-variables.pdf}}\hfill
-	\caption{Resulting variables for an internal interface shared by two adjacent elements using (a) Semi-hybrid and (b) hybrid-hybrid formulations.}
+	\caption{Resulting variables for an internal interface shared by two adjacent elements using (a) Semi-hybrid and (b) hybrid-hybrid formulations. {\nathan Check if we are using lambdat}}
 	\label{fig:hybrid-variables}
 \end{figure}
 
@@ -489,9 +495,9 @@ Finally, the double-hybrid weak form searches for $\{\bm{u},p,\bm{t}^t,\bm{w}\} 
 	\langle\bm{w},\bm{s}^t\rangle_{\Gamma_h} = \sum_{E \in \Gamma_h} \int_{E} \bm{w} \cdot \jump{\bm{s}^t} \, d\partial K.
 \end{equation*}
 
-Note that Eq. \eqref{eq:double-hybrid-weak-d} was introduced to impose the compatibility of tangential tractions across $\mathring{\Gamma}_h$ and to enforce $\bm{t}^t\lvert_{\partial\Omega_N}=\bm{t}_N^t$ both in a weak manner. Moreover, Equation \eqref{eq:double-hybrid-weak-c} was purposely written in that way to highlight the symmetry between its second term in the left-hand side and the left-hand side of Equation \eqref{eq:double-hybrid-weak-d}. 
+Note that Eq. \eqref{eq:double-hybrid-weak-d} is introduced to enforce the compatibility of tangential tractions across $\mathring{\Gamma}_h$ and to enforce $\bm{t}^t\lvert_{\partial\Omega_N}=\bm{t}_N^t$ in a weak sense. Moreover, Equation \eqref{eq:double-hybrid-weak-c} is deliberately written to emphasize the symmetry between its second term on the left-hand side and the left-hand side of Equation \eqref{eq:double-hybrid-weak-d}. 
 
-The equivalence of problems \eqref{eq:double-hybrid-weak} and \eqref{eq:semi-hybrid-weak} can be verified by setting $\bm{s}^t \in \mathcal{L}^t \subset \bar{\mathcal{L}}^t$, so that $\jump{\bm{s}^t}\lvert_E=0$. Thus, the second term in the left-hand side of Eq. \eqref{eq:double-hybrid-weak-c} vanishes. Moreover, $\langle\bm{u},\bm{s}^t\rangle_{\partial\mathcal{T}_h}=\langle\bm{u},\bm{s}^t\rangle_{\Gamma_h}-\langle\bm{u}_D,\bm{s}^t\rangle_{\partial\Omega_D} \, \forall \, \bm{s}^t \in \mathcal{L}^t$, considering that $\langle\bm{t}^t,\bm{v}\rangle_{\partial\mathcal{T}_h} = \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}$ since $\bm{v}=\bm{0}\lvert_{\partial\Omega_D}$, and recalling that Eq. \eqref{eq:double-hybrid-weak-d} is no longer needed as it enforces the continuity of the broken tangential tractions, the solution $\left\{\bm{u},p,\bm{t}^t \right\}$ of problem \eqref{eq:double-hybrid-weak} is numerically equivalent to $\left\{\bm{u},p,\bm{t}^t \right\}$ from problem \eqref{eq:semi-hybrid-weak}. Therefore, convergence rates and error estimates are inherited from the semi-hybrid formulation.
+The equivalence of problems \eqref{eq:double-hybrid-weak} and \eqref{eq:semi-hybrid-weak} can be verified by setting $\bm{s}^t \in \mathcal{L}^t \subset \bar{\mathcal{L}}^t$, so that $\jump{\bm{s}^t}\lvert_E=0$. Consequently, the second term in the left-hand side of Eq. \eqref{eq:double-hybrid-weak-c} vanishes. Moreover, $\langle\bm{u},\bm{s}^t\rangle_{\partial\mathcal{T}_h}=\langle\bm{u},\bm{s}^t\rangle_{\Gamma_h}-\langle\bm{u}_D,\bm{s}^t\rangle_{\partial\Omega_D} \, \forall \, \bm{s}^t \in \mathcal{L}^t$, considering that $\langle\bm{t}^t,\bm{v}\rangle_{\partial\mathcal{T}_h} = \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}$ since $\bm{v}=\bm{0}\lvert_{\partial\Omega_D}$, and recalling that Eq. \eqref{eq:double-hybrid-weak-d} is no longer needed as it enforces the continuity of the broken tangential tractions, the solution $\left\{\bm{u},p,\bm{t}^t \right\}$ of problem \eqref{eq:double-hybrid-weak} is numerically equivalent to $\left\{\bm{u},p,\bm{t}^t \right\}$ from problem \eqref{eq:semi-hybrid-weak}. Therefore, convergence rates and error estimates are inherited from the semi-hybrid formulation.
 
 \subsection{Discrete double-hybrid finite element formulation}
 {\giovane Decidi colocar esta secao para definir os espaços discretos. Desconsiderar por enquanto os rascunhos}
@@ -738,7 +744,7 @@ The results for the displacement magnitude, pressure, and Von Mises stresses are
 \section{Conclusions}
 
 {\giovane A first shot, please give your contributions}
-In this work a primal hybrid formulation for tridimensional elasticity problems was developed. The approximation space composed of De Rham compatible $H(\text{div})$ functions for the normal displacements and  $L^2$ functions for the pressure leads to a locally conservative scheme. A second hybridization of the tangential stresses was applied in order to obtain positive semi definite element matrices after condensing internal degrees of freedom. The property of the resulting global system is  symmetric positive-definite matrix when analysing compressible solids and a saddle point problem with a single mean pressure per element acting as a Lagrange multiplier for incompressible materials.
+In this work a primal hybrid formulation for tridimensional elasticity problems was developed. The approximation space composed of De Rham compatible $H(\text{div})$ functions for the normal displacements and  $L^2$ functions for the pressure leads to a locally conservative scheme. A second hybridization of the tangential stresses was applied in order to obtain positive semi definite element matrices after condensing internal degrees of freedom. The property of the resulting global system is  symmetric positive-definite matrix when analysing compressible solids and a saddle-point problem with a single mean pressure per element acting as a Lagrange multiplier for incompressible materials.
 
 The formulation was tested for a cantilever beam subjected to an end shear load and the results showed optimal convergence rates of $k+1$ for the displacement and $k$ for the remaining variables independently of the poisson coefficient. The formulation was able to capture the correct stress and displacement distributions for the compressible case and a divergence free displacement field for the incompressible case. The simulation of a real scale structural hull subjected to an internal pressure qualitatively indicates that the proposed method can be applied to real engineering problems.
 

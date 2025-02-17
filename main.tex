@@ -302,10 +302,10 @@ In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-e
 	c\left(p,q \right)_\Omega = \int_{\Omega} \frac{1}{\kappa} \,p \,q \, d\Omega ,
 \end{equation*}
 
-\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle-point problem with pressure playing the role as a Lagrange multiplier. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and the choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, that is, there exist a constant $\beta>0$ such that
-\begin{equation*}
+\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle point problem with pressure playing the role as a Lagrange multiplier. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and the choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, that is, there exist a constant $\beta>0$ such that
+\begin{equation} \label{eq:LBB}
 	\inf_{q \in L^2,q\neq0} \sup_{\bm{v} \in H^1_0,\bm{v}\neq\bm{0}} \frac{b\left(\bm{v},q\right)}{\|\bm{v}\|_{H^1} \|q\|_{L^2}} \geq \beta .
-\end{equation*}
+\end{equation}
 
 \noindent A convenient choice that fulfills this requirement is the Taylor-Hood elements \cite{taylor1973numerical} described in Section \ref{sec:taylor-hood}.
 
@@ -383,7 +383,7 @@ Then, a hybrid-mixed problem is derived by finding $\{\bm{u},p,\bm{t}\} \in X_D 
 
 The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqref{eq:weak-mixed} is detailed in \cite{raviart1977primal}. The hybridization technique is commonly employed to enhance the conditioning and spectral properties of the system matrix. This aspect will be further explored in the following sections \cite{arnold1985mixed}.
 
-\subsection{Semi-hybrid formulation using \(H(\mathrm{div},\Omega)\) approximation space}
+\subsection{Semi-hybrid-mixed formulation using \(H(\mathrm{div},\Omega)\) approximation space}
 
 In \cite{carvalho2024semi}, the authors proposed a variant of the hybrid-mixed formulation for Stokes-Brinkman flows that uses \(H(\text{div})\) functions to approximate velocities, that is, $\bm{u} \in \mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$. As a consequence, the normal component of its trace is continuous between adjacent elements, meaning that only the continuity requirement of the tangential component is weakened compared to $H^1(\Omega)$-conforming methods. We show next that its extension to elasticity is straightforward.
 
@@ -421,7 +421,7 @@ From Eqs. \eqref{eq:traction-decomposed} and \eqref{eq:normal-traction2}, the se
 
 \noindent where $\bm{s}^t$ stands for tangential traction test functions. Equation \eqref{eq:semi-hybrid-weak-c} plays the role of weakly enforcing the tangential displacement continuity over the element interfaces, as the normal component continuity is naturally satisfied for $\bm{u} \in \mathcal{V}$. Thus, the formulation is named semi-hybrid because only the tangential component of the traction vector is hybridized. In this approach, the velocities normal to the Dirichlet boundary are strongly imposed through the restricted space $\mathcal{V}_D$ whilst its tangential counterpart is weakly prescribed on the right-hand side of Eq. \eqref{eq:semi-hybrid-weak-c}. Similarly, the normal component of the surface traction is weakly applied on the right-hand side of Eq. \eqref{eq:semi-hybrid-weak-a} and the tangential component is strongly imposed through the restricted space $\mathcal{L}^t_N$.
 
-\subsection{The double-hybrid \(H(\mathrm{div},\Omega)\) formulation}
+\subsection{The double-hybrid-mixed \(H(\mathrm{div},\Omega)\) formulation}
 
 {\giovane Reescrevi esta secao de uma forma mais consistente que em Stokes (eu acho). Poderiam checar?}
 The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are proven in \cite{carvalho2024semi,carvalho2024two} provided that an appropriated combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some numerical challenges that must be highlighted. After some algebraic operations, the linear system to be solved is a saddle-point problem with two different constraints: the average element pressure $\bar{p} \in L^2(\Omega)$ and the shear component of the interface traction $\bm{t}^t \in \mathcal{L}^t(\Gamma_h,\mathbb{R}^d)$:
@@ -499,14 +499,45 @@ Note that Eq. \eqref{eq:double-hybrid-weak-d} is introduced to enforce the compa
 
 The equivalence of problems \eqref{eq:double-hybrid-weak} and \eqref{eq:semi-hybrid-weak} can be verified by setting $\bm{s}^t \in \mathcal{L}^t \subset \bar{\mathcal{L}}^t$, so that $\jump{\bm{s}^t}\lvert_E=0$. Consequently, the second term in the left-hand side of Eq. \eqref{eq:double-hybrid-weak-c} vanishes. Moreover, $\langle\bm{u},\bm{s}^t\rangle_{\partial\mathcal{T}_h}=\langle\bm{u},\bm{s}^t\rangle_{\Gamma_h}-\langle\bm{u}_D,\bm{s}^t\rangle_{\partial\Omega_D} \, \forall \, \bm{s}^t \in \mathcal{L}^t$, considering that $\langle\bm{t}^t,\bm{v}\rangle_{\partial\mathcal{T}_h} = \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}$ since $\bm{v}=\bm{0}\lvert_{\partial\Omega_D}$, and recalling that Eq. \eqref{eq:double-hybrid-weak-d} is no longer needed as it enforces the continuity of the broken tangential tractions, the solution $\left\{\bm{u},p,\bm{t}^t \right\}$ of problem \eqref{eq:double-hybrid-weak} is numerically equivalent to $\left\{\bm{u},p,\bm{t}^t \right\}$ from problem \eqref{eq:semi-hybrid-weak}. Therefore, convergence rates and error estimates are inherited from the semi-hybrid formulation.
 
-\subsection{Discrete double-hybrid finite element formulation}
-{\giovane Decidi colocar esta secao para definir os espaços discretos. Desconsiderar por enquanto os rascunhos}
+\subsection{Discrete double-hybrid-mixed finite element formulation}
+{\giovane Decidi colocar esta secao para definir os espacos discretos. Desconsiderar por enquanto os rascunhos}
 
-Moreover, we set a discontinuous pressure space
+The aim is to construct FE discrete spaces $\mathcal{S}_{h,k}=\mathcal{V}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W}_{h,k}$ for the double-hybrid-mixed formulation \eqref{eq:double-hybrid-weak}, associated to the mesh partition $\mathcal{T}_h$ with characteristic size $h$ and polynomial degree $k$.
+
+DHM-H(div)($\mathcal{S}_{h,k}$): Search for $\{\bm{u}_h,p_h,\bm{t}^t_h,\bm{w}_h\} \in \mathcal{S}_{h,k}$ such that:
+\begin{subequations} \label{eq:double-hybrid-discrete}
+	\begin{align}
+		a\left(\bm{u}_h,\bm{v}\right)_{\mathcal{T}_h} - b\left( p_h, \bm{v}\right)_{\mathcal{T}_h} +\langle\bm{t}^t_h,\bm{v}\rangle_{\partial\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N\cdot\bm{n},\bm{v}\cdot\bm{n}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{V}_{h,k},\label{eq:double-hybrid-discrete-a}\\ 
+		-b\left(\bm{u}_h, q\right)_{\mathcal{T}_h} - c\left(p_h,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in \mathcal{P}_{h,k}, \label{eq:double-hybrid-discrete-b}\\
+		\langle\bm{u}_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h} - \langle\bm{w}_h,\bm{s}^t\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{s}^t \in \bar{\mathcal{L}}^t_{h,k}, \label{eq:double-hybrid-discrete-c}\\
+		-\langle\bm{t}^t_h,\bm{z}^t\rangle_{\Gamma_h} &= -\langle\bm{t}_N^t,\bm{z}^t\rangle_{\partial\Omega_N} ~~\forall\, \bm{z}^t \in \mathcal{W}_{h,k}. \label{eq:double-hybrid-discrete-d}
+	\end{align}
+\end{subequations}
+
+According to the Brezzi's theory in \cite{girault2012finite,brezzi2012mixed,arnold1988new}, the FE spaces associated to each variable cannot be chosen arbitrarily. 
+
+
+
+
+
+
+
+Let assume the discontinuous pressure space
 \begin{equation}
 	\mathcal{P}(\mathcal{T}_h) = \{q \, \in L^2(\Omega) ~\lvert~ q\lvert_K \in \mathbb{Q}_k(K) ~:~ \forall K \in \mathcal{T}_h\}
 \end{equation}
-\noindent which admits the following decomposition $\mathcal{P}=\bar{\mathcal{P}} \oplus \mathcal{P}^\perp$, where $\mathcal{P}$ stands for piece-wise constant functions over $\mathcal{T}_h$ and $\mathcal{P}^\perp$ is the piece-wise zero-mean functions over $\mathcal{T}_h$.
+\noindent which admits the following decomposition $\mathcal{P}=\bar{\mathcal{P}} \oplus \mathcal{P}^\perp$, where $\bar{\mathcal{P}}$ stands for piece-wise constant functions over $\mathcal{T}_h$ and $\mathcal{P}^\perp$ is the piece-wise zero-mean functions over $\mathcal{T}_h$. It will be further discussd in Section \ref{sec:static-condensation} an alternative technique to avoid the construction of pressure functions with vanishing mean. For a divergence-compatible FE pair $\mathcal{V}_h \times \mathcal{P}_h$ tipically used to approximate flux and pressure in Darcy mixed problems, the condition
+\begin{equation*}
+	\nabla \cdot \mathcal{V}_{h,k} \subseteq \mathcal{P}_{h,k}.
+\end{equation*}
+holds independently of the discretization parameters, and is known to satisfy the inf-sup condition in the absence of tangential tractions in Eq. \eqref{eq:double-hybrid-weak-a} \cite{carvalho2024semi}.
+
+However, proving mathematically the trace compatibility required in $\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}$ and $\langle\bm{z},\bm{s}^t\rangle_{\Gamma_h}$ is a challenging task. In \cite{carvalho2024semi}, the authors had shown numerically that trace compatibility can be verified by ensuring that the divergence-free subspaces $\mathcal{Z}(0)_{h,k}=\left\{ \bm{v} \in \mathcal{V}_{h,k} ~;~b(q,\bm{v}=0, ~\forall~q \in \mathcal{P}_{h,k}) \right\}$ are rich enough to guarantee that
+\begin{equation*}
+	\text{rank}~ \bm{D}^T = \text{dim} ~\mathcal{L}^t_{h,k}
+\end{equation*}
+
+\noindent where $\bm{D}^T=[\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}]$. Analogous, 
 
 \subsection{Comparison with H1-hybrid formulation}
 

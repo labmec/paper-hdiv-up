@@ -312,14 +312,14 @@ In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-e
 
 \section{Mixed displacement-pressure Taylor Hood elements \label{sec:taylor-hood}}
 
-Let $\mathbb{Q}_k(K)$ represent the space of scalar polynomial functions of order $k$ over an element $K\in\mathcal{T}_h$. For vector functions, the notation $\mathbb{Q}_k(K,\mathbb{R}^d)$ is used. For the Taylor-Hood element, the discrete FE spaces used for displacement and pressure are defined, respectively, by:
+Let $\mathbb{P}_k(K)$ represent the space of scalar polynomial functions of order $k$ over an element $K\in\mathcal{T}_h$. For vector functions, the notation $\mathbb{P}_k(K,\mathbb{R}^d)$ is used. For the Taylor-Hood element, the discrete FE spaces used for displacement and pressure are defined, respectively, by:
 \begin{equation}
     \label{eq:uTH}
-    \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{v} \in H^1(\Omega,\mathbb{R}^d) : \bm{v}\lvert_{K} \in \mathbb{Q}_k(K,\mathbb{R}^d), \,\forall \,K \in \mathcal{T}_h, \, k\geq 2 \right\}.
+    \mathcal{U}_k(\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{v} \in H^1(\Omega,\mathbb{R}^d) : \bm{v}\lvert_{K} \in \mathbb{P}_k(K,\mathbb{R}^d), \,\forall \,K \in \mathcal{T}_h, \, k\geq 2 \right\}.
 \end{equation}
 \begin{equation}
     \label{eq:qTH}
-    \mathcal{Q}_k(\mathcal{T}_h) = \left\{q \in H^1(\Omega) \,:\, q\lvert_{K} \, \in \mathbb{Q}_{k-1}(K), \,\forall \, K \in \mathcal{T}_h, \, k\geq 2\right\},
+    \mathcal{Q}_k(\mathcal{T}_h) = \left\{q \in H^1(\Omega) \,:\, q\lvert_{K} \, \in \mathbb{P}_{k-1}(K), \,\forall \, K \in \mathcal{T}_h, \, k\geq 2\right\},
 \end{equation}
 
 For the forthcoming FE spaces whose boundary conditions need to be enforced directly in the space, it is convenient to perform a decomposition into homogeneous and non-homogeneous counterparts as follows:
@@ -518,7 +518,7 @@ As the continuity of the tangential component of the displacement is weakly enfo
 
 \subsection{Discrete double-hybrid-mixed finite element formulation}
 
-The aim is to construct FE discrete spaces $\mathcal{S}_{h,k}=\mathcal{V}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W}_{h,k}$ for the double-hybrid-mixed formulation \eqref{eq:double-hybrid-weak}, associated to the mesh partition $\mathcal{T}_h$ with characteristic size $h$ and polynomial degree $k$.
+The aim is to construct FE discrete spaces $\mathcal{S}_{h,k}=\mathcal{V}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W}_{h,k}$ for the double-hybrid-mixed formulation \eqref{eq:double-hybrid-weak}, associated to the mesh partition $\mathcal{T}_h$ with characteristic size $h$ and polynomial degree $k$. For conveniente, the subindex $k$ may be dropped in some equations.
 
 The discrete form of the Double Hybrid Mixed methodology is henceforth denoted as DHM-H(div)($\mathcal{S}_{h,k}$). It seeks for $\{\bm{u}_h,p_h,\bm{t}^t_h,\bm{w}_h\} \in \mathcal{S}_{h,k}$ such that:
 \begin{subequations} \label{eq:double-hybrid-discrete}
@@ -534,7 +534,7 @@ According to the Brezzi's theory {\nathan theorem?} in \cite{girault2012finite,b
 
 \sout{Let assume the discontinuous pressure space} {\nathan Assume the pressure space is discontinuous, i.e.:}
 \begin{equation}
-	\mathcal{P}(\mathcal{T}_h) = \{q \, \in L^2(\Omega) ~\lvert~ q\lvert_K \in \mathbb{Q}_k(K) ~:~ \forall K \in \mathcal{T}_h\}
+	\mathcal{P}_{h,k}(\mathcal{T}_h) = \{q \, \in L^2(\Omega) ~\lvert~ q\lvert_K \in \mathbb{P}_k(K) ~:~ \forall K \in \mathcal{T}_h\}
 \end{equation}
 
 \noindent which admits the following decomposition $\mathcal{P}=\bar{\mathcal{P}} \oplus \mathcal{P}^\perp$, where $\bar{\mathcal{P}}$ stands for piecewise constant functions over $\mathcal{T}_h$ and $\mathcal{P}^\perp$ is the piecewise zero-mean functions over $\mathcal{T}_h$. An alternative technique to avoid the construction of pressure functions with vanishing mean isdiscussed in Section \ref{sec:static-condensation}. For a divergence-compatible FE pair $\mathcal{V}_h \times \mathcal{P}_h$ tipically used to approximate flux and pressure in Darcy mixed problems, the condition
@@ -619,9 +619,32 @@ On top of that, let us adopt vector-valued polynomial spaces for the Lagrange mu
 
 {\giovane O Phil trabalhou nisso na China, talvez ele poderia escrever essa parte?}
 
-\subsection{Static condensation of the internal degrees of freedom} \label{sec:static-condensation}
+\subsection{Static condensation procedure} \label{sec:static-condensation}
 
-{\giovane Separei o material para essa parte. Voltarei em 29/01}
+Solving the problem \eqref{eq:double-hybrid-discrete} in the way it is presented would demand a lot of computational efforts when comparing to traditional $H^1$ primal methods or even with mixed Taylor-Hood approximations. First, the divergence-compatible pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ includes a larger number of functions for a given polynomial order $k$ than the traditional $H^1$ subspaces. Second, the introduction of Lagrange multipliers due to the hybridizations not only increase the number of unknowns but also the system to be solved results in a more challenging saddle-point problem. Moreover, the advantages of the DHM-H(div) formulation only appear after applying the static condensation procedure, as shall be verified next.
+
+Hybridization techniques have been widely used in the literature along with static condensation to reduce the size of global system to be solved. The procedure consists on separating the global degrees of freedom (DOFs) into two sets: one containing the DOFs that are possible to be solved within a single element, called internal DOFs, and the other containing the DOFs that are shared between elements and therefore cannot be solved locally, called external (or main) DOFs.
+
+As previously mentioned, the displacement functions $\bm{u}_h \in \mathcal{V}_{h,k}$ can be separated into divergence-free functions with vanishing normal components over the element boundaries, namely $\mathring{\bm{u}}_h$, and the remaining functions with continuous normal components across elements boundaries, $\bm{u}^\partial_h$. The divergence-free functions can be classified as internal functions because they do not contribute to the pure dilation and compression deformation modes that could affect multiple elements.
+
+To avoid the construction of a pressure space $\mathcal{P}_{h,k}$ such that it contains both piece-wise constant and piece-wise zero-mean functions, two new variables can be added to the problem, namely the elemental average pressure $\bar{p}_h \in \bar{\mathcal{P}}_h$ and the distributed force $g_h \in \bar{\mathcal{P}}_{h}$, allowing not only the construction of $\mathcal{P}_{h,k}$ using traditional piece-wise polynomials of order $k$ but also the condensation of all the higher-order pressure functions. It is worth mentioning that for compressible solids, the pressures are computed explicitly from the displacements, so these two new spaces are no longer necessary.
+
+Unden these assumptions, the DHM-H(div)($\mathcal{S}_{h,k}$) can be written as: find $\{\bm{u}^\partial_h,\mathring{\bm{u}}_h,p_h,\bm{t}^t_h,\bm{w}_h,\bar{p}_h,\bar{g}_h\} \in \{\mathcal{V}^\partial_h \times \mathring{\mathcal{V}}_h \times \mathcal{P}_h \times \bar{\mathcal{L}}_h \times \mathcal{W}_h \times \bar{\mathcal{P}} \times \bar{\mathcal{P}} \}$ such that:
+\begin{subequations} \label{eq:double-hybrid-six-field}
+	\begin{align}
+		a\left(\bm{u}^\partial_h,\bm{v}\right)_{\mathcal{T}_h} + a\left(\mathring{\bm{u}}_h,\bm{v}\right)_{\mathcal{T}_h} - b\left( p_h, \bm{v}\right)_{\mathcal{T}_h} +\langle\bm{t}^t_h,\bm{v}\rangle_{\partial\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N\cdot\bm{n},\bm{v}\cdot\bm{n}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{V}_{h,k},\label{eq:double-hybrid-six-field-a}\\ 
+		-b\left(\bm{u}^\partial_h, q\right)_{\mathcal{T}_h} - b\left(\mathring{\bm{u}}_h, q\right)_{\mathcal{T}_h} - c\left(p_h,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in \mathcal{P}_{h,k}, \label{eq:double-hybrid-six-field-b}\\
+		\langle\bm{u}^\partial_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h} + \langle\mathring{\bm{u}}_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h} - \langle\bm{w}_h,\bm{s}^t\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{s}^t \in \bar{\mathcal{L}}^t_{h,k}, \label{eq:double-hybrid-six-field-c}\\
+		-\langle\bm{t}^t_h,\bm{z}^t\rangle_{\Gamma_h} &= -\langle\bm{t}_N^t,\bm{z}^t\rangle_{\partial\Omega_N} ~~\forall\, \bm{z}^t \in \mathcal{W
+		}_{h,k}, \label{eq:double-hybrid-six-field-d}\\
+		\langle\bm{u}^\partial_h,\bm{v}\rangle_{\partial\mathcal{T}_h} + \langle\mathring{\bm{u}}_h,\bm{v}\rangle_{\partial\mathcal{T}_h} - \langle\bm{w}_h,\bm{v}\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{v} \in \mathcal{V}_{h,k}, \label{eq:double-hybrid-six-field-e}\\
+		\langle p_h, q \rangle_{\mathcal{T}_h} - \langle \bar{p}_h, q \rangle_{\mathcal{T}_h} &= 0 ~~\forall\, q \in \bar{\mathcal{P}}, \label{eq:double-hybrid-six-field-f}\\
+		\langle \bar{g}_h, q \rangle_{\mathcal{T}_h} &= \langle \bm{b}, \bm{v} \rangle_{\mathcal{T}_h} + \langle \bm{t}_N\cdot\bm{n}, \bm{v}\cdot\bm{n} \rangle_{\partial\Omega_N} ~~\forall\, q \in \bar{\mathcal{P}}. \label{eq:double-hybrid-six-field-g}
+	\end{align}
+\end{subequations}
+{\giovane Parei aqui}
+Recalling that $\bm{t}^t \in \bar{\mathcal{V}}_{h,k}$ is discontinuous over the mesh sleleton, the problem of Eq. \eqref{} can be rearranged in a matricial form as:
+
 
 
 

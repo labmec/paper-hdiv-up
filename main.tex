@@ -500,6 +500,22 @@ Note that Eq. \eqref{eq:double-hybrid-weak-d} is introduced to enforce the compa
 
 The equivalence of problems \eqref{eq:double-hybrid-weak} and \eqref{eq:semi-hybrid-weak} can be verified by setting $\bm{s}^t \in \mathcal{L}^t \subset \bar{\mathcal{L}}^t$, so that $\jump{\bm{s}^t}\lvert_E=0$. Consequently, the second term in the left-hand side of Eq. \eqref{eq:double-hybrid-weak-c} vanishes. Moreover, $\langle\bm{u},\bm{s}^t\rangle_{\partial\mathcal{T}_h}=\langle\bm{u},\bm{s}^t\rangle_{\Gamma_h}-\langle\bm{u}_D,\bm{s}^t\rangle_{\partial\Omega_D} \, \forall \, \bm{s}^t \in \mathcal{L}^t$, considering that $\langle\bm{t}^t,\bm{v}\rangle_{\partial\mathcal{T}_h} = \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}$ since $\bm{v}=\bm{0}\lvert_{\partial\Omega_D}$, and recalling that Eq. \eqref{eq:double-hybrid-weak-d} is no longer needed as it enforces the continuity of the broken tangential tractions, the solution $\left\{\bm{u},p,\bm{t}^t \right\}$ of problem \eqref{eq:double-hybrid-weak} is numerically equivalent to $\left\{\bm{u},p,\bm{t}^t \right\}$ from problem \eqref{eq:semi-hybrid-weak}. Therefore, convergence rates and error estimates are inherited from the semi-hybrid formulation.
 
+\subsubsection{Error analysis}
+
+The error analysis for the double-hybrid formulation is presented in \cite{puga2025stable} for Stokes flows as an extension of \cite{carvalho2024semi} using the semi-hybrid method. We consider a homogeneous problem with $\bm{b}=\bm{0}$ and pure Dirichlet boundaries, i.e. $\bm{u}_D=\bm{0}$ on $\partial\Omega$. Let $\bm{u}$ and $p$ denote the exact solutions for displacement and pressure, respectively, while their approximations, $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, are defined over a mesh $\mathcal{T}_h$ with size $h$ and polynomial order $k$.
+
+According to \cite{brezzi2005mixed}, the convergence rates of velocity and pressure approximations are intrinsically linked, making the choice of approximation spaces a crucial factor. Specifically, the convergence rate is determined by the lower of the approximation orders associated with $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, measured in the $\mathbf{H}^1$ and $L^2$ norms, respectively. Moreover, when adjoint-consistent formulations are utilized, the convergence of the $L^2$-norm error of the displacement can be increased by one order.
+
+As the continuity of the tangential component of the displacement is weakly enforced when using $\bm{u}_h \in \mathcal{V}_{h,k} \subset H(\text{div},\Omega)$, we can draw an analogy with Discontinuous Galerkin formulations featuring partial penalization, which assuming that the pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ is divergence-compatible and satisfies the inf-sup condition, Theorems 5.1 and 5.1 of \cite{wang2007new} yield the error estimate:
+\begin{equation}
+\|\mathbf{u} - \mathbf{u}_h\|_{1,h} + \|p - p_h\| \leq C \left\{ h^k \|\mathbf{u}\|_{k+1} + h^{k+1} \|p\|_{k+1} \right\},
+\end{equation}
+
+\noindent with $k$ refers to the displacement's polynomials order and $C$ is a constant independent of $h$. For bidimensional convex domains with elliptic regularity, the displacement error may exhibit improved convergence rate by the expression:
+\begin{equation}
+\|\mathbf{u} - \mathbf{u}_h\| \leq C \left\{ h^{k+1} \|\mathbf{u}\|_{k+1} + h^{k+2} \|p\|_{k+1} \right\}.
+\end{equation}
+
 \subsection{Discrete double-hybrid-mixed finite element formulation}
 
 The aim is to construct FE discrete spaces $\mathcal{S}_{h,k}=\mathcal{V}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W}_{h,k}$ for the double-hybrid-mixed formulation \eqref{eq:double-hybrid-weak}, associated to the mesh partition $\mathcal{T}_h$ with characteristic size $h$ and polynomial degree $k$.

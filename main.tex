@@ -29,7 +29,8 @@
 \usepackage{comment}
 \usepackage{ifthen}    
 \usepackage{lscape}
-\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{booktabs}
 \usepackage{hyperref}
 
 \usepackage[subpreambles=true]{standalone}
@@ -440,7 +441,7 @@ This structure significantly increases the efforts required to solve the linear 
 The strategy adopted here to overcome this issue was first proposed in \cite{puga2025stable} in the context of Stokes flows, and consists in performing a second hybridization of the tangential stresses. This approach can be readily extended to the elasticity problem. The tangential traction space defined in Eq. \eqref{eq:space-traction-tangential} does not admit different absolute values when evaluated on the boundary of two adjacent elements. To properly define a broken space of Lagrange multipliers that weakens this continuity requirement, we shall start by introducing the broken $\bar{H}(\text{div})$ space as:
 \begin{equation}
 	\label{eq:brokenspace-div}
-	\bar{H}(\text{div},\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega) ~:~ \bm{v}\lvert_K \in H(\text{div},K,\mathbb{R}^d), ~\forall K \in \mathcal{T}_h\right\},
+	\bar{H}(\text{div},\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) ~:~ \bm{v}\lvert_K \in H(\text{div},K,\mathbb{R}^d), ~\forall K \in \mathcal{T}_h\right\},
 \end{equation}
 {\nathan check if $\bm{v} \in L^2(\Omega)$ should be $\bm{v} \in [L^2(\Omega)]^d$}
 
@@ -485,11 +486,11 @@ Finally, the double-hybrid weak form searches for $\{\bm{u},p,\bm{t}^t,\bm{w}\} 
 		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} +\langle\bm{t}^t,\bm{v}\rangle_{\partial\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N\cdot\bm{n},\bm{v}\cdot\bm{n}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{V}_0,\label{eq:double-hybrid-weak-a}\\ 
 		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in L^2, \label{eq:double-hybrid-weak-b}\\
 		\langle\bm{u},\bm{s}^t\rangle_{\partial\mathcal{T}_h} - \langle\bm{w},\bm{s}^t\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{s}^t \in \bar{\mathcal{L}}^t, \label{eq:double-hybrid-weak-c}\\
-		-\langle\bm{t}^t,\bm{z}^t\rangle_{\Gamma_h} &= -\langle\bm{t}_N^t,\bm{z}^t\rangle_{\partial\Omega_N} ~~\forall\, \bm{z}^t \in \mathcal{W}_0, \label{eq:double-hybrid-weak-d}
+		-\langle\bm{t}^t,\bm{z}\rangle_{\Gamma_h} &= -\langle\bm{t}_N^t,\bm{z}\rangle_{\partial\Omega_N} ~~\forall\, \bm{z} \in \mathcal{W}_0, \label{eq:double-hybrid-weak-d}
 	\end{align}
 \end{subequations}
 
-\noindent where $\bm{z}^t \in \mathcal{W}_0$ is the test function for the tangential displacement on the mesh skeleton and $\bm{t}_N^t= \bm{t}_N - ((\bm{t}\cdot\bm{n})\bm{n})$ is the tangential component of the prescribed surface traction on $\partial\Omega_N$. The new operators in the variational problem from Eq. \eqref{eq:double-hybrid-weak} are defined as 
+\noindent where $\bm{z} \in \mathcal{W}_0$ is the test function for the tangential displacement on the mesh skeleton and $\bm{t}_N^t= \bm{t}_N - ((\bm{t}\cdot\bm{n})\bm{n})$ is the tangential component of the prescribed surface traction on $\partial\Omega_N$. The new operators in the variational problem from Eq. \eqref{eq:double-hybrid-weak} are defined as 
 \begin{equation*}
 	\langle\bm{t}^t,\bm{v}\rangle_{\partial\mathcal{T}_h} = \sum_{K \in \mathcal{T}_h} \int_{\partial K} \bm{t}^t \cdot \bm{v} \, d\partial K , \hspace{1cm}
 	\langle\bm{w},\bm{s}^t\rangle_{\Gamma_h} = \sum_{E \in \Gamma_h} \int_{E} \bm{w} \cdot \jump{\bm{s}^t} \, d\partial K.
@@ -500,7 +501,6 @@ Note that Eq. \eqref{eq:double-hybrid-weak-d} is introduced to enforce the compa
 The equivalence of problems \eqref{eq:double-hybrid-weak} and \eqref{eq:semi-hybrid-weak} can be verified by setting $\bm{s}^t \in \mathcal{L}^t \subset \bar{\mathcal{L}}^t$, so that $\jump{\bm{s}^t}\lvert_E=0$. Consequently, the second term in the left-hand side of Eq. \eqref{eq:double-hybrid-weak-c} vanishes. Moreover, $\langle\bm{u},\bm{s}^t\rangle_{\partial\mathcal{T}_h}=\langle\bm{u},\bm{s}^t\rangle_{\Gamma_h}-\langle\bm{u}_D,\bm{s}^t\rangle_{\partial\Omega_D} \, \forall \, \bm{s}^t \in \mathcal{L}^t$, considering that $\langle\bm{t}^t,\bm{v}\rangle_{\partial\mathcal{T}_h} = \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}$ since $\bm{v}=\bm{0}\lvert_{\partial\Omega_D}$, and recalling that Eq. \eqref{eq:double-hybrid-weak-d} is no longer needed as it enforces the continuity of the broken tangential tractions, the solution $\left\{\bm{u},p,\bm{t}^t \right\}$ of problem \eqref{eq:double-hybrid-weak} is numerically equivalent to $\left\{\bm{u},p,\bm{t}^t \right\}$ from problem \eqref{eq:semi-hybrid-weak}. Therefore, convergence rates and error estimates are inherited from the semi-hybrid formulation.
 
 \subsection{Discrete double-hybrid-mixed finite element formulation}
-{\giovane Decidi colocar esta secao para definir os espacos discretos. Desconsiderar por enquanto os rascunhos}
 
 The aim is to construct FE discrete spaces $\mathcal{S}_{h,k}=\mathcal{V}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W}_{h,k}$ for the double-hybrid-mixed formulation \eqref{eq:double-hybrid-weak}, associated to the mesh partition $\mathcal{T}_h$ with characteristic size $h$ and polynomial degree $k$.
 
@@ -532,12 +532,77 @@ Let assume the discontinuous pressure space
 \end{equation*}
 holds independently of the discretization parameters, and is known to satisfy the inf-sup condition in the absence of tangential tractions in Eq. \eqref{eq:double-hybrid-weak-a} \cite{carvalho2024semi}.
 
-However, proving mathematically the trace compatibility required in $\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}$ and $\langle\bm{z},\bm{s}^t\rangle_{\Gamma_h}$ is a challenging task. In \cite{carvalho2024semi}, the authors had shown numerically that trace compatibility can be verified by ensuring that the divergence-free subspaces $\mathcal{Z}(0)_{h,k}=\left\{ \bm{v} \in \mathcal{V}_{h,k} ~;~b(q,\bm{v}=0, ~\forall~q \in \mathcal{P}_{h,k}) \right\}$ are rich enough to guarantee that
+However, proving mathematically the trace compatibility required in $\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}$ and $\langle\bm{z},\bm{s}^t\rangle_{\Gamma_h}$ is a challenging task. In \cite{carvalho2024semi}, the authors had shown numerically that trace compatibility can be verified by ensuring that the divergence-free subspaces $\mathcal{Z}(0)_{h,k}=\left\{ \bm{v} \in \mathcal{V}_{h,k} ~;~b(q,\bm{v})=0, ~\forall~q \in \mathcal{P}_{h,k} \right\}$ are rich enough to guarantee that
 \begin{equation*}
-	\text{rank}~ \bm{D}^T = \text{dim} ~\mathcal{L}^t_{h,k}
+	\text{rank}~ \bm{D}^T = \text{dim} ~\mathcal{L}^t_{h,k},
 \end{equation*}
 
-\noindent where $\bm{D}^T=[\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}]$. Analogous, 
+\noindent where $\bm{D}^T=[\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}]$. {\giovane Checar essa parte Phil }Analogous, the compatibility between the tangential tractions and tangential displacement is verified checking the condition
+\begin{equation*}
+	\text{rank}~ \bm{E}^T = \text{dim} ~\mathcal{W}_{h,k},
+\end{equation*}
+
+\noindent with $\bm{E}^T=[\langle\bm{z},\bm{s}^t\rangle_{\Gamma_h}]$. In practical terms, the trace compatibility is guaranteed by enriching the internal functions of $\mathcal{V}_{h,k}$, which shall be demonstrated numerically.
+
+Let $\hat{K}$ be a reference element with usual shapes:
+\begin{itemize}
+	\item Triangular elements in 2D: $\hat{T}= \left\{ \bm{\xi} \in \mathbb{R}^2 ~:~ 0 \leq \xi_1 \leq 1, ~0 \leq \xi_2 \leq 1-\xi_1 \right\}$;
+	\item Quadrilateral elements in 2D: $\hat{Q}= \left\{ \bm{\xi} \in \mathbb{R}^2 ~:~ -1 \leq \xi_1 \leq 1, ~-1 \leq \xi_2 \leq 1 \right\}$;
+	\item Tetrahedral elements in 3D: $\hat{Te}= \left\{ \bm{\xi} \in \mathbb{R}^3 ~:~ 0 \leq \xi_1 \leq 1, ~0 \leq \xi_2 \leq 1-\xi_1, ~0 \leq \xi_3 \leq 1-\xi_1-\xi_2 \right\}$;
+	\item Hexahedral elements in 3D: $\hat{H}= \left\{ \bm{\xi} \in \mathbb{R}^3 ~:~ -1 \leq \xi_1 \leq 1, ~-1 \leq \xi_2 \leq 1, ~-1 \leq \xi_3 \leq 1 \right\}$.
+\end{itemize}
+
+The finite subspaces $\mathcal{V}_{h,k}(\hat{K})$ and $\mathcal{P}_{h,k}(\hat{K})$ are divergence-compatible polynomial spaces, so that $\nabla \cdot \mathcal{V}_{h,k}(\hat{K}) = \mathcal{P}_{h,k}(\hat{K})$. The elements $K \in \mathcal{T}_h$ are mapped from the adimensional space by $\mathcal{F}: \hat{K}\rightarrow K$. For scalar functions, 
+\begin{equation*}p \in \mathcal{P}_{h,k}(K):p=\mathcal{F}(\hat{p}) = \hat{p}\,\circ\,\mathcal{F}^{-1}, \, \hat{p} \in \mathcal{P}_{h,k}(\hat{K}).	
+\end{equation*}
+
+For vector-valued functions, the isomorphism $L^2(\hat{K})$ to $L^2(K)$ defined for scalar functions does not preserv the continuity of the normal component over the deformed element $K$, so the Piola transformation is used instead: 
+\begin{equation} \label{eq:piola-transform}
+\bm{v} \in \mathcal{V}_{h,k}(K): \bm{v}=\bar{\mathcal{F}}(\bm{\hat{v}})=\left[\frac{1}{J}\nabla\mathcal{F}\bm{\hat{v}} \right] \,\circ\, \mathcal{F}^{-1}, \, \bm{\hat{v}} \in \mathcal{V}_{h,k}(\hat{K}), 
+\end{equation}
+
+\noindent where $\nabla\mathcal{F}$ is the Jacobian matrix of the transformation $\mathcal{F}$ and $J=\lvert\text{det}(\nabla\mathcal{F})\lvert$. It direct follows from Eq. \eqref{eq:piola-transform} that $\nabla \cdot \bar{\mathcal{F}}(\bm{\hat{v}})=\frac{1}{J} \hat{\nabla} \cdot \bm{\hat{v}}$. The same transformation is valid for vector functions $\bm{s}^t \in \bar{\mathcal{L}}_{h,k}(\partial K): \bm{s}^t=\bar{\mathcal{F}}(\bm{\hat{s}}^t)$ and $\bm{z} \in \mathcal{W}_{h,k}(E): \bm{z}=\bar{\mathcal{F}}(\bm{\hat{z}})$ defined over the mesh skeleton. Additionally, the displacement space admits a decomposition $\mathcal{V}_{h,k}=\mathcal{V}^\partial_{h,k} \oplus \mathring{\mathcal{V}}_{h,k}$ in terms of functions with continuous normal components over $\partial\hat{K}$, $\mathcal{V}^\partial_{h,k}$, and the ones with vanishing trace over $\partial\hat{K}$, $\mathring{\mathcal{V}}_{h,k}$.
+
+The construction of the divergence-compatible spaces adopted in this work is better detailed in \cite{de2013new,devloo2022efficient}, and some classic stable pairs are depicted in Table \ref{tab:FE_pairs} for the element shapes described above. The notation adopted is as follows: $\mathbb{P}_k(\hat{K})$ stands for scalar polynomials of total degree at most $k$, $\tilde{\mathbb{P}}_k(\hat{K})=\left\{\mathbb{P}_k(\hat{K}) ~:~\mathbb{P}_k\lvert_{\partial\hat{K}}=0 \right\}$ its the homogeneous set and $\mathbb{P}_k(\hat{K},\mathbb{R}^d)$ is their respective vectorial counterpart. $\mathbb{Q}_{k,m}(\hat{K})$ and $\mathbb{Q}_{k,m,n}(\hat{K})$ refer to the polynomials with maximum degree order $k,m$ or $n$ in each direction, respectively.
+
+\begin{table}[h]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{c l c c}
+        \toprule
+        $\bm{\hat{K}}$ & \textbf{Method} & $\bm{\mathcal{V}(\hat{K})}$ & $\bm{\mathcal{P}(\hat{K})}$ \\
+        \midrule
+        \multirow{3}{*}{$\hat{T}$} 
+        & $BDM(k)^{\text{\cite{brezzi1985two}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^2)$ & $\mathbb{P}_{k-1}(\hat{K})$ \\
+        & $RT(k)^{\text{\cite{arnold1990mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^2) \oplus \mathbf{x} \tilde{\mathbb{P}}_k(\hat{K})$ & $\mathbb{P}_k(\hat{K})$ \\
+        & $BDM^+(k)^{\text{\cite{brezzi2012mixed}}}$ & $\mathbb{P}_k^{\partial}(\hat{K}, \mathbb{R}^2) \oplus \mathring{\mathbb{P}}_{k+1}(\hat{K}, \mathbb{R}^2)$ & $\mathbb{P}_k(\hat{K})$ \\
+        \midrule
+        \multirow{2}{*}{$\hat{R}$} 
+        & $RT(k)^{\text{\cite{arnold1990mixed}}}$ & $\mathbb{Q}_{k+1,k} \times \mathbb{Q}_{k,k+1}(\hat{K})$ & $\mathbb{Q}_{k,k}(\hat{K})$ \\
+        & $RT^+(k)^{\text{\cite{farias2017two}}}$ & $\mathcal{V}_{RT(k)}^\partial(\hat{K}) \oplus \mathring{\mathcal{V}}_{RT(k+1)}(\hat{K})$ & $\mathbb{Q}_{k+1,k+1}(\hat{K})$ \\
+        \midrule
+        \multirow{3}{*}{$\hat{Te}$} 
+        & $BDM(k)^{\text{\cite{brezzi1987mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^3)$ & $\mathbb{P}_{k-1}(\hat{K})$ \\
+        & $RT(k)^{\text{\cite{nedelec1980mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^3) \oplus \mathbf{x} \tilde{\mathbb{P}}_k(\hat{K})$ & $\mathbb{P}_k(\hat{K})$ \\
+        & $BDM^+(k)^{\text{\cite{brezzi2012mixed}}}$ & $\mathbb{P}_k^\partial(\hat{K}, \mathbb{R}^3) \oplus \mathring{\mathbb{P}}_{k+1}(\hat{K}, \mathbb{R}^3)$ & $\mathbb{P}_k(\hat{K})$ \\
+        \midrule
+        \multirow{2}{*}{$\hat{H}$} 
+        & $RT(k)^{\text{\cite{nedelec1980mixed}}}$ & $\mathbb{Q}_{k+1,k,k} \times \mathbb{Q}_{k,k+1,k} \times \mathbb{Q}_{k,k,k+1}(\hat{K})$ & $\mathbb{Q}_{k,k,k}(\hat{K})$ \\
+        & $RT^+(k)^{\text{\cite{castro2016hierarchical}}}$ & $\mathcal{V}_{RT(k)}^\partial(\hat{K}) \oplus \mathring{\mathcal{V}}_{RT(k+1)}(\hat{K})$ & $\mathbb{Q}_{k+1,k+1,k+1}(\hat{K})$ \\
+        \bottomrule
+    \end{tabular}
+    \caption{Examples of divergence-compatible pairs $\mathcal{V}(\hat{K}) \times \mathcal{P}(\hat{K})$ in the reference element for displacement and pressure fields \cite{carvalho2024semi}.}
+    \label{tab:FE_pairs}
+\end{table}
+
+On top of that, let us adopt vector-valued polynomial spaces for the Lagrange multipliers $\bm{\hat{t}}^t \in \bar{\mathcal{L}}(\partial \hat{K})$ and $\bm{\hat{w}} \in \mathcal{W}(\hat{E})$, to be combined with the divergence-compatible $\mathcal{V}(\hat{K})\times\mathcal{P}(\hat{K})$:
+\begin{itemize}
+	\item For 1D segments: $\bar{\mathcal{L}}(\partial \hat{K})=\mathbb{P}_m(\partial \hat{K})\bm{\tau}^{\partial\hat{K}}$ and $\mathcal{W}(\hat{E})=\mathbb{P}_m(\hat{E})\bm{\tau}^{\hat{E}}$;
+	\item For triangular facets: $\bar{\mathcal{L}}(\partial \hat{K})=\bm{\hat{n}} \wedge \mathbb{P}_m(\partial \hat{K},\mathbb{R}^3)$ and $\mathcal{W}(\hat{E})=\bm{\hat{n}} \wedge \mathbb{P}_m(\hat{E},\mathbb{R}^3)$;
+	\item For quadrilateral facets: $\bar{\mathcal{L}}(\partial \hat{K})=\bm{\hat{n}} \wedge \mathbb{Q}_{m,m}(\partial \hat{K},\mathbb{R}^3)$ and $\mathcal{W}(\hat{E})=\bm{\hat{n}} \wedge \mathbb{Q}_{m,m}(\hat{E},\mathbb{R}^3)$.
+\end{itemize}
+
+\noindent In the above expressions, $\bm{\tau}^{\partial\hat{K}}$ and $\bm{\tau}^{\hat{E}}$ are the tangential vectors to the line segment, unique for $\hat{E}$ and a pair with opposite directions for $\partial\hat{K}$, and $\wedge$ stands for the wedge product. The order $m$ is not arbitrary, instead it has to be chosen accordingly to ensure the trace compatibility between the discrete spaces shown in Table \ref{tab:FE_pairs}. {\giovane Devemos fazer uma analise com diferentes valores de m para verificar a compatibilidade do traco?}
 
 \subsection{Comparison with H1-hybrid formulation}
 

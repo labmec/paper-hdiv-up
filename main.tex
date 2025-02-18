@@ -502,16 +502,16 @@ The equivalence of problems \eqref{eq:double-hybrid-weak} and \eqref{eq:semi-hyb
 
 \subsubsection{Error analysis}
 
-The error analysis for the double-hybrid formulation is presented in \cite{puga2025stable} for Stokes flows as an extension of \cite{carvalho2024semi} using the semi-hybrid method. We consider a homogeneous problem with $\bm{b}=\bm{0}$ and pure Dirichlet boundaries, i.e. $\bm{u}_D=\bm{0}$ on $\partial\Omega$. Let $\bm{u}$ and $p$ denote the exact solutions for displacement and pressure, respectively, while their approximations, $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, are defined over a mesh $\mathcal{T}_h$ with size $h$ and polynomial order $k$.
+The error analysis of the double-hybrid formulation for the Stokes flow is presented in \cite{puga2025stable} as an extension of \cite{carvalho2024semi} using the semi-hybrid method. We consider a homogeneous problem with $\bm{b}=\bm{0}$ and pure Dirichlet boundaries, i.e. $\bm{u}_D=\bm{0}$ on $\partial\Omega$. Let $\bm{u}$ and $p$ denote the exact solutions for displacement and pressure, respectively, while their approximations, $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, are defined over a mesh $\mathcal{T}_h$ with size $h$ and polynomial order $k$.
 
-According to \cite{brezzi2005mixed}, the convergence rates of velocity and pressure approximations are intrinsically linked, making the choice of approximation spaces a crucial factor. Specifically, the convergence rate is determined by the lower of the approximation orders associated with $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, measured in the $\mathbf{H}^1$ and $L^2$ norms, respectively. Moreover, when adjoint-consistent formulations are utilized, the convergence of the $L^2$-norm error of the displacement can be increased by one order.
+According to \cite{brezzi2005mixed}, the convergence rates of velocity and pressure approximations are intrinsically linked, making the choice of approximation spaces a crucial factor. Specifically, the convergence rate is determined by the lowest of the approximation orders associated with $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, measured in the $H^1$ and $L^2$ norms, respectively. Moreover, when adjoint-consistent formulations are utilized, the convergence of the $L^2$-norm error of the displacement can be increased by one order.
 
-As the continuity of the tangential component of the displacement is weakly enforced when using $\bm{u}_h \in \mathcal{V}_{h,k} \subset H(\text{div},\Omega)$, we can draw an analogy with Discontinuous Galerkin formulations featuring partial penalization, which assuming that the pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ is divergence-compatible and satisfies the inf-sup condition, Theorems 5.1 and 5.1 of \cite{wang2007new} yield the error estimate:
+As the continuity of the tangential component of the displacement is weakly enforced when using $\bm{u}_h \in \mathcal{V}_{h,k} \subset H(\text{div},\Omega)$, we can draw an analogy with Discontinuous Galerkin formulations featuring partial penalization, which assuming that the pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ is divergence-compatible and satisfies the inf-sup condition, Theorems 5.1 and 5.2 of \cite{wang2007new} yield the error estimate:
 \begin{equation}
 \|\mathbf{u} - \mathbf{u}_h\|_{1,h} + \|p - p_h\| \leq C \left\{ h^k \|\mathbf{u}\|_{k+1} + h^{k+1} \|p\|_{k+1} \right\},
 \end{equation}
 
-\noindent with $k$ refers to the displacement's polynomials order and $C$ is a constant independent of $h$. For bidimensional convex domains with elliptic regularity, the displacement error may exhibit improved convergence rate by the expression:
+\noindent with $k$ referring to the displacement's polynomials order and $C$ is a constant independent of $h$. For bidimensional convex domains with elliptic regularity, the displacement error may exhibit improved convergence rate by the expression:
 \begin{equation}
 \|\mathbf{u} - \mathbf{u}_h\| \leq C \left\{ h^{k+1} \|\mathbf{u}\|_{k+1} + h^{k+2} \|p\|_{k+1} \right\}.
 \end{equation}
@@ -520,7 +520,7 @@ As the continuity of the tangential component of the displacement is weakly enfo
 
 The aim is to construct FE discrete spaces $\mathcal{S}_{h,k}=\mathcal{V}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W}_{h,k}$ for the double-hybrid-mixed formulation \eqref{eq:double-hybrid-weak}, associated to the mesh partition $\mathcal{T}_h$ with characteristic size $h$ and polynomial degree $k$.
 
-DHM-H(div)($\mathcal{S}_{h,k}$): Search for $\{\bm{u}_h,p_h,\bm{t}^t_h,\bm{w}_h\} \in \mathcal{S}_{h,k}$ such that:
+The discrete form of the Double Hybrid Mixed methodology is henceforth denoted as DHM-H(div)($\mathcal{S}_{h,k}$). It seeks for $\{\bm{u}_h,p_h,\bm{t}^t_h,\bm{w}_h\} \in \mathcal{S}_{h,k}$ such that:
 \begin{subequations} \label{eq:double-hybrid-discrete}
 	\begin{align}
 		a\left(\bm{u}_h,\bm{v}\right)_{\mathcal{T}_h} - b\left( p_h, \bm{v}\right)_{\mathcal{T}_h} +\langle\bm{t}^t_h,\bm{v}\rangle_{\partial\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N\cdot\bm{n},\bm{v}\cdot\bm{n}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{V}_{h,k},\label{eq:double-hybrid-discrete-a}\\ 
@@ -530,30 +530,25 @@ DHM-H(div)($\mathcal{S}_{h,k}$): Search for $\{\bm{u}_h,p_h,\bm{t}^t_h,\bm{w}_h\
 	\end{align}
 \end{subequations}
 
-According to the Brezzi's theory in \cite{girault2012finite,brezzi2012mixed,arnold1988new}, the FE spaces associated to each variable cannot be chosen arbitrarily. 
+According to the Brezzi's theory {\nathan theorem?} in \cite{girault2012finite,brezzi2012mixed,arnold1988new}, the FE spaces associated to each variable cannot be chosen arbitrarily. 
 
-
-
-
-
-
-
-Let assume the discontinuous pressure space
+\sout{Let assume the discontinuous pressure space} {\nathan Assume the pressure space is discontinuous, i.e.:}
 \begin{equation}
 	\mathcal{P}(\mathcal{T}_h) = \{q \, \in L^2(\Omega) ~\lvert~ q\lvert_K \in \mathbb{Q}_k(K) ~:~ \forall K \in \mathcal{T}_h\}
 \end{equation}
-\noindent which admits the following decomposition $\mathcal{P}=\bar{\mathcal{P}} \oplus \mathcal{P}^\perp$, where $\bar{\mathcal{P}}$ stands for piece-wise constant functions over $\mathcal{T}_h$ and $\mathcal{P}^\perp$ is the piece-wise zero-mean functions over $\mathcal{T}_h$. It will be further discussd in Section \ref{sec:static-condensation} an alternative technique to avoid the construction of pressure functions with vanishing mean. For a divergence-compatible FE pair $\mathcal{V}_h \times \mathcal{P}_h$ tipically used to approximate flux and pressure in Darcy mixed problems, the condition
+
+\noindent which admits the following decomposition $\mathcal{P}=\bar{\mathcal{P}} \oplus \mathcal{P}^\perp$, where $\bar{\mathcal{P}}$ stands for piecewise constant functions over $\mathcal{T}_h$ and $\mathcal{P}^\perp$ is the piecewise zero-mean functions over $\mathcal{T}_h$. An alternative technique to avoid the construction of pressure functions with vanishing mean isdiscussed in Section \ref{sec:static-condensation}. For a divergence-compatible FE pair $\mathcal{V}_h \times \mathcal{P}_h$ tipically used to approximate flux and pressure in Darcy mixed problems, the condition
 \begin{equation*}
 	\nabla \cdot \mathcal{V}_{h,k} \subseteq \mathcal{P}_{h,k}.
 \end{equation*}
-holds independently of the discretization parameters, and is known to satisfy the inf-sup condition in the absence of tangential tractions in Eq. \eqref{eq:double-hybrid-weak-a} \cite{carvalho2024semi}.
+holds independently of the discretization parameters, and is known to satisfy the inf-sup condition in the absence of the tangential tractions present in Eq. \eqref{eq:double-hybrid-weak-a} \cite{carvalho2024semi}.
 
-However, proving mathematically the trace compatibility required in $\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}$ and $\langle\bm{z},\bm{s}^t\rangle_{\Gamma_h}$ is a challenging task. In \cite{carvalho2024semi}, the authors had shown numerically that trace compatibility can be verified by ensuring that the divergence-free subspaces $\mathcal{Z}(0)_{h,k}=\left\{ \bm{v} \in \mathcal{V}_{h,k} ~;~b(q,\bm{v})=0, ~\forall~q \in \mathcal{P}_{h,k} \right\}$ are rich enough to guarantee that
+However, mathematically proving the trace compatibility required in $\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}$ and $\langle\bm{z},\bm{s}^t\rangle_{\Gamma_h}$ is a challenging task. In \cite{carvalho2024semi}, the authors had numerically demonstrated that trace compatibility can be verified by ensuring that the divergence-free subspaces $\mathcal{Z}(0)_{h,k}=\left\{ \bm{v} \in \mathcal{V}_{h,k} ~;~b(q,\bm{v})=0, ~\forall~q \in \mathcal{P}_{h,k} \right\}$ have sufficient polynomial order to guarantee that
 \begin{equation*}
 	\text{rank}~ \bm{D}^T = \text{dim} ~\mathcal{L}^t_{h,k},
 \end{equation*}
 
-\noindent where $\bm{D}^T=[\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}]$. {\giovane Checar essa parte Phil }Analogous, the compatibility between the tangential tractions and tangential displacement is verified checking the condition
+\noindent where $\bm{D}^T=[\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}]$. {\giovane Checar essa parte Phil }Analogously, the compatibility between the tangential tractions and tangential displacement is verified by checking the condition
 \begin{equation*}
 	\text{rank}~ \bm{E}^T = \text{dim} ~\mathcal{W}_{h,k},
 \end{equation*}
@@ -572,7 +567,7 @@ The finite subspaces $\mathcal{V}_{h,k}(\hat{K})$ and $\mathcal{P}_{h,k}(\hat{K}
 \begin{equation*}p \in \mathcal{P}_{h,k}(K):p=\mathcal{F}(\hat{p}) = \hat{p}\,\circ\,\mathcal{F}^{-1}, \, \hat{p} \in \mathcal{P}_{h,k}(\hat{K}).	
 \end{equation*}
 
-For vector-valued functions, the isomorphism $L^2(\hat{K})$ to $L^2(K)$ defined for scalar functions does not preserv the continuity of the normal component over the deformed element $K$, so the Piola transformation is used instead: 
+For vector-valued functions, the isomorphism $L^2(\hat{K})$ to $L^2(K)$ defined for scalar functions does not preserve the continuity of the normal component over the deformed element $K$, so the Piola transformation is used instead: 
 \begin{equation} \label{eq:piola-transform}
 \bm{v} \in \mathcal{V}_{h,k}(K): \bm{v}=\bar{\mathcal{F}}(\bm{\hat{v}})=\left[\frac{1}{J}\nabla\mathcal{F}\bm{\hat{v}} \right] \,\circ\, \mathcal{F}^{-1}, \, \bm{\hat{v}} \in \mathcal{V}_{h,k}(\hat{K}), 
 \end{equation}

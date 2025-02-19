@@ -95,6 +95,21 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 	\llbracket #1 \rrbracket
 }
 
+\newcommand{\smallcirc}{\text{\tiny{$\circ$}}}
+
+\newcommand*\mymatrixbraceright[4][m]{
+    \draw[mymatrixbrace] (#1.west|-#1-#3-1.south west) -- node[left=2pt] {#4} (#1.west|-#1-#2-1.north west);
+}
+\newcommand*\mymatrixbraceleft[4][m]{
+    \draw[mymatrixbrace] (#1.east|-#1-#2-1.north east) -- node[right=2pt] {#4} (#1.east|-#1-#3-1.south east);
+}
+\newcommand*\mymatrixbracetop[4][m]{
+    \draw[mymatrixbrace] (#1.north-|#1-1-#2.north west) -- node[above=2pt] {#4} (#1.north-|#1-1-#3.north east);
+}
+\newcommand*\mymatrixbracebottom[4][m]{
+    \draw[mymatrixbrace] (#1.south-|#1-1-#2.north east) -- node[below=2pt] {#4} (#1.south-|#1-1-#3.north west);
+}
+
 \journal{Computer Methods in Applied Mechanics and Engineering}
 
 \begin{document}
@@ -625,30 +640,201 @@ Solving the problem of Equation \eqref{eq:double-hybrid-discrete} as presented w
 
 Hybridization techniques have been widely used in the literature along with static condensation to reduce the size of global system to be solved. The procedure consists on separating the global degrees of freedom (DOFs) into two sets: one containing the DOFs that are possible to be solved within a single element, called internal DOFs, and the other containing the DOFs that are shared between elements and therefore cannot be solved locally, called external (or main) DOFs. {\nathan should we cite TNDSS here or in the introduction?}
 
-As previously mentioned, the displacement functions $\bm{u}_h \in \mathcal{V}_{h,k}$ can be separated into divergence-free functions with vanishing normal components over the element boundaries, namely $\mathring{\bm{u}}_h$, and the remaining functions with continuous normal components across elements boundaries, $\bm{u}^\partial_h$. The divergence-free functions can be classified as internal functions because they do not contribute to the pure dilation and compression deformation modes that could affect multiple elements.
+As previously mentioned, the displacement functions $\bm{u}_h \in \mathcal{V}_{h,k}$ can be separated into element-wise divergence-free functions with vanishing normal components over the element boundaries, namely $\mathring{\bm{u}}_h$, and the remaining functions with continuous normal components across elements boundaries, $\bm{u}^\partial_h$. This leads to the definition of two auxiliary spaces, namely:
+\begin{subequations} \label{eq:internal-external-functions}
+	\begin{align}
+		\mathring{\mathcal{V}}_{h,k}(K,\mathbb{R}^d) &= \left\{ \bm{v} \in \mathcal{V}_{h,k}(K,\mathbb{R}^d) ~:~ \int_K\nabla \cdot \bm{v}\,dK = 0, ~\bm{v}\cdot\bm{n}\lvert_{\partial K} = 0 \right\},\\
+		\mathcal{V}^\partial_{h,k}(K,\mathbb{R}^d) &= \left\{ \bm{v} \in \mathcal{V}_{h,k}(K,\mathbb{R}^d) ~:~ \nabla \cdot \bm{v} \subset \mathcal{P}_{h,k}(K) ~:~ \bm{v}\cdot\bm{n}\lvert_{\partial K} \neq 0 \right\}.
+	\end{align}
+\end{subequations}
+
+The element-wise divergence-free functions can be classified as internal functions because they do not contribute to the pure dilation and compression deformation modes that could affect multiple elements.
 
 To avoid the construction of a pressure space $\mathcal{P}_{h,k}$ such that it contains both piecewise constant and piecewise zero-mean functions, two new variables can be added to the problem, namely the elemental average pressure $\bar{p}_h \in \bar{\mathcal{P}}_h$ and the distributed force $g_h \in \bar{\mathcal{P}}_{h}$, allowing not only the construction of $\mathcal{P}_{h,k}$ using traditional piecewise polynomials of order $k$ but also the condensation of all the higher-order pressure functions. It is worth mentioning that for compressible solids, the pressures are computed explicitly from the displacements, so these two new spaces are no longer necessary.
 
 Under these assumptions, the DHM-H(div)($\mathcal{S}_{h,k}$) can be written as: find $\{\bm{u}^\partial_h,\mathring{\bm{u}}_h,p_h,\bm{t}^t_h,\bm{w}_h,\bar{p}_h,\bar{g}_h\} \in \{\mathcal{V}^\partial_h \times \mathring{\mathcal{V}}_h \times \mathcal{P}_h \times \bar{\mathcal{L}}_h \times \mathcal{W}_h \times \bar{\mathcal{P}} \times \bar{\mathcal{P}} \}$ such that:
 \begin{subequations} \label{eq:double-hybrid-six-field}
 	\begin{align}
-		a\left(\bm{u}^\partial_h,\bm{v}\right)_{\mathcal{T}_h} + a\left(\mathring{\bm{u}}_h,\bm{v}\right)_{\mathcal{T}_h} - b\left( p_h, \bm{v}\right)_{\mathcal{T}_h} +\langle\bm{t}^t_h,\bm{v}\rangle_{\partial\mathcal{T}_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}_N\cdot\bm{n},\bm{v}\cdot\bm{n}\rangle_{\partial\Omega_N} ~~\forall\, \bm{v} \in \mathcal{V}_{h,k},\label{eq:double-hybrid-six-field-a}\\ 
-		-b\left(\bm{u}^\partial_h, q\right)_{\mathcal{T}_h} - b\left(\mathring{\bm{u}}_h, q\right)_{\mathcal{T}_h} - c\left(p_h,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in \mathcal{P}_{h,k}, \label{eq:double-hybrid-six-field-b}\\
-		\langle\bm{u}^\partial_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h} + \langle\mathring{\bm{u}}_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h} - \langle\bm{w}_h,\bm{s}^t\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{s}^t \in \bar{\mathcal{L}}^t_{h,k}, \label{eq:double-hybrid-six-field-c}\\
-		-\langle\bm{t}^t_h,\bm{z}^t\rangle_{\Gamma_h} &= -\langle\bm{t}_N^t,\bm{z}^t\rangle_{\partial\Omega_N} ~~\forall\, \bm{z}^t \in \mathcal{W
-		}_{h,k}, \label{eq:double-hybrid-six-field-d}\\
-		\langle\bm{u}^\partial_h,\bm{v}\rangle_{\partial\mathcal{T}_h} + \langle\mathring{\bm{u}}_h,\bm{v}\rangle_{\partial\mathcal{T}_h} - \langle\bm{w}_h,\bm{v}\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{v} \in \mathcal{V}_{h,k}, \label{eq:double-hybrid-six-field-e}\\
-		\langle p_h, q \rangle_{\mathcal{T}_h} - \langle \bar{p}_h, q \rangle_{\mathcal{T}_h} &= 0 ~~\forall\, q \in \bar{\mathcal{P}}, \label{eq:double-hybrid-six-field-f}\\
-		\langle \bar{g}_h, q \rangle_{\mathcal{T}_h} &= \langle \bm{b}, \bm{v} \rangle_{\mathcal{T}_h} + \langle \bm{t}_N\cdot\bm{n}, \bm{v}\cdot\bm{n} \rangle_{\partial\Omega_N} ~~\forall\, q \in \bar{\mathcal{P}}. \label{eq:double-hybrid-six-field-g}
+		a(\bm{u}^\partial_h,\bm{v}^\partial)_{\mathcal{T}_h} + a(\mathring{\bm{u}}_h,\bm{v}^\partial)_{\mathcal{T}_h} - b( p_h, \bm{v}^\partial)_{\mathcal{T}_h} +\langle\bm{t}^t_h,\bm{v}^\partial\rangle_{\partial\mathcal{T}_h} &= (\bm{b},\bm{v}^\partial)_{\mathcal{T}_h} + \langle\bm{t}_N\cdot\bm{n},\bm{v}^\partial\cdot\bm{n}\rangle_{\partial\Omega_N}, \label{eq:double-hybrid-six-field-a}\\
+		a(\bm{u}^\partial_h,\mathring{\bm{v}}_h)_{\mathcal{T}_h} + a(\mathring{\bm{u}}_h,\mathring{\bm{v}}_h)_{\mathcal{T}_h} - b( p_h, \mathring{\bm{v}}_h)_{\mathcal{T}_h} +\langle\bm{t}^t_h,\mathring{\bm{v}}_h\rangle_{\partial\mathcal{T}_h} &= (\bm{b},\mathring{\bm{v}}_h)_{\mathcal{T}_h} + \langle\bm{t}_N\cdot\bm{n},\mathring{\bm{v}}_h\cdot\bm{n}\rangle_{\partial\Omega_N}, \label{eq:double-hybrid-six-field-b}\\ 
+		-b(\bm{u}^\partial_h, q)_{\mathcal{T}_h} - b(\mathring{\bm{u}}_h, q)_{\mathcal{T}_h} - c(p_h,q)_{\mathcal{T}_h} + (\bar{g}_h,q) &= 0, \label{eq:double-hybrid-six-field-c}\\
+		\langle\bm{u}^\partial_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h} + \langle\mathring{\bm{u}}_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h} - \langle\bm{w}_h,\bm{s}^t\rangle_{\Gamma_h} &= 0, \label{eq:double-hybrid-six-field-d}\\
+		-\langle\bm{t}^t_h,\bm{z}\rangle_{\Gamma_h} &= -\langle\bm{t}_N^t,\bm{z}\rangle_{\partial\Omega_N}, \label{eq:double-hybrid-six-field-e}\\
+		(p_h-\bar{p}_h,\bar{\rho})_{\mathcal{T}_h} &= 0, \label{eq:double-hybrid-six-field-f}\\
+		-(\bar{g}_h,\bar{q})_{\mathcal{T}_h} &= 0, \label{eq:double-hybrid-six-field-g}
 	\end{align}
 \end{subequations}
-{\giovane Parei aqui}
-Recalling that $\bm{t}^t \in \bar{\mathcal{V}}_{h,k}$ is discontinuous over the mesh sleleton, the problem of Eq. \eqref{} can be rearranged in a matricial form as:
+
+\noindent for all$\{\bm{v}^\partial,\mathring{\bm{v}}, q, \bm{s}^t, \bm{z}, \bar{\rho}, \bar{q} \} \in \{\mathcal{V}^\partial_{h,k} \times \mathring{\mathcal{V}}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W
+}_{h,k} \times \bar{\mathcal{P}} \times \bar{\mathcal{P}}\}$.
+
+The definition of $\mathcal{V}^\partial \text{ and } \mathring{\mathcal{V}}$ in Eq. \eqref{eq:internal-external-functions} directly implies that the terms $\langle\bm{t}^t_h,\bm{v}^\partial\rangle_{\partial\mathcal{T}_h}, b( p_h, \mathring{\bm{v}}_h)_{\mathcal{T}_h}, \langle\bm{t}_N\cdot\bm{n},\mathring{\bm{v}}_h\cdot\bm{n}\rangle_{\partial\Omega_N} \text{ and }\langle\bm{u}^\partial_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h}$ vanish. Recalling that $\bm{t}^t \in \bar{\mathcal{L}}_{h,k}$ is discontinuous over the mesh sleleton, meaning that it can be computed from a single element in the mesh, the problem of Eq. \eqref{eq:double-hybrid-six-field} can be rearranged in a matricial form as:
+\vspace{0.8cm}
+\begin{equation} \label{eq:block-matrix}
+	\begin{bNiceArray}{c | c}[cell-space-top-limit=10pt,cell-space-bottom-limit=10pt,extra-margin=5pt]
+		\begin{bmatrix}
+			\bm{A}_{\smallcirc\smallcirc} & \bm{0} & \bm{D} & 0 \\
+			\bm{0} & \bm{C} & \bm{0} & \bm{M} \\
+			\bm{D}^T & \bm{0} & \bm{0} & \bm{0} \\
+			\bm{0} & \bm{M}^T & \bm{0} & \bm{0}
+			\end{bmatrix}
+			&
+			\begin{bmatrix}
+			\bm{A}_{\partial\smallcirc} & \bm{0} & \bm{0} \\
+			\bm{B} & \bm{0} & \bm{0} \\
+			\bm{0} & \bm{L} & \bm{0} \\
+			\bm{0} & \bm{0} & \bm{G}
+			\end{bmatrix}
+			\\ \hline
+			\begin{bmatrix}
+			\bm{A}_{\smallcirc\partial} & \bm{B}^T & \bm{0} & \bm{0} \\
+			\bm{0} & \bm{0} & \bm{L}^T & \bm{0} \\
+			\bm{0} & \bm{0} & \bm{0} & \bm{G}^T \\
+			\end{bmatrix}
+			&
+			\begin{bmatrix}
+			\bm{A}_{\partial\partial} & \bm{0} & \bm{0} \\
+			\bm{0} & \bm{0} & \bm{0} \\
+			\bm{0} & \bm{0} & \bm{0}
+			\end{bmatrix}
+			\CodeAfter
+			\OverBrace[shorten,yshift=5pt]{1-1}{2-1}{\bm{K}_{ii}}
+			\OverBrace[shorten,yshift=5pt]{1-2}{2-2}{\bm{K}_{ie}}
+			\UnderBrace[shorten,yshift=5pt]{1-1}{2-1}{\bm{K}_{ei}}
+			\UnderBrace[shorten,yshift=5pt]{1-2}{2-2}{\bm{K}_{ee}}
+	\end{bNiceArray}
+	\begin{BNiceArray}{c}[cell-space-top-limit=10pt,cell-space-bottom-limit=10pt,extra-margin=5pt]
+		\begin{Bmatrix}
+			\mathring{\bm{u}} \\
+			p \\
+			\bm{t}^t \\
+			\bar{g}
+		\end{Bmatrix}
+		\\ \hline
+		\begin{Bmatrix}
+			\bm{u}^\partial \\
+			\bm{w} \\
+			\bar{p}
+		\end{Bmatrix}
+		\CodeAfter
+		\OverBrace[shorten,yshift=5pt]{1-1}{2-1}{\bm{\alpha}_{i}}
+		\UnderBrace[shorten,yshift=5pt]{1-1}{2-1}{\bm{\alpha}_{e}}
+	\end{BNiceArray}
+	=
+	\begin{BNiceArray}{c}[cell-space-top-limit=10pt,cell-space-bottom-limit=10pt,extra-margin=5pt]
+		\begin{Bmatrix}
+			\mathring{\bm{f}} \\
+			0 \\
+			0 \\
+			0
+		\end{Bmatrix}
+		\\
+		\begin{Bmatrix}
+			\bm{f}^\partial\\
+			\bm{f}^t \\
+			0
+		\end{Bmatrix}
+		\CodeAfter
+		\OverBrace[shorten,yshift=5pt]{1-1}{2-1}{\bm{f}_{i}}
+		\UnderBrace[shorten,yshift=5pt]{1-1}{2-1}{\bm{f}_{e}}
+	\end{BNiceArray}
+\end{equation}
+\vspace{0.6cm}
+
+\noindent where $\bm{\alpha}_i=\{\mathring{\bm{u}},p,\bm{t}^t,\bar{g}\}$ and $\bm{\alpha}_e=\{\bm{u}^\partial,\bm{w},\bar{p}\}$ are the sets containing the internal and external variables, respectively. Each block matrix is associated with the following operators:
+\begin{equation}
+	\begin{aligned}
+		\bm{A}_{\smallcirc\smallcirc} &= \sum_{K \in \mathcal{T}_h} \int_{K} \bm{\varepsilon}(\mathring{\bm{v}}) : \mathcal{D}^{'} : \bm{\varepsilon}(\mathring{\bm{u}}) dK , &\bm{A}_{\smallcirc\partial} &= \sum_{K \in \mathcal{T}_h} \int_{K} \bm{\varepsilon}(\mathring{\bm{v}}) : \mathcal{D}^{'} : \bm{\varepsilon}(\bm{u}^\partial) dK ,\\
+		\bm{A}_{\partial\smallcirc} &= \sum_{K \in \mathcal{T}_h} \int_{K} \bm{\varepsilon}(\bm{v}^\partial) : \mathcal{D}^{'} : \bm{\varepsilon}(\mathring{\bm{u}}) dK , &\bm{A}_{\partial\partial} &= \sum_{K \in \mathcal{T}_h} \int_{K} \bm{\varepsilon}(\bm{v}^\partial) : \mathcal{D}^{'} : \bm{\varepsilon}(\bm{u}^\partial) dK ,\\
+		\bm{B} &= \sum_{K \in \mathcal{T}_h} -\int_{K} p \,\nabla \cdot \bm{v}^\partial \, dK , & \bm{C} &= \sum_{K \in \mathcal{T}_h} -\int_{K} \frac{1}{\kappa} \,p \,q \, dK ,\\
+		\bm{D} &= \sum_{K \in \mathcal{T}_h} \int_{\partial K} \bm{t}^t \cdot \mathring{\bm{v}} \, d\partial K , &\bm{G} &= \sum_{K \in \mathcal{T}_h} -\int_{K} \bar{p} \, \bar{\rho} \, dK ,\\
+		\bm{L} &= \sum_{E \in \Gamma_h} -\int_{E} \bm{w} \cdot \jump{\bm{s}^t} \, d\partial K , &\bm{M} &= \sum_{K \in \mathcal{T}_h} \int_{K} \bar{g} \, q \, dK .
+	\end{aligned}
+\end{equation}
+
+Writing Eq. \eqref{eq:block-matrix} in a compact form yields
+\begin{equation} \label{eq:compact-form}
+	\begin{bmatrix}
+		\bm{K}_{ii} & \bm{K}_{ie} \\
+		\bm{K}_{ei} & \bm{K}_{ee}
+	\end{bmatrix}
+	\begin{Bmatrix}
+		\bm{\alpha}_i \\
+		\bm{\alpha}_e
+	\end{Bmatrix}
+	=
+	\begin{Bmatrix}
+		\bm{f}_i \\
+		\bm{f}_e
+	\end{Bmatrix},
+\end{equation}
+
+\noindent so the static condensation is performed by eliminating the internal variables as follows:
+\begin{equation} \label{eq:static-condensation}
+	\begin{aligned}
+		\bar{\bm{K}} &= \bm{K}_{ee} - \bm{K}_{ei}\bm{K}_{ii}^{-1}\bm{K}_{ie},\\
+		\bar{\bm{f}} &= \bm{f}_e - \bm{K}_{ei}\bm{K}_{ii}^{-1}\bm{f}_i.
+	\end{aligned}
+\end{equation}
+
+\noindent resulting in the reduced linear system:
+\begin{equation} \label{eq:reduced-linear-system}
+	\bar{\bm{K}}\bm{\alpha}_e = \bar{\bm{f}}.
+\end{equation}
+
+\noindent The internal variables are then recovered in a postprocess step by solving a local problem at element level: $\bm{\alpha}_i = \bm{K}_{ii}^{-1}(\bm{f}_i - \bm{K}_{ie}\bm{\alpha}_e)$.
+
+As a consequence of this procedure, a symmetric positive-definite matrix is obtained for a compressible solid with two unknowns, namely $\bm{u}^\partial_h \in \mathcal{V}^\partial$ and $\bm{w} \in \mathcal{W
+}$. For the incompressible case where pressures cannot be computed explicitly from the displacements, one mean pressure per element $\bar{p}_h \in \bar{\mathcal{P}}$ acts as a Lagrange multiplier in the global system. This still gives rise to a saddle-point matrix, however, with much better spectral properties and easier to solve compared to Eqs. \eqref{eq:semi-hybrid-weak-a}-\eqref{eq:semi-hybrid-weak-c}.
+
+To better explain the spectral properties of the resulting matrix, let us break through the static condensation procedure step by step. The Lagrange multiplier $\bm{w}$ (standing for the tangential velocities) only couples with the tangent tractions by the matrix $\bm{L}$. Therefore, matrix $\bm{A}_{\smallcirc\smallcirc}$ is positive definite. Proceeding by statically condensing the internal displacements onto the tangential tractions $\bm{t}^t$ leads:
+\begin{equation} \label{eq:block-matrix-1}
+	% \begin{NiceArray}{c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
+	% 		p \rightarrow \\
+	% 		\bm{t}^t \rightarrow \\
+	% 		\bar{g} \rightarrow \\
+	% 		\bm{u}^\partial \rightarrow \\
+	% 		\bm{w} \rightarrow \\
+	% 		\bar{p} \rightarrow
+	% \end{NiceArray}
+	\begin{bNiceArray}{c c c | c c c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
+			\bm{C} & \bm{0} & \bm{M} & \bm{B} & \bm{0} & \bm{0} \\
+			\bm{0} & -\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{D}^T & \bm{0} & \bm{0} & \bm{L}-\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{A}_{\partial\smallcirc} & \bm{0} \\
+			\bm{M}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} & \bm{G}
+			\\ \hline
+			\bm{B}^T & \bm{0} & \bm{0} & \bm{A}_{\partial\partial} & \bm{0} & \bm{0} \\
+			\bm{0} & \bm{L}^T-\bm{A}_{\smallcirc\partial}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{D}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} \\
+			\bm{0} & \bm{0} & \bm{G}^T & \bm{0} & \bm{0} & \bm{0}
+	\end{bNiceArray}
+	\Leftrightarrow
+	\begin{bNiceArray}{c c c | c c c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
+		\bm{C} & \bm{0} & \bm{M} & \bm{B} & \bm{0} & \bm{0} \\
+		\bm{0} & -\bar{\bm{A}}_{\smallcirc\smallcirc} & \bm{0} & \bm{0} & \bar{\bm{L}} & \bm{0} \\
+		\bm{M}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} & \bm{G}
+		\\ \hline
+		\bm{B}^T & \bm{0} & \bm{0} & \bm{A}_{\partial\partial} & \bm{0} & \bm{0} \\
+		\bm{0} & \bar{\bm{L}}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} \\
+		\bm{0} & \bm{0} & \bm{G}^T & \bm{0} & \bm{0} & \bm{0}
+\end{bNiceArray}
+\end{equation}
+
+\noindent where $\bar{\bm{A}}_{\smallcirc\smallcirc}=\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{D}^T$ and $\bar{\bm{L}}=\bm{L}-\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{A}_{\partial\smallcirc}$. The matrix $\bar{\bm{A}}_{\smallcirc\smallcirc}$ is symmetric positive definite if the spaces $\mathcal{V}_{h}$ and $\bar{\mathcal{L}}_{h}$ are trace compatible, or in other words, if the number of internal shape functions in the displacement space is sufficiently large when compared to the number of tangential traction functions. For the numeric examples presented in Section \ref{sec:Examples}, the polynomial order of the internal displacement functions is three orders higher than the polynomial order of the tangential traction functions.
+
+{\giovane parei aqui, precisa corrigir a matriz L barra}
+Then, the tangential tractions $\bm{t}^t$ can be condensed onto the tangential velocities $\bm{w}$, yielding
+\begin{equation} \label{eq:block-matrix-2}
+	\begin{bNiceArray}{c c c | c c c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
+		\bm{C} & \bm{0} & \bm{M} & \bm{B} & \bm{0} & \bm{0} \\
+		\bm{0} & \bar{\bm{A}}_{\smallcirc\smallcirc} & \bm{0} & \bm{0} & \bar{\bm{L}} & \bm{0} \\
+		\bm{M}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} & \bm{G}
+		\\ \hline
+		\bm{B}^T & \bm{0} & \bm{0} & \bm{A}_{\partial\partial} & \bm{0} & \bm{0} \\
+		\bm{0} & \bar{\bm{L}}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} \\
+		\bm{0} & \bm{0} & \bm{G}^T & \bm{0} & \bm{0} & \bm{0}
+	\end{bNiceArray}
+\end{equation}
 
 
-
-
-For a compressible solid, a symmetric positive-definite matrix is obtained with two unknowns, namely $\mathbf{u} \in H(\text{div},\Omega)$ and $\mathbf{u}^t \in H^{1/2}(\partial\Omega_e)$. For the incompressible case where pressures cannot be computed explicitly from the displacements, one mean pressure per element acts as a Lagrange multiplier in the global system. This still gives rise to a saddle-point matrix, however, with much better spectral properties and easier to solve compared to Eqs. \eqref{eq:semihybrid1}-\eqref{eq:semihybrid3}.
 
 \section{Examples \label{sec:Examples}}
 

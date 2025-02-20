@@ -737,7 +737,7 @@ The definition of $\mathcal{V}^\partial \text{ and } \mathring{\mathcal{V}}$ in 
 		\CodeAfter
 		\OverBrace[shorten,yshift=5pt]{1-1}{2-1}{\bm{f}_{i}}
 		\UnderBrace[shorten,yshift=5pt]{1-1}{2-1}{\bm{f}_{e}}
-	\end{BNiceArray}
+	\end{BNiceArray},
 \end{equation}
 \vspace{0.6cm}
 
@@ -773,7 +773,7 @@ Writing Eq. \eqref{eq:block-matrix} in a compact form yields
 \begin{equation} \label{eq:static-condensation}
 	\begin{aligned}
 		\bar{\bm{K}} &= \bm{K}_{ee} - \bm{K}_{ei}\bm{K}_{ii}^{-1}\bm{K}_{ie},\\
-		\bar{\bm{f}} &= \bm{f}_e - \bm{K}_{ei}\bm{K}_{ii}^{-1}\bm{f}_i.
+		\bar{\bm{f}} &= \bm{f}_e - \bm{K}_{ei}\bm{K}_{ii}^{-1}\bm{f}_i,
 	\end{aligned}
 \end{equation}
 
@@ -784,57 +784,82 @@ Writing Eq. \eqref{eq:block-matrix} in a compact form yields
 
 \noindent The internal variables are then recovered in a postprocess step by solving a local problem at element level: $\bm{\alpha}_i = \bm{K}_{ii}^{-1}(\bm{f}_i - \bm{K}_{ie}\bm{\alpha}_e)$.
 
-As a consequence of this procedure, a symmetric positive-definite matrix is obtained for a compressible solid with two unknowns, namely $\bm{u}^\partial_h \in \mathcal{V}^\partial$ and $\bm{w} \in \mathcal{W
-}$. For the incompressible case where pressures cannot be computed explicitly from the displacements, one mean pressure per element $\bar{p}_h \in \bar{\mathcal{P}}$ acts as a Lagrange multiplier in the global system. This still gives rise to a saddle-point matrix, however, with much better spectral properties and easier to solve compared to Eqs. \eqref{eq:semi-hybrid-weak-a}-\eqref{eq:semi-hybrid-weak-c}.
-
 To better explain the spectral properties of the resulting matrix, let us break through the static condensation procedure step by step. The Lagrange multiplier $\bm{w}$ (standing for the tangential velocities) only couples with the tangent tractions by the matrix $\bm{L}$. Therefore, matrix $\bm{A}_{\smallcirc\smallcirc}$ is positive definite. Proceeding by statically condensing the internal displacements onto the tangential tractions $\bm{t}^t$ leads:
 \begin{equation} \label{eq:block-matrix-1}
-	% \begin{NiceArray}{c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
-	% 		p \rightarrow \\
-	% 		\bm{t}^t \rightarrow \\
-	% 		\bar{g} \rightarrow \\
-	% 		\bm{u}^\partial \rightarrow \\
-	% 		\bm{w} \rightarrow \\
-	% 		\bar{p} \rightarrow
-	% \end{NiceArray}
+	\begin{NiceArray}{l}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=4pt]
+			p \\
+			\bm{t}^t \\
+			\bar{g} \\
+			\bm{u}^\partial \\
+			\bm{w} \\
+			\bar{p} 
+	\end{NiceArray}
 	\begin{bNiceArray}{c c c | c c c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
 			\bm{C} & \bm{0} & \bm{M} & \bm{B} & \bm{0} & \bm{0} \\
-			\bm{0} & -\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{D}^T & \bm{0} & \bm{0} & \bm{L}-\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{A}_{\partial\smallcirc} & \bm{0} \\
+			\bm{0} & -\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{D}^T & \bm{0} & -\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{A}_{\partial\smallcirc} & \bm{L} & \bm{0} \\
 			\bm{M}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} & \bm{G}
 			\\ \hline
-			\bm{B}^T & \bm{0} & \bm{0} & \bm{A}_{\partial\partial} & \bm{0} & \bm{0} \\
-			\bm{0} & \bm{L}^T-\bm{A}_{\smallcirc\partial}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{D}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} \\
+			\bm{B}^T & -\bm{A}_{\smallcirc\partial}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{D}^T & \bm{0} & \bm{A}_{\partial\partial} & \bm{0} & \bm{0} \\
+			\bm{0} & \bm{L}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} \\
 			\bm{0} & \bm{0} & \bm{G}^T & \bm{0} & \bm{0} & \bm{0}
 	\end{bNiceArray}
 	\Leftrightarrow
 	\begin{bNiceArray}{c c c | c c c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
 		\bm{C} & \bm{0} & \bm{M} & \bm{B} & \bm{0} & \bm{0} \\
-		\bm{0} & -\bar{\bm{A}}_{\smallcirc\smallcirc} & \bm{0} & \bm{0} & \bar{\bm{L}} & \bm{0} \\
+		\bm{0} & -\bar{\bm{A}}_{\smallcirc\smallcirc} & \bm{0} & \bar{\bm{D}} & \bm{L} & \bm{0} \\
 		\bm{M}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} & \bm{G}
 		\\ \hline
-		\bm{B}^T & \bm{0} & \bm{0} & \bm{A}_{\partial\partial} & \bm{0} & \bm{0} \\
-		\bm{0} & \bar{\bm{L}}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} \\
+		\bm{B}^T & \bar{\bm{D}}^T & \bm{0} & \bm{A}_{\partial\partial} & \bm{0} & \bm{0} \\
+		\bm{0} & \bm{L}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} \\
 		\bm{0} & \bm{0} & \bm{G}^T & \bm{0} & \bm{0} & \bm{0}
-\end{bNiceArray}
+\end{bNiceArray},
 \end{equation}
 
-\noindent where $\bar{\bm{A}}_{\smallcirc\smallcirc}=\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{D}^T$ and $\bar{\bm{L}}=\bm{L}-\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{A}_{\partial\smallcirc}$. The matrix $\bar{\bm{A}}_{\smallcirc\smallcirc}$ is symmetric positive definite if the spaces $\mathcal{V}_{h}$ and $\bar{\mathcal{L}}_{h}$ are trace compatible, or in other words, if the number of internal shape functions in the displacement space is sufficiently large when compared to the number of tangential traction functions. For the numeric examples presented in Section \ref{sec:Examples}, the polynomial order of the internal displacement functions is three orders higher than the polynomial order of the tangential traction functions.
+\noindent where $\bar{\bm{A}}_{\smallcirc\smallcirc}=\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{D}^T$ and $\bar{\bm{D}}=-\bm{D}\bm{A}_{\smallcirc\smallcirc}^{-1}\bm{A}_{\partial\smallcirc}$. The matrix $\bar{\bm{A}}_{\smallcirc\smallcirc}$ is symmetric positive definite if the spaces $\mathcal{V}_{h}$ and $\bar{\mathcal{L}}_{h}$ are trace compatible, or in other words, if the number of internal shape functions in the displacement space is sufficiently large when compared to the number of tangential traction functions. For the numeric examples presented in Section \ref{sec:Examples}, the polynomial order of the internal displacement functions is three orders higher than the polynomial order of the tangential traction functions.
 
-{\giovane parei aqui, precisa corrigir a matriz L barra}
-Then, the tangential tractions $\bm{t}^t$ can be condensed onto the tangential velocities $\bm{w}$, yielding
+Then, the tangential tractions $\bm{t}^t$ in Eq. \eqref{eq:block-matrix-1} can be condensed onto the tangential velocities $\bm{w}$, yielding
 \begin{equation} \label{eq:block-matrix-2}
-	\begin{bNiceArray}{c c c | c c c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
-		\bm{C} & \bm{0} & \bm{M} & \bm{B} & \bm{0} & \bm{0} \\
-		\bm{0} & \bar{\bm{A}}_{\smallcirc\smallcirc} & \bm{0} & \bm{0} & \bar{\bm{L}} & \bm{0} \\
-		\bm{M}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} & \bm{G}
-		\\ \hline
-		\bm{B}^T & \bm{0} & \bm{0} & \bm{A}_{\partial\partial} & \bm{0} & \bm{0} \\
-		\bm{0} & \bar{\bm{L}}^T & \bm{0} & \bm{0} & \bm{0} & \bm{0} \\
-		\bm{0} & \bm{0} & \bm{G}^T & \bm{0} & \bm{0} & \bm{0}
-	\end{bNiceArray}
+	\begin{NiceArray}{l}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=4pt]
+		p \\
+		\bar{g} \\
+		\bm{u}^\partial \\
+		\bm{w} \\
+		\bar{p} 
+	\end{NiceArray}
+\begin{bNiceArray}{c c | c c c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
+	\bm{C} & \bm{M} & \bm{B} & \bm{0} & \bm{0} \\
+	\bm{M}^T & \bm{0} & \bm{0} & \bm{0} & \bm{G}
+	\\ \hline
+	\bm{B}^T & \bm{0} & \bm{A}_{\partial\partial} & \bm{L}\bar{\bm{A}}_{\smallcirc\smallcirc}^{-1}\bar{\bm{D}} & \bm{0} \\
+	\bm{0} & \bm{0} & \bar{\bm{D}}^T\bar{\bm{A}}_{\smallcirc\smallcirc}^{-1}\bm{L}^T & \bm{L}\bar{\bm{A}}_{\smallcirc\smallcirc}^{-1}\bm{L}^T & \bm{0} \\
+	\bm{0} & \bm{G}^T & \bm{0} & \bm{0} & \bm{0}
+\end{bNiceArray}
+\Leftrightarrow
+\begin{bNiceArray}{c c | c c c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
+	\bm{C} & \bm{M} & \bm{B} & \bm{0} & \bm{0} \\
+	\bm{M}^T & \bm{0} & \bm{0} & \bm{0} & \bm{G}
+	\\ \hline
+	\bm{B}^T & \bm{0} & \bm{A}_{\partial\partial} & \bm{A}_{\partial\smallcirc}^* & \bm{0} \\
+	\bm{0} & \bm{0} & \bm{A}_{\smallcirc\partial}^* & \bm{A}_{\smallcirc\smallcirc}^* & \bm{0} \\
+	\bm{0} & \bm{G}^T & \bm{0} & \bm{0} & \bm{0}
+\end{bNiceArray},
 \end{equation}
 
+\noindent where $\bm{A}_{\smallcirc\smallcirc}^*=\bm{L}\bar{\bm{A}}_{\smallcirc\smallcirc}^{-1}\bm{L}^T$ and $\bm{A}_{\partial\smallcirc}^*=\bm{L}\bar{\bm{A}}_{\smallcirc\smallcirc}^{-1}\bar{\bm{D}}$. The matrix $\bm{A}_{\smallcirc\smallcirc}$ is symmetric positive definite due to the number of functions that approximate the tangential displacements within the block $\bm{L}$ being exactly the same as the number of tangential traction functions \cite{puga2025stable}. The static condensation can be further proceeded once more to eliminate $p \text{ and } \bar{g}$, giving rise to the following matrix structure:
+\begin{equation} \label{eq:block-matrix-3}
+	\begin{NiceArray}{l}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=4pt]
+		\bm{u}^\partial \\
+		\bm{w} \\
+		\bar{p} 
+	\end{NiceArray}
+\begin{bNiceArray}{c c c}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=2pt]
+	\bm{A}_{\partial\partial} & \bm{A}_{\partial\smallcirc}^* & \bar{\bm{B}} \\
+	\bm{A}_{\smallcirc\partial}^* & \bm{A}_{\smallcirc\smallcirc}^* & \bm{0} \\
+	\bar{\bm{B}}^T & \bm{0} & \bm{0}
+\end{bNiceArray}.
+\end{equation}
 
+As a consequence of this procedure, a symmetric positive-definite matrix is obtained for a compressible solid with two unknowns, namely $\{\bm{u}^\partial_h,\bm{w}\} \in \mathcal{V}^\partial \times \mathcal{W}$. In this case, the block matrix $\bm{C}$ is positive definite, hence it can be condensed without the need of adding $\bar{p}$ and $\bar{g}$. For the incompressible case where pressures cannot be computed explicitly from the displacements, one mean pressure per element $\bar{p}_h \in \bar{\mathcal{P}}$ acts as a Lagrange multiplier in the global system. This still gives rise to a saddle-point matrix, however, with much better spectral properties and easier to solve compared to Eqs. \eqref{eq:semi-hybrid-weak-a}-\eqref{eq:semi-hybrid-weak-c}.
 
 \section{Examples \label{sec:Examples}}
 

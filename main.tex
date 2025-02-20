@@ -177,15 +177,13 @@ The space $H(\text{div},\Omega,\mathbb{R}^d)$ comprises square-integrable vector
 \begin{equation*}
 	H(\text{div},\Omega,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) : \nabla \cdot \bm{v} \in L^2(\Omega) \right\},
 \end{equation*}
-{\nathan I am not sure you can just say $\bm{v} \in L^2(\Omega,\mathbb{R}^d)$. You might need $\bm{v} \in [L^2(\Omega,\mathbb{R}^d)]^d$}
 
-\noindent equipped with the norm $\| \cdot \|_{H(\text{div})}$ and \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{2,3\} \}\). 
+\noindent equipped with the norm $\| \cdot \|_{H(\text{div})}$. {\giovane Henceforth, a space of vector valued functions is denoted by the symbol $\mathbb{R}^d, \,d \in \{2,3\}$. The same notation can be used for tensor fields, e.g. $\mathbb{R}^d \times \mathbb{R}^d$. Thus, \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{2,3\} \}\).}
 
 The notation used for the $L^2$ inner product is $(\cdot,\cdot)_{\Omega}$, while $\langle \cdot,\cdot\rangle_{\partial\Omega}$ stands for the duality pairing between the trace spaces
 \begin{equation*}
-	H^{1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{v} \lvert_{\partial\Omega}, \bm{u} \in H^1(\Omega,\mathbb{R}^d)\right\},
+	H^{1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{v}=\bm{u} \lvert_{\partial\Omega}, \bm{u} \in H^1(\Omega,\mathbb{R}^d)\right\},
 \end{equation*}
-{\nathan the above equations looks weird. Is v the trace of u?}
 \begin{equation*}
 	H^{-1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{t}=\bm{\sigma} \,\bm{n} \lvert_{\partial\Omega}, \bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\},
 \end{equation*}
@@ -210,8 +208,6 @@ Moreover, a broken Sobolev space of the square-integrable functions on the discr
 \end{equation*}
 
 \noindent Both spaces $X(\mathcal{T}_h)$ and $\mathcal{V}(\mathcal{T}_h,\mathbb{R}^d)$ are equipped with the broken $H^1$-norm $\| \cdot \|_{H^1,\mathcal{T}_h}$ and the inner product $(\bm{u},\bm{v})_{H^1,\mathcal{T}_h}=(\bm{u},\bm{v})+\sum_{K \in \mathcal{T}_h}(\nabla\bm{u},\nabla\bm{v})_K$.
-
-{\giovane Acho que, ao contrario do artigo do Stokes, vou colocar os espacos discretos conforme eles forem aparecendo nas secoes.} {\nathan de acordo}
 
 \section{Elasticity problem \label{sec:Governing-equations}}
 
@@ -259,7 +255,7 @@ The elasticity problem can also be formulated using two state variables by apply
 	p = -\kappa \text{tr}(\bm{\varepsilon}(\bm{u})) ,
 \end{equation}
 
-\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, is computed as $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case {\giovane should we put the derivation of the bulk modulus for the plane analyses in an appendix?} {\nathan I am not sure, I feel these are stanrdard and known coefficients}. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
+\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, is computed as $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
 \begin{equation} \label{eq:deviatoric-stress}
 	\boldsymbol{\sigma}' = 2\mu \left(\boldsymbol{\varepsilon}(\bm{u}) - \frac{1}{3}\text{tr}(\boldsymbol{\varepsilon}(\bm{u}))\mathbf{I}\right) \text{.}
 \end{equation}
@@ -318,7 +314,7 @@ In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-e
 	c\left(p,q \right)_\Omega = \int_{\Omega} \frac{1}{\kappa} \,p \,q \, d\Omega ,
 \end{equation*}
 
-\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle point problem with pressure playing the role as a Lagrange multiplier. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and the choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, that is, there exist a constant $\beta>0$ such that
+\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle point problem with pressure playing the role of a Lagrange multiplier. When the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system becomes ill conditioned and the choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, that is, there exist a constant $\beta>0$ such that
 \begin{equation} \label{eq:LBB}
 	\inf_{q \in L^2,q\neq0} \sup_{\bm{v} \in H^1_0,\bm{v}\neq\bm{0}} \frac{b\left(\bm{v},q\right)}{\|\bm{v}\|_{H^1} \|q\|_{L^2}} \geq \beta .
 \end{equation}
@@ -378,7 +374,7 @@ In this approach, displacements are strongly imposed on the Dirichlet boundary $
 
 \section{Hybrid-mixed formulations}
 
-The mixed problem of Eq. \eqref{eq:weak-mixed} can be presented in an alternative way by relaxing the continuity requirement of the displacement functions across elements. {\nathan\sout{Let d}Define the space of the stress traces over the mesh skeleton as}
+The mixed problem of Eq. \eqref{eq:weak-mixed} can be presented in an alternative way by relaxing the continuity requirement of the displacement functions across elements. The space of the stress traces over the mesh skeleton is defined as
 \begin{equation}
 	\label{eq:space-traction}
 	\mathcal{L}(\Gamma_h,\mathbb{R}^d) = \left\{\bm{t} \in H^{-1/2}(\Gamma_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, E \in \Gamma_h ~:~\bm{\sigma} \in H(\text{div},\Omega,\mathbb{R}^d \times \mathbb{R}^d) \right\},
@@ -458,7 +454,6 @@ The strategy adopted here to overcome this issue was first proposed in \cite{pug
 	\label{eq:brokenspace-div}
 	\bar{H}(\text{div},\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) ~:~ \bm{v}\lvert_K \in H(\text{div},K,\mathbb{R}^d), ~\forall K \in \mathcal{T}_h\right\},
 \end{equation}
-{\nathan check if $\bm{v} \in L^2(\Omega)$ should be $\bm{v} \in [L^2(\Omega)]^d$}
 
 \noindent whose functions can now assume discontinuous normal components over the mesh skeleton.
 
@@ -467,7 +462,6 @@ Similarly, the associated broken traction space is written as:
 	\label{eq:space-traction-broken}
 	\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{t} \in L^2(\partial\mathcal{T}_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, \partial K \in \partial\mathcal{T}_h ~:~\bm{\sigma} \in H(\text{div},\mathcal{T}_h,\mathbb{R}^d \times \mathbb{R}^d) \right\},
 \end{equation}
-{\nathan check if $\bm{t} \in L^2(\Omega)$ should be $\bm{t} \in [L^2(\Omega)]^d$}
 
 \noindent which encompasses functions that can assume different values on the common boundary of adjacent elements, so that $\mathcal{L}(\Gamma_h,\mathbb{R}^d) \subset \bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d)$. Equation \eqref{eq:space-traction-broken} can be decomposed in the same way as Eq. \eqref{eq:space-traction}, so that:
 \begin{subequations}
@@ -491,7 +485,7 @@ At first glance, one may notice that a new constraint equation was introduced in
     \centering 
 	\subfloat[\label{fig:semi-hybrid-variables}]{\includegraphics[scale=.5]{semi-hybrid-variables.pdf}}\hspace{2cm}
     \subfloat[\label{fig:double-hybrid-variables}]{\includegraphics[scale=.5]{double-hybrid-variables.pdf}}\hfill
-	\caption{Resulting variables for an internal interface shared by two adjacent elements using (a) Semi-hybrid and (b) hybrid-hybrid formulations. {\nathan Check if we are using lambdat}}
+	\caption{Resulting variables for an internal interface shared by two adjacent elements using (a) Semi-hybrid and (b) hybrid-hybrid formulations. {\nathan Check if we are using lambdat}} {\giovane im gonna change this figure}
 	\label{fig:hybrid-variables}
 \end{figure}
 
@@ -545,9 +539,9 @@ The discrete form of the Double Hybrid Mixed methodology is henceforth denoted a
 	\end{align}
 \end{subequations}
 
-According to the Brezzi's theory {\nathan theorem?} in \cite{girault2012finite,brezzi2012mixed,arnold1988new}, the FE spaces associated to each variable cannot be chosen arbitrarily. 
+According to the Brezzi's theory in \cite{girault2012finite,brezzi2012mixed,arnold1988new}, the FE spaces associated to each variable cannot be chosen arbitrarily. 
 
-\sout{Let assume the discontinuous pressure space} {\nathan Assume the pressure space is discontinuous, i.e.:}
+Assume the pressure space is discontinuous, i.e.:
 \begin{equation}
 	\mathcal{P}_{h,k}(\mathcal{T}_h) = \{q \, \in L^2(\Omega) ~\lvert~ q\lvert_K \in \mathbb{P}_k(K) ~:~ \forall K \in \mathcal{T}_h\}
 \end{equation}
@@ -565,10 +559,10 @@ However, mathematically proving the trace compatibility required in $\langle\bm{
 
 \noindent where $\bm{D}^T=[\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}]$. {\giovane Checar essa parte Phil }Analogously, the compatibility between the tangential tractions and tangential displacement is verified by checking the condition
 \begin{equation*}
-	\text{rank}~ \bm{E}^T = \text{dim} ~\mathcal{W}_{h,k},
+	\text{rank}~ \bm{L}^T = \text{dim} ~\mathcal{W}_{h,k},
 \end{equation*}
 
-\noindent with $\bm{E}^T=[\langle\bm{z},\bm{s}^t\rangle_{\Gamma_h}]$. In practical terms, the trace compatibility is guaranteed by enriching the internal functions of $\mathcal{V}_{h,k}$, which shall be demonstrated numerically.
+\noindent with $\bm{L}^T=[\langle\bm{z},\bm{s}^t\rangle_{\Gamma_h}]$. In practical terms, the trace compatibility is guaranteed by enriching the internal functions of $\mathcal{V}_{h,k}$, which shall be demonstrated numerically.
 
 Let $\hat{K}$ be a reference element with usual shapes:
 \begin{itemize}
@@ -1091,18 +1085,8 @@ The formulation was tested for a cantilever beam subjected to an end shear load 
 
 \bigskip\noindent {\bf Acknowledgments:} Authors  Nat, Gio, Hug, and Phil acknowledge the support from...
 
-\appendix
-
-\section{An Automatic Differentiation methodology to compute derivatives of H(div) shape functions \label{sec:Appendix-A.-Derivation}}
-
-\lipsum[1-1]
-
-\subsection*{The FAD package}
-
-\lipsum[1-1]
-
 %\bibliographystyle{plainnat}
-\bibliographystyle{elsarticle-num} 
+\bibliographystyle{elsarticle-num}
 \addcontentsline{toc}{section}{\refname}
 \bibliography{%
 	references}

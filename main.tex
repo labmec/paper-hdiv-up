@@ -861,7 +861,57 @@ In this section, the proposed methodology is tested and verified through three b
 
 \subsection{Uniform stretch of a non-homogeneous solid \label{subsec:non-homogeneous}}
 
-{\giovane to do next}
+As a first example, a simple uniform stretch test of a heterogeneous cube specimen is studied. The domain is $\Omega=[0,1] \times [0,1] \times [0,1]$ composed of two horizontal layers with equal Poisson coefficient $\nu$ and different Young modulus, namely $E^1$ and $E^2$, according to Figure \ref{fig:non-homogeneous-stretch-geometry}. The analytic solution for this problem is easily obtained from the linear elasticity theory, where the stresses are:
+\begin{equation}
+	\begin{aligned}
+		p^i &= -\frac{(2-2 \nu ) E^i}{6 (\nu +1)}-\frac{2 \nu 
+		E^i}{3 (\nu +1)}, \\
+		\sigma^i_{xx} &= \frac{2(1-\nu)E^i}{2(1+\nu)}-\frac{\nu E^i}{3(1+\nu)}, \\
+		\sigma^i_{yy} &= 0, \\
+		\sigma^i_{zz} &= \frac{\nu E^i}{\nu +1}, \\
+		\sigma_{xy} &= \sigma_{xz} = \sigma_{yz} = 0,
+	\end{aligned}
+\end{equation}
+
+\noindent with the superscript $(\cdot)^i$ standing for the $i$-th material. The displacements solution is given by:
+\begin{equation}
+	\begin{aligned}
+		u_x &= (1-\nu)x, \\
+		u_y &= -\nu y, \\
+		u_z &= 0.
+	\end{aligned}
+\end{equation}
+
+\begin{figure}[!htb]
+    \centering
+    \input{non-homogeneous-stretch-geometry.pdf_tex}
+    \caption{Uniform stretch of a non-homogeneous material - geometry}
+    \label{fig:non-homogeneous-stretch-geometry}
+\end{figure}
+
+It can be noted beforehand that the stress field is discontinuous at the interface between the two materials. For simplicity, we take $E^1=1$, $E^2=2$ and $\nu=0.5$. Under these conditions, the primal formulation cannot be used, so the DHM-H(div) with $k=1$ is compared with the Taylor-Hood $P_2P_1$ elements. Figure \ref{} shows the stresses and displacements solutions over the $y-$axis. For the DHM-H(div), a mesh composed of $2$ elements (one for each material) is used, while for the Taylor-Hood scheme, three levels of refinement are considered. The results show that the DHM-H(div) formulation is able to exactly reproduce the analytical solution for stresses and displacements using a very poor discretization, while the Taylor-Hood formulation is only able to exactly recover the analytical solution for the displacement field. As the mesh is refined, 
+
+\begin{figure}
+    \centering
+    \subfloat[\label{fig:non-homogeneous-stretch-pressure-a}]{\includegraphics[width=0.34\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-hdiv.png}} \hfill
+    \subfloat[\label{fig:non-homogeneous-stretch-pressure-b}]{\includegraphics[width=0.34\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-th.png}} \hfill
+    \subfloat[\label{fig:non-homogeneous-stretch-pressure-c}]
+    {\includegraphics[width=0.3\textwidth]{non-homogeneous-graph.pdf}}
+    \caption{Uniform stretch of a non-homogeneous material - pressure field obtained with (a) the double-hybrid $H(\text{div},\Omega)$, (b) Taylor-Hood and (c) pressure distribution over the $y-$axis}
+    \label{fig:non-homogeneous-stretch-pressure}
+\end{figure}
+
+Figure \ref{} depicts the displacement, pressure, $\sigma_{xx}$ and $\sigma_{zz}$ using the DHM-H(div).
+
+\begin{figure}
+    \centering
+    \subfloat[\label{fig:non-homogeneous-stretch-pressure-a}]{\includegraphics[width=0.34\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-hdiv.png}} \hfill
+    \subfloat[\label{fig:non-homogeneous-stretch-pressure-b}]{\includegraphics[width=0.34\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-th.png}} \hfill
+    \subfloat[\label{fig:non-homogeneous-stretch-pressure-c}]
+    {\includegraphics[width=0.3\textwidth]{non-homogeneous-graph.pdf}}
+    \caption{Uniform stretch of a non-homogeneous material - pressure field obtained with (a) the double-hybrid $H(\text{div},\Omega)$, (b) Taylor-Hood and (c) pressure distribution over the $y-$axis}
+    \label{fig:non-homogeneous-stretch-pressure}
+\end{figure}
 
 \subsection{Cantilever beam subjected to an end shear load \label{subsec:bishop}}
 
@@ -875,7 +925,6 @@ The case of a tridimensional cantilever beam under an end shear-load is consider
 \end{figure}
 
 The analytical stress state for the problem is given in \cite{bishop2014displacement} and written below:
-
 \begin{equation} \label{eq:bishop-stress}
 	\begin{aligned}
 		\sigma_{xx} &= \sigma_{xy} = \sigma_{yy} = 0 \text{,}\\
@@ -886,7 +935,6 @@ The analytical stress state for the problem is given in \cite{bishop2014displace
 \end{equation}
 
 \noindent where $F=\int_{-b}^{b}\int_{-a}^{a}\sigma_{yz}dxdy$ and $I=4ab^3/3$ is the second moment of area about the $x$-axis. The following displacement field is obtained by integrating Equations \eqref{eq:bishop-stress} and enforcing compatibility constrains:
-
 \begin{equation} \label{eq:bishop-displacement}
 	\begin{split}
 		u_x & = -\frac{F\nu}{EI} xyz \text{,}\\
@@ -898,10 +946,9 @@ The analytical stress state for the problem is given in \cite{bishop2014displace
 
 For the analyses that follow, we kept the number of terms in the series above bounded to $n=5$. The exact solution evaluated on the boundaries of the beam is used to define the boundary conditions for the numerical analysis. At $z=0$, the exact normal and tangential displacements computed according to Eq. \eqref{eq:bishop-displacement} are prescribed, whereas surface tractions in accordance to Eq. \eqref{eq:bishop-stress} are applied on the other five faces.
 
-Two types of partitions are used, one with hexahedral $\mathcal{S}$-elements and the other one with tetrahedral \textcolor{red}{$\mathcal{S}$}-elements. For both cases, the average element size is computed as $h_e=1/2^{n}$, where $n=\{0,1,2,3,4\}$. The coarsest ($h_e=1$) and finest ($h_e=0.0625$) meshes for each partition are shown in Figure \ref{fig:bishop-meshes}. The first analysis is carried out keeping $\nu=0.3$ as in the reference \cite{bishop2014displacement}, and a convergence test is performed for the displacement, pressure, stress and mass conservation L$^2$-norm errors, defined for the displacement as:
-
+Two types of partitions are used, with tetrahedra and hexahedra elements. For both cases, the average element size is computed as $h_e=1/2^{n-1}$, where $n=\{1,2,3,4,5\}$. The coarsest ($h_e=1$) and finest ($h_e=0.0625$) meshes for each partition are shown in Figure \ref{fig:bishop-meshes}. The first analysis is carried out keeping $\nu=0.3$ as in the reference \cite{bishop2014displacement}, and a convergence test is performed for the displacement, pressure, stress and mass conservation $L^2$-norm errors, defined for a given function $\bm{u}$ as:
 \begin{equation} \label{eq:bishop-errors}
-	\left\| \mathbf{u} - \mathbf{u}^h \right\|_{L^2} \doteq \left[ \sum_{e=1}^{n} \int_{\Omega_e} \left(\mathbf{u} - \mathbf{u}^h\right)^2 d\Omega_e\right]^{1/2} \text{.}\\
+	\left\| \bm{u} - \bm{u}_h \right\|_{L^2} \doteq \left[ \sum_{K \in \mathcal{T}_h} \int_{K} \left(\bm{u} - \bm{u}_h\right)^2 d K\right]^{1/2} \text{.}\\
 \end{equation}
 
 % \begin{figure}[H]
@@ -912,7 +959,7 @@ Two types of partitions are used, one with hexahedral $\mathcal{S}$-elements and
 % 	\label{fig:bishop-meshes}
 % \end{figure}
 
-The convergence results for the aforementioned errors are shown in Figures \ref{fig:bishop-convergence-nu-03-hex}-\ref{fig:bishop-convergence-nu-03-tet}. The results show optimal convergence rates of $k+1$ for the displacement and $k$ for the remaining variables with both types of partitions. Figure \ref{fig:bishop-snapshot} plots the displacement, pressure, normal and shear stresses distributions obtained with the finest hexahedral mesh using $k=2$ over the deformed configuration of the beam. The results qualitatively agress with the reference solution, which is a strong indication of the accuracy of the proposed formulation.
+The results in Figures \ref{fig:bishop-convergence-nu-03-hex}-\ref{fig:bishop-convergence-nu-03-tet} show optimal convergence rates of order $k+1$ for the displacement and $k$ for the remaining variables with both partitions. Figure \ref{fig:bishop-snapshot} plots the displacement, pressure, normal and shear stresses distributions obtained with the finest hexahedral mesh using $k=2$ over the deformed configuration of the beam. The results qualitatively agress with the reference solution in \cite{bishop2014displacement}.
 
 % \begin{figure}
 %     \centering
@@ -936,7 +983,7 @@ The convergence results for the aforementioned errors are shown in Figures \ref{
 %     \label{fig:bishop-snapshot}
 % \end{figure}
 
-In order to assess the proposed methodology in different compressibility regimes, the same analysis is performed considering $\nu=0.49$, $\nu=0.4999$, $\nu=0.499999$ and $\nu=0.5$. The convergence results are shown in Figures \ref{fig:bishop-convergence-nu-049}-\ref{fig:bishop-convergence-nu-05}, where optimal convergence rates are achieved independently of the poisson coefficient. This is a nice feature as many formulations present a locking phenomena under quasi and full incompressibility. Also, for the incompressible case ($\nu=0.5$), a divergence free displacement field is obtained even for the coarsest mesh, with the error bounded to the machine precision.
+In order to assess the proposed methodology in different compressibility regimes, similar analyses are performed considering $\nu=0.49$, $\nu=0.4999$, $\nu=0.499999$ and $\nu=0.5$. The convergence results are shown in Figures \ref{fig:bishop-convergence-nu-049}-\ref{fig:bishop-convergence-nu-05}, where optimal convergence rates are achieved independently of the poisson coefficient. This is a nice feature as many formulations present a locking phenomena under quasi and full incompressibility. Also, for the incompressible case ($\nu=0.5$), a divergence free displacement field is obtained even for the coarsest mesh, with the error bounded to the machine precision.
 
 % \begin{figure}
 %     \centering

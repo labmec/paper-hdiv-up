@@ -1,0 +1,171 @@
+\documentclass[english,11pt,3p,number,sort&compress]{elsarticle}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=2cm,rmargin=2cm,headheight=2cm,headsep=2cm,footskip=1cm}
+
+\usepackage{color}
+\usepackage{array}
+\usepackage{float}
+\usepackage{algorithm2e}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{lipsum} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+%\usepackage[latin1]{inputenc}
+
+\usepackage{natbib}
+\usepackage{dsfont}
+\usepackage{comment}
+\usepackage{ifthen}    
+\usepackage{lscape}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\usepackage[subpreambles=true]{standalone}
+\usepackage{xspace}
+\usepackage[percent]{overpic}
+
+%tikz stuff
+\usepackage[customcolors]{hf-tikz}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{calc,shadings,patterns,tikzmark, plotmarks, spy, 
+pgfplots.polar, external, matrix, shapes.symbols,shadings,shapes, 
+decorations.shapes,decorations.pathmorphing,fit,backgrounds}
+\pgfplotsset{compat=1.10}   %% <-- this added
+
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{calc}
+\usepackage{pgfplotstable}
+
+\usepackage{xcolor}
+
+% WARNING: This folder must exist
+\tikzexternalize[prefix=./figs_pgfplots/tikz/]
+
+\newcommand{\includetikz}[1]{%
+	\tikzsetnextfilename{#1}%
+	\input{#1}%
+}
+
+% Commands for equations
+\newcommand{\m}{\,\text{m}}
+
+% compatibility for pgf figure
+\pgfplotsset{compat=newest}
+
+\hypersetup{urlcolor=blue, colorlinks=true}
+
+% Useful when sending to journals.
+% Do not provide path to figures in includegraphics comand. Set them
+% here instead.
+\graphicspath{ {./figs/} }
+
+% path to tikz files. Do not use path in \includetikz command
+\makeatletter
+\def\input@path{{./figs_pgfplots/}{./figs/}}
+\makeatother
+
+\makeatletter
+\@ifundefined{showcaptionsetup}{}{%
+ \PassOptionsToPackage{caption=false}{subfig}}
+\usepackage{subfig}
+\makeatother
+
+\usepackage{babel}
+
+\newcommand{\giovane}{\color{red}{\bf\Large GA} \color{cyan} }
+\newcommand{\nathan}{\color{red}{\bf\Large NS} \color{cyan} }
+\newcommand{\phil}{\color{yellow}{\bf\Large PD} \color{cyan} }
+
+\newcommand{\jump}[1]
+{
+	\llbracket #1 \rrbracket
+}
+
+\journal{Computer Methods in Applied Mechanics and Engineering}
+
+\begin{document}
+
+\begin{frontmatter}{}
+
+%Um primeiro título
+\title{A primal double-hybrid finite element method to solve tridimensional compressible, quasi-incompressible and incompressible elasticity using de Rham compatible H(div)-L2 spaces}
+
+\author[uni]{Giovane Avancini}
+
+\ead{giovanea@unicamp.br}
+
+\author[uni]{Nathan Shauer}
+
+\ead{shauer@unicamp.br}
+
+\author[uni]{Hugo Luiz Oliveira}
+
+\ead{hluiz@unicamp.br}
+
+\author[uni]{Philippe R. B. Devloo}
+
+\ead{phil@unicamp.br}
+
+\address[uni]{Universidade Estadual de Campinas, R. Josiah Willard Gibbs 85 - Cidade Universitaria, Campinas SP, Brazil, CEP 13083-839}
+
+%Definir se vamosar usar double-hybrid ou hybrid-hybrid. Adotei a segunda opção por enquanto
+\begin{abstract}
+	This work is devoted to the development of a novel primal double-hybrid finite element formulation for the solution of tridimensional compressible, quasi-incompressible and incompressible elasticity problems. Hybrid-mixed methods are typically derived from an extended variational principle, where the requirement for the interlement continuity of the functions spaces is relaxed and weakly imposed using Lagrange multipliers over the element interfaces. In this sense, we propose the usage of a De Rham compatible pair H(div)-L2 for displacements and pressure, respectively. H(div) spaces naturally guarantees the continuity of the normal displacement across elements, so the tangential component conformity can be retrieved at the expense of introducing a shear stress approximation on the element edges. This leads to a semi-hybrid approach with two Lagrange multipliers so solving a saddle-point problem is inevitably even in the compreesible regime. To overcome this drawback, the shear stress can be further hybridized a second time and statically condensed to recover a positive-definite block matrix that depends on the primal variable components. In fact, there is still the need of solving a saddle point system when the bulk modulus tends to infinity, however, results have shown that this approach presents a superior stability compared to the semi-hybrid formulation. The stability, consistency and local conservation features are discussed in details. The formulation is tested and verified using 3D benchmarks for which analytical and/or numerical solutions are available, exhibiting optimal convergence rate independent of the poisson coefficient. The proposed methodology is also applied to a real-world problem, where the performance of the method is assessed in terms of accuracy and computational cost.
+\end{abstract}
+\begin{keyword}
+\textit{Hybrid finite elements; Elasticity; H(div) approximation space; Incompressibility; Local conservation}
+\end{keyword}
+
+\end{frontmatter}{}
+
+\section{Introduction}
+
+Elasticity theory is fundamental in engineering, with applications spanning industries such as automotive, medicine, sports, construction, electronics, and biology \cite{banks2011brief, li2021topological, naddeo2021degradable, ferrari2022effect, sanfilippo2024revolutionising, mousavi2022experimental, weakley2022putting, mashaly2011evaluation, semnani2011advances, gosling2013analysis, edlund2009model, pan2023research, tian2024elastic, santos2025self, leonardi2024deeper}. Simulating the mechanical behaviour of compressible materials is fairly straightforward when using traditional primal displacement Finite Element Method (FEM) formulations. However, using a continuous approach to approximate the displacements can introduce numerical issues, such as shear-locking due to spurious energy modes in bending \cite{bletzinger2000unified,belytschko1985stress} and volume locking in nearly or fully incompressible regimes, where stresses approach infinity \cite{neto2005f,cervera2003mixed}.
+
+{\nathan This paragraph seems weird. We need to revise it} Various techniques have been developed to mitigate the ill-conditioning that arises as the Poisson ratio approaches 0.5, typically by partitioning the strain energy function into deviatoric and volumetric components. Examples of these techniques include: hourglass control using reduced integration \cite{koh1987new, hutter2000total}, average nodal pressure formulation \cite{bonet1998simple, andrade2004assessment}, F-bar technique \cite{de1996design, neto2005f}, enhanced strain method \cite{lovadina2003enhanced, de1995remarks}, energy-sampling stabilisation \cite{sivapuram2019energy, pakravan2017mean}, and smoothed Finite Element Method \cite{lee2020linear, jiang2018sharp}. Such techniques can be implemented in legacy codes (with strong heritage of validation) that were not necessarily designed to deal with incompressible models. However, traditional linear quadrilateral ($Q_1^2$) and triangular ($P_1^2$) Lagrangian elements are severely affected by Poisson's locking.
+
+{\nathan this paragraph is ok} The Discontinuous Galerkin (DG) method has proved to be a viable approach to treat incompressibility. In combination with the Nitsche's approach -- which allows different approximations to be made in different elements, and the continuity of the solution is guaranteed through the interface between the elements -- DG shows optimal error estimates that are uniform with respect to Poisson's ratio for triangular and tetrahedra meshes \cite{hansbo2002discontinuous}. Since the DG method uses spaces of discontinuous basis functions, it enables high-order accuracy for generally-shaped mesh elements, simplifies the implementation of $hp$ adaptivity and parallelization \cite{gulizzi2023discontinuous, riviere2003discontinuous}, which is very attractive for massive computations. Hybridised versions (HDG) are also available, particularly suitable for problems with strong discontinuities (cracks) \cite{soon2009hybridizable}.
+
+{\nathan this paragraph is ok} Another class of algorithms for incompressible solids and structures have relied on Weak Galerking (WG) approach. Using weak function and weak gradient, this method introduces degrees of freedom that allow discontinuous functions to be used as basis function \cite{lin2018weak}. On polygonal convex meshes, the lowest-order WG method employs piecewise constant vector-valued spaces on interior elements and edges \cite{wang2024lowest}. This approach is straightforward, effective, does not require stabilization, and leads to a symmetric positive-definite system. For meshes composed of rectangular or hexahedral elements, the lowest-order WG method is locking-free and achieves first-order accuracy in displacement, stress, and dilation \cite{harper2019lowest}.
+
+The algorithms developed to deal with Stokes flows can also have applications in solid mechanics, due to the similarity of the governing equations. The regularity of the solution to the Biot model can be used to indicate how displacement becomes divergence-free as Poisson's ratio approaches 0.5 \cite{yi2017study}. Using another scheme, a three-field formulation can be used to obtain symmetric saddle point problem expressed by a biorthogonal system of equations, which can be condensed to decrease the number of unknowns and generate locking free effects \cite{lamichhane2012symmetric, lamichhane2014mixed}.
+
+In addition to all these techniques, the mixed finite element method (MFEM) has been growing in popularity to deal with incompressible models over the last few decades. In the MFEM, the displacements and stresses (or pressures) are approximated using independent functional spaces simultaneously \cite{brezzi2012mixed,arnold1988new}. This technique gives rise to the Taylor Hood elements \cite{taylor1973numerical} which fulfil the \textit{inf-sup} condition yielding stable results for incompressible regime.
+
+Regardless of the greater or lesser robustness of the techniques mentioned above, most of them suffer from the same problem: they are not locally conservative as they do not satisfy the divergence constraint in a strong manner. To deal with that, some studies use hybrid methods where the interelement continuity of a given field is broken and weakly imposed by means of a Lagrange multiplier (see for instance \cite{raviart1977primal,harder2016hybrid,farhloul1997dual}).
+
+{\nathan NOTE: include TDNNS, hybrid, and the new article I sent.}
+
+
+In this work we present an innovative approach able to solve compressible, near-incompressible and incompressible two- and three-dimensional elasticity problems. In the incompressible limit, the divergence-free condition is naturally satisfied. The formulation builds upon the semi-hybrid method proposed in \cite{carvalho2024semi} for Stokes flows, later extended to a double-hybrid approach in \cite{puga2025stable}. Here, we adapt it to elasticity by introducing a second hybridization on the tangential stresses. The method relies on a de Rham-compatible  $H(\text{div})-L^2$  pair for displacements and pressure, with $H(\text{div})$ functions systematically constructed using the methodology described in \cite{devloo2022efficient, de2013new}.
+
+
+%%%%% Esta parte era a que estava escrita
+
+%{\giovane A first shot, please give your contributions}
+%In the context of linear elasticity, several numerical methods have been developed in the past years. The most used one is the Finite Element Method (FEM). Using a continuous Galerkin approach to approximate the displacements may lead to shear-locking phenomenon due to spurious energy modes under bending \cite{bletzinger2000unified,belytschko1985stress} or volume-locking under quasi or full incompressibility, as the stresses go to infinity \cite{neto2005f,cervera2003mixed}.
+%
+%There are different ways in the literature to overcome these drawbacks. One possible choice is to employ a mixed formulation \cite{brezzi2012mixed,arnold1988new} where the displacements and the stresses (or pressure) are approximated independently - i.e. the Taylor Hood elements \cite{taylor1973numerical} fulfill the \textit{inf-sup} condition yielding stable results for incompressible regime. This kind of approximation, on the other hand, is not locally conservative as it does not satisfy the divergence constraint in a strong manner. Another possibility is to use hybrid methods where the interelement continuity of a given field is broken and weakly imposed by means of a Lagrange multiplier (see for instance \cite{raviart1977primal,harder2016hybrid,farhloul1997dual}).
+%
+%In this work we extend the semi-hybrid approach proposed in \cite{carvalho2024semi} for Stokes flows to elasticity problems, developing a new formulation by performing a second hybridization on the tangential stresses. This formulation is based on a de Rham compatible pair $H(\text{div})-L^2$ for displacements and pressure. The $H(\text{div})$ functions are constructed using a systematic methodology described in \cite{devloo2022efficient,de2013new}.
+
+
+
+%\bibliographystyle{plainnat}
+\bibliographystyle{elsarticle-num} 
+\addcontentsline{toc}{section}{\refname}
+\bibliography{%
+	references}
+
+\end{document}

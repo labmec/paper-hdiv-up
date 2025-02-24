@@ -889,28 +889,30 @@ As a first example, a simple uniform stretch test of a heterogeneous cube specim
     \label{fig:non-homogeneous-stretch-geometry}
 \end{figure}
 
-It can be noted beforehand that the stress field is discontinuous at the interface between the two materials. For simplicity, we take $E^1=1$, $E^2=2$ and $\nu=0.5$. Under these conditions, the primal formulation cannot be used, so the DHM-H(div) with $k=1$ is compared with the Taylor-Hood $P_2P_1$ elements. Figure \ref{} shows the stresses and displacements solutions over the $y-$axis. For the DHM-H(div), a mesh composed of $2$ elements (one for each material) is used, while for the Taylor-Hood scheme, three levels of refinement are considered. The results show that the DHM-H(div) formulation is able to exactly reproduce the analytical solution for stresses and displacements using a very poor discretization, while the Taylor-Hood formulation is only able to exactly recover the analytical solution for the displacement field. As the mesh is refined, 
+It can be noted beforehand that the stress field is discontinuous at the interface between the two materials. For simplicity, we take $E^1=1$, $E^2=2$ and $\nu=0.5$. Under these conditions, the primal formulation cannot be used, so the DHM-H(div) with $k=1$ is compared with the Taylor-Hood $P_2P_1$ elements. Figure \ref{fig:non-homogeneous-stretch-graphs} shows the stresses and displacements solutions over the $y-$axis. For the DHM-H(div), a mesh composed of $2$ elements (one for each material) is used, while for the Taylor-Hood scheme, three levels of uniform refinement are considered. The results show that the DHM-H(div) formulation is able to exactly reproduce the analytical solution for stresses and displacements using a very poor discretization, while the solution using Taylor-Hood elements exhibits a convergence behavior towards the analytical solution, however, will not be able to recover the exact response as it employs $H^1$-conforming approximation for pressure.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \subfloat[\label{fig:non-homogeneous-stretch-pressure-a}]{\includegraphics[width=0.34\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-hdiv.png}} \hfill
-    \subfloat[\label{fig:non-homogeneous-stretch-pressure-b}]{\includegraphics[width=0.34\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-th.png}} \hfill
-    \subfloat[\label{fig:non-homogeneous-stretch-pressure-c}]
-    {\includegraphics[width=0.3\textwidth]{non-homogeneous-graph.pdf}}
-    \caption{Uniform stretch of a non-homogeneous material - pressure field obtained with (a) the double-hybrid $H(\text{div},\Omega)$, (b) Taylor-Hood and (c) pressure distribution over the $y-$axis}
-    \label{fig:non-homogeneous-stretch-pressure}
+    \subfloat[\label{fig:non-homogeneous-stretch-graphs-a}]{\includetikz{non-homogeneous-stretch-disp}} \hfill
+	\subfloat[\label{fig:non-homogeneous-stretch-graphs-b}]{\includetikz{non-homogeneous-stretch-pressure}} \\
+	\subfloat[\label{fig:non-homogeneous-stretch-graphs-c}]{\includetikz{non-homogeneous-stretch-stressxx}} \hfill
+	\subfloat[\label{fig:non-homogeneous-stretch-graphs-d}]{\includetikz{non-homogeneous-stretch-stresszz}} \\
+    \caption{Uniform stretch of a non-homogeneous material. (a) $u_y$ (b) $p$, (c) $\sigma_{xx}$ and (d) $\sigma_{zz}$ distribution over the $y-$axis}
+    \label{fig:non-homogeneous-stretch-graphs}
 \end{figure}
 
-Figure \ref{} depicts the displacement, pressure, $\sigma_{xx}$ and $\sigma_{zz}$ using the DHM-H(div).
+Figure \ref{fig:non-homogeneous-stretch-fields} depicts the $x$ displacement component, pressure, $xx$-stress component and $zz$-stress component using the DHM-H(div).
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \subfloat[\label{fig:non-homogeneous-stretch-pressure-a}]{\includegraphics[width=0.34\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-hdiv.png}} \hfill
-    \subfloat[\label{fig:non-homogeneous-stretch-pressure-b}]{\includegraphics[width=0.34\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-th.png}} \hfill
-    \subfloat[\label{fig:non-homogeneous-stretch-pressure-c}]
-    {\includegraphics[width=0.3\textwidth]{non-homogeneous-graph.pdf}}
-    \caption{Uniform stretch of a non-homogeneous material - pressure field obtained with (a) the double-hybrid $H(\text{div},\Omega)$, (b) Taylor-Hood and (c) pressure distribution over the $y-$axis}
-    \label{fig:non-homogeneous-stretch-pressure}
+    \subfloat[\label{fig:non-homogeneous-stretch-fields-a}]{\includegraphics[width=0.4\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-dispx.png}} \qquad
+    \subfloat[\label{fig:non-homogeneous-stretch-fields-b}]{\includegraphics[width=0.4\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-pressure.png}} \\
+    \subfloat[\label{fig:non-homogeneous-stretch-fields-c}]
+    {\includegraphics[width=0.4\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-stressxx.png}} \qquad
+	\subfloat[\label{fig:non-homogeneous-stretch-fields-d}]
+    {\includegraphics[width=0.4\textwidth,trim={1cm 1.5cm 1.5cm 0cm},clip]{non-homogeneous-stretch-stresszz.png}}
+    \caption{Uniform stretch of a non-homogeneous material. (a) $u_x$, (b) $p$, (c) $\sigma_{xx}$ and (d) $\sigma_{zz}$ fields}
+    \label{fig:non-homogeneous-stretch-fields}
 \end{figure}
 
 \subsection{Cantilever beam subjected to an end shear load \label{subsec:bishop}}

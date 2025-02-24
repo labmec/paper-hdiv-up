@@ -1,0 +1,5 @@
+./figs_pgfplots/tikz/non-homogeneous-stretch-disp.pdf: figs_pgfplots/non-homogeneous-stretch-hdiv.dat
+./figs_pgfplots/tikz/non-homogeneous-stretch-disp.pdf: figs_pgfplots/non-homogeneous-stretch-hdiv.dat
+./figs_pgfplots/tikz/non-homogeneous-stretch-disp.pdf: figs_pgfplots/non-homogeneous-stretch-TH1.dat
+./figs_pgfplots/tikz/non-homogeneous-stretch-disp.pdf: figs_pgfplots/non-homogeneous-stretch-TH2.dat
+./figs_pgfplots/tikz/non-homogeneous-stretch-disp.pdf: figs_pgfplots/non-homogeneous-stretch-TH3.dat

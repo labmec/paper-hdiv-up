@@ -97,17 +97,46 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 
 \newcommand{\smallcirc}{\text{\tiny{$\circ$}}}
 
-\newcommand*\mymatrixbraceright[4][m]{
-    \draw[mymatrixbrace] (#1.west|-#1-#3-1.south west) -- node[left=2pt] {#4} (#1.west|-#1-#2-1.north west);
-}
-\newcommand*\mymatrixbraceleft[4][m]{
-    \draw[mymatrixbrace] (#1.east|-#1-#2-1.north east) -- node[right=2pt] {#4} (#1.east|-#1-#3-1.south east);
-}
-\newcommand*\mymatrixbracetop[4][m]{
-    \draw[mymatrixbrace] (#1.north-|#1-1-#2.north west) -- node[above=2pt] {#4} (#1.north-|#1-1-#3.north east);
-}
-\newcommand*\mymatrixbracebottom[4][m]{
-    \draw[mymatrixbrace] (#1.south-|#1-1-#2.north east) -- node[below=2pt] {#4} (#1.south-|#1-1-#3.north west);
+\newcommand{\logLogSlopeTriangle}[5]
+{
+    % #1. Relative offset in x direction.
+    % #2. Width in x direction, so xA-xB.
+    % #3. Relative offset in y direction.
+    % #4. Slope d(y)/d(log10(x)).
+    % #5. Plot options.
+
+    \pgfplotsextra
+    {
+        \pgfkeysgetvalue{/pgfplots/xmin}{\xmin}
+        \pgfkeysgetvalue{/pgfplots/xmax}{\xmax}
+        \pgfkeysgetvalue{/pgfplots/ymin}{\ymin}
+        \pgfkeysgetvalue{/pgfplots/ymax}{\ymax}
+
+        % Calculate auxilliary quantities, in relative sense.
+        \pgfmathsetmacro{\xArel}{#1}
+        \pgfmathsetmacro{\yArel}{#3}
+        \pgfmathsetmacro{\xBrel}{#1-#2}
+        \pgfmathsetmacro{\yBrel}{\yArel}
+        \pgfmathsetmacro{\xCrel}{\xArel}
+        %\pgfmathsetmacro{\yCrel}{ln(\yC/exp(\ymin))/ln(exp(\ymax)/exp(\ymin))} % REPLACE THIS EXPRESSION WITH AN EXPRESSION INDEPENDENT OF \yC TO PREVENT THE 'DIMENSION TOO LARGE' ERROR.
+
+        \pgfmathsetmacro{\lnxB}{\xmin*(1-(#1-#2))+\xmax*(#1-#2)} % in [xmin,xmax].
+        \pgfmathsetmacro{\lnxA}{\xmin*(1-#1)+\xmax*#1} % in [xmin,xmax].
+        \pgfmathsetmacro{\lnyA}{\ymin*(1-#3)+\ymax*#3} % in [ymin,ymax].
+        \pgfmathsetmacro{\lnyC}{\lnyA+#4*(\lnxA-\lnxB)}
+        \pgfmathsetmacro{\yCrel}{(\lnyC-\ymin)/(\ymax-\ymin)} % THE IMPROVED EXPRESSION WITHOUT 'DIMENSION TOO LARGE' ERROR.
+
+        % Define coordinates for \draw. MIND THE 'rel axis cs' as opposed to the 'axis cs'.
+        \coordinate (A) at (rel axis cs:\xArel,\yArel);
+        \coordinate (B) at (rel axis cs:\xBrel,\yBrel);
+        \coordinate (C) at (rel axis cs:\xCrel,\yCrel);
+
+        % Draw slope triangle.
+        \draw[#5]   (A)-- node[pos=0.5,anchor=north] {1}
+                    (B)-- 
+                    (C)-- node[pos=0.5,anchor=west] {#4}
+                    cycle;
+    }
 }
 
 \journal{Computer Methods in Applied Mechanics and Engineering}
@@ -885,7 +914,7 @@ As a first example, a simple uniform stretch test of a heterogeneous cube specim
 \begin{figure}[!htb]
     \centering
     \input{non-homogeneous-stretch-geometry.pdf_tex}
-    \caption{Uniform stretch of a non-homogeneous material - geometry}
+    \caption{Uniform stretch of a non-homogeneous material. Geometry}
     \label{fig:non-homogeneous-stretch-geometry}
 \end{figure}
 
@@ -948,89 +977,162 @@ The analytical stress state for the problem is given in \cite{bishop2014displace
 
 For the analyses that follow, we kept the number of terms in the series above bounded to $n=5$. The exact solution evaluated on the boundaries of the beam is used to define the boundary conditions for the numerical analysis. At $z=0$, the exact normal and tangential displacements computed according to Eq. \eqref{eq:bishop-displacement} are prescribed, whereas surface tractions in accordance to Eq. \eqref{eq:bishop-stress} are applied on the other five faces.
 
-Two types of partitions are used, with tetrahedra and hexahedra elements. For both cases, the average element size is computed as $h_e=1/2^{n-1}$, where $n=\{1,2,3,4,5\}$. The coarsest ($h_e=1$) and finest ($h_e=0.0625$) meshes for each partition are shown in Figure \ref{fig:bishop-meshes}. The first analysis is carried out keeping $\nu=0.3$ as in the reference \cite{bishop2014displacement}, and a convergence test is performed for the displacement, pressure, stress and mass conservation $L^2$-norm errors, defined for a given function $\bm{u}$ as:
-\begin{equation} \label{eq:bishop-errors}
-	\left\| \bm{u} - \bm{u}_h \right\|_{L^2} \doteq \left[ \sum_{K \in \mathcal{T}_h} \int_{K} \left(\bm{u} - \bm{u}_h\right)^2 d K\right]^{1/2} \text{.}\\
-\end{equation}
+Two types of partitions are used, with tetrahedra and hexahedra elements. For both cases, the average element size is computed as $h_e=1/2^{n-1}$, where $n=\{1,2,3,4,5\}$. The coarsest ($h_e=1$) and finest ($h_e=0.0625$) meshes for each partition are shown in Figure \ref{fig:bishop-meshes}. The first analysis is carried out keeping $\nu=0.3$ as in the reference \cite{bishop2014displacement}, and a convergence test is performed for the displacement, pressure, stress and mass conservation $L^2$-norm errors.
 
-% \begin{figure}[H]
-% 	\centering
-% 	\subfloat[Hexahedral meshes. Coarsest (left) and finest (right)]{\includegraphics[width=1.0\textwidth]{bishop-hex-meshes}}\hfill
-% 	\subfloat[Tetrahedral meshes. Coarsest (left) and finest (right)]{\includegraphics[width=1.0\textwidth]{bishop-tet-meshes}}
-% 	\caption{Cantilever beam subjected to an end shear load - meshes used for the convergence test}
-% 	\label{fig:bishop-meshes}
-% \end{figure}
+\begin{figure}[H]
+	\centering
+	\subfloat[Hexahedral meshes. Coarsest (left) and finest (right)]{\includegraphics[width=0.48\textwidth]{bishop-mesh-hex-a.png}\includegraphics[width=0.48\textwidth]{bishop-mesh-hex-b.png}} \\
+	\subfloat[Tetrahedral meshes. Coarsest (left) and finest (right)]{\includegraphics[width=0.48\textwidth]{bishop-mesh-tet-a.png}\includegraphics[width=0.48\textwidth]{bishop-mesh-tet-b.png}}
+	\caption{Cantilever beam subjected to an end shear load. Meshes used for the convergence test}
+	\label{fig:bishop-meshes}
+\end{figure}
 
-The results in Figures \ref{fig:bishop-convergence-nu-03-hex}-\ref{fig:bishop-convergence-nu-03-tet} show optimal convergence rates of order $k+1$ for the displacement and $k$ for the remaining variables with both partitions. Figure \ref{fig:bishop-snapshot} plots the displacement, pressure, normal and shear stresses distributions obtained with the finest hexahedral mesh using $k=2$ over the deformed configuration of the beam. The results qualitatively agress with the reference solution in \cite{bishop2014displacement}.
+The results in Figure \ref{fig:bishop-convergence-nu-03} are very similar using both partitions, where optimal convergence rates of order $k+1$ for the displacement and $k$ for the remaining variables are achieved. Figure \ref{fig:bishop-snapshot} plots the displacement, pressure, stress magnitude and von mises stress distributions obtained with the finest hexahedral mesh using $k=3$ over the deformed configuration beam. The results qualitatively agress with the reference solution \cite{bishop2014displacement}.
 
-% \begin{figure}
-%     \centering
-%     \subfloat[\label{fig:bishop-convergence-nu-03-a}Displacement]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-disp-03.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-03-b}Pressure]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-03.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-03.pdf}
-%     \subfloat[\label{fig:bishop-convergence-nu-03-c}Stress]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-stress-03.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-03-d}Divergence]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-div-03.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-03.pdf}
-%     \caption{Cantilever beam subjected to an end shear load - convergence analysis for the compressible case ($\nu=0.3$)}
-%     \label{fig:bishop-convergence-nu-03}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \subfloat[\label{fig:bishop-convergence-nu-03-a}Displacement]{\includetikz{bishop-hex-disp-03}\includetikz{bishop-hex-disp-03}} \\
+	\subfloat[\label{fig:bishop-convergence-nu-03-b}Pressure]{\includetikz{bishop-hex-pres-03}\includetikz{bishop-hex-pres-03}} \\
+	\subfloat[\label{fig:bishop-convergence-nu-03-c}Stress]{\includetikz{bishop-hex-stress-03}\includetikz{bishop-hex-stress-03}} \\
+	\subfloat[\label{fig:bishop-convergence-nu-03-d}Volumetric strain]{\includetikz{bishop-hex-div-03}\includetikz{bishop-hex-div-03}}
+    \caption{Cantilever beam subjected to an end shear load. Convergence analysis for the compressible case ($\nu=0.3$) with hexahedral (at left) and tetrahedral (at right) elements}
+    \label{fig:bishop-convergence-nu-03}
+\end{figure}
 
-% \begin{figure}
-%     \centering
-%     \subfloat[\label{fig:bishop-snapshot-a}Displacement]{\includegraphics[trim={2.5cm 0cm 9.2cm 0cm},clip,scale=0.2]{Figures/bishop-snapshot-a.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-snapshot-b}Pressure]{\includegraphics[trim={2.5cm 0cm 9.2cm 0cm},clip,scale=0.2]{Figures/bishop-snapshot-b.pdf}} \\
-%     \subfloat[\label{fig:bishop-snapshot-c}Normal stress $\sigma_{zz}$]{\includegraphics[trim={2.5cm 0cm 9.2cm 0cm},clip,scale=0.2]{Figures/bishop-snapshot-c.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-snapshot-d}Shear stress $\sigma_{yz}$]{\includegraphics[trim={2.5cm 0cm 9.2cm 0cm},clip,scale=0.2]{Figures/bishop-snapshot-d.pdf}}
-%     \caption{Cantilever beam subjected to an end shear load - snapshots for $\nu=0.3$}
-%     \label{fig:bishop-snapshot}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \subfloat[\label{fig:bishop-snapshot-a}Displacement]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-disp.png}} \hfill
+    \subfloat[\label{fig:bishop-snapshot-b}Pressure]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-pressure.png}} \\
+    \subfloat[\label{fig:bishop-snapshot-c}Stress magnitude $\sigma_{zz}$]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-stress.png}} \hfill
+    \subfloat[\label{fig:bishop-snapshot-d}Von Mises stress $\sigma_{yz}$]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-vonmises.png}}
+    \caption{Cantilever beam subjected to an end shear load. Snapshots for $\nu=0.3$}
+    \label{fig:bishop-snapshot}
+\end{figure}
 
-In order to assess the proposed methodology in different compressibility regimes, similar analyses are performed considering $\nu=0.49$, $\nu=0.4999$, $\nu=0.499999$ and $\nu=0.5$. The convergence results are shown in Figures \ref{fig:bishop-convergence-nu-049}-\ref{fig:bishop-convergence-nu-05}, where optimal convergence rates are achieved independently of the poisson coefficient. This is a nice feature as many formulations present a locking phenomena under quasi and full incompressibility. Also, for the incompressible case ($\nu=0.5$), a divergence free displacement field is obtained even for the coarsest mesh, with the error bounded to the machine precision.
+In order to assess the proposed methodology in different compressibility regimes, Tables \ref{tab:bishop-convergence-049}-\ref{tab:bishop-convergence-050} show the convergence results for $\nu=0.49$, $\nu=0.4999$ and $\nu=0.5$ as well. Optimal convergence rates are achieved independently of the poisson coefficient. This is a nice feature as many formulations present locking under quasi and full incompressibility. Also, for the incompressible case ($\nu=0.5$), a divergence free displacement field is obtained even for the coarsest mesh, with the error bounded to the machine precision.
 
-% \begin{figure}
-%     \centering
-%     \subfloat[\label{fig:bishop-convergence-nu-049-a}Displacement]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-disp-049.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-049-b}Pressure]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-049.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-049.pdf}
-%     \subfloat[\label{fig:bishop-convergence-nu-049-c}Stress]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-stress-049.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-049-d}Divergence]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-div-049.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-049.pdf}
-%     \caption{Cantilever beam subjected to an end shear load - convergence analysis for the compressible case ($\nu=0.49$)}
-%     \label{fig:bishop-convergence-nu-049}
-% \end{figure}
-% \begin{figure}
-%     \centering
-%     \subfloat[\label{fig:bishop-convergence-nu-04999-a}Displacement]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-disp-04999.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-04999-b}Pressure]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-04999.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-04999.pdf}
-%     \subfloat[\label{fig:bishop-convergence-nu-04999-c}Stress]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-stress-04999.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-04999-d}Divergence]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-div-04999.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-04999.pdf}
-%     \caption{Cantilever beam subjected to an end shear load - convergence analysis for the quasi-incompressible case ($\nu=0.4999$)}
-%     \label{fig:bishop-convergence-nu-04999}
-% \end{figure}
-% \begin{figure}
-%     \centering
-%     \subfloat[\label{fig:bishop-convergence-nu-0499999-a}Displacement]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-disp-0499999.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-0499999-b}Pressure]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-0499999.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-0499999.pdf}
-%     \subfloat[\label{fig:bishop-convergence-nu-0499999-c}Stress]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-stress-0499999.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-0499999-d}Divergence]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-div-0499999.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-0499999.pdf}
-%     \caption{Cantilever beam subjected to an end shear load - convergence analysis for the quasi-incompressible case ($\nu=0.499999$)}
-%     \label{fig:bishop-convergence-nu-0499999}
-% \end{figure}
-% \begin{figure}
-%     \centering
-%     \subfloat[\label{fig:bishop-convergence-nu-05-a}Displacement]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-disp-05.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-05-b}Pressure]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-05.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-05.pdf}
-%     \subfloat[\label{fig:bishop-convergence-nu-05-c}Stress]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-stress-05.pdf}} \hfill
-%     \subfloat[\label{fig:bishop-convergence-nu-05-d}Divergence]{\includegraphics[trim={0cm 0cm 2.0cm 0cm},clip,scale=0.75]{Figures/bishop-div-05.pdf}}
-%     \includegraphics[trim={8.5cm 0cm 0cm 0cm},clip,scale=0.75]{Figures/bishop-pres-05.pdf}
-%     \caption{Cantilever beam subjected to an end shear load - convergence analysis for the incompressible case ($\nu=0.5$)}
-%     \label{fig:bishop-convergence-nu-05}
-% \end{figure}
+\begin{table}[H]
+    \centering
+    \caption{Cantilever beam subjected to an end shear load. Convergence analysis with $\nu=0.49$ for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (at left) and tetrahedral (at right) meshes}
+    \vspace{5pt}
+	\resizebox{\textwidth}{!}{
+    \begin{tabular}{c c c c c | c c c c}
+        \toprule
+        \multicolumn{5}{c}{\textbf{Hexahedral elements}} & \multicolumn{4}{c}{\textbf{Tetrahedral elements}} \\
+        \cmidrule(r){1-5} \cmidrule(l){6-9}
+        $h_e$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ \\
+        \midrule
+        \multicolumn{9}{l}{$k = 1$} \\
+        1       & $3.28E+00$ & $4.86E-01$ & $1.11E+00$ & $2.34E-13$ & -- & -- & -- & -- \\
+        0.5     & $8.07E-01$ & $2.43E-01$ & $5.57E-01$ & $3.57E-13$ & -- & -- & -- & -- \\
+        0.25    & $2.02E-01$ & $1.21E-01$ & $2.78E-01$ & $4.65E-13$ & -- & -- & -- & -- \\
+        0.125   & $5.04E-02$ & $6.07E-02$ & $1.39E-01$ & $7.05E-13$ & -- & -- & -- & -- \\
+        0.06125 & $1.26E-02$ & $3.04E-02$ & $6.96E-02$ & $8.03E-13$ & -- & -- & -- & -- \\
+        Rate & $2.00$ & $1.00$ & $1.00$ & --- & $2.00$ & $1.00$ & --- & $2.00$ \\
+        \midrule
+        \multicolumn{9}{l}{$k = 2$} \\
+        1       & $1.23E-01$ & $3.58E-02$ & $1.08E-01$ & $4.58E-12$ & -- & -- & -- & -- \\
+        0.5     & $7.61E-03$ & $9.32E-03$ & $2.82E-02$ & $1.01E-11$ & -- & -- & -- & -- \\
+        0.25    & $5.35E-04$ & $2.37E-03$ & $7.28E-03$ & $1.95E-11$ & -- & -- & -- & -- \\
+        0.125   & $4.84E-05$ & $5.96E-04$ & $1.87E-03$ & $3.89E-11$ & -- & -- & -- & -- \\
+        0.06125 & $4.99E-06$ & $1.49E-04$ & $4.69E-04$ & $7.94E-11$ & -- & -- & -- & -- \\
+        Rate & $3.00$ & $2.00$ & $2.00$ & --- & $3.00$ & $2.00$ & --- & $3.00$ \\
+        \midrule
+        \multicolumn{9}{l}{$k = 3$} \\
+        1       & $2.09E-03$ & $1.84E-03$ & $7.55E-03$ & $2.17E-12$ & -- & -- & -- & -- \\
+        0.5     & $1.38E-04$ & $2.79E-04$ & $1.72E-03$ & $4.58E-12$ & -- & -- & -- & -- \\
+        0.25    & $8.36E-06$ & $5.81E-05$ & $2.23E-04$ & $7.97E-12$ & -- & -- & -- & -- \\
+        0.125   & $5.40E-07$ & $7.29E-06$ & $2.81E-05$ & $1.69E-11$ & -- & -- & -- & -- \\
+        0.06125 & $3.40E-08$ & $9.04E-07$ & $3.49E-06$ & $3.50E-11$ & -- & -- & -- & -- \\
+		Rate & $4.00$ & $3.00$ & $3.00$ & --- & $4.00$ & $3.00$ & --- & $3.00$ \\
+        \bottomrule
+    \end{tabular}}
+	\label{tab:bishop-convergence-049}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Cantilever beam subjected to an end shear load. Convergence analysis with $\nu=0.4999$ for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (at left) and tetrahedral (at right) meshes}
+    \vspace{5pt}
+	\resizebox{\textwidth}{!}{
+    \begin{tabular}{c c c c c | c c c c}
+        \toprule
+        \multicolumn{5}{c}{\textbf{Hexahedral elements}} & \multicolumn{4}{c}{\textbf{Tetrahedral elements}} \\
+        \cmidrule(r){1-5} \cmidrule(l){6-9}
+        $h_e$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ \\
+        \midrule
+        \multicolumn{9}{l}{$k = 1$} \\
+        1       & $3.28E+00$ & $4.86E-01$ & $1.11E+00$ & $2.34E-13$ & -- & -- & -- & -- \\
+        0.5     & $8.07E-01$ & $2.43E-01$ & $5.57E-01$ & $3.57E-13$ & -- & -- & -- & -- \\
+        0.25    & $2.02E-01$ & $1.21E-01$ & $2.78E-01$ & $4.65E-13$ & -- & -- & -- & -- \\
+        0.125   & $5.04E-02$ & $6.07E-02$ & $1.39E-01$ & $7.05E-13$ & -- & -- & -- & -- \\
+        0.06125 & $1.26E-02$ & $3.04E-02$ & $6.96E-02$ & $8.03E-13$ & -- & -- & -- & -- \\
+        Rate & $2.00$ & $1.00$ & $1.00$ & --- & $2.00$ & $1.00$ & --- & $2.00$ \\
+        \midrule
+        \multicolumn{9}{l}{$k = 2$} \\
+        1       & $1.23E-01$ & $3.58E-02$ & $1.08E-01$ & $4.58E-12$ & -- & -- & -- & -- \\
+        0.5     & $7.61E-03$ & $9.32E-03$ & $2.82E-02$ & $1.01E-11$ & -- & -- & -- & -- \\
+        0.25    & $5.35E-04$ & $2.37E-03$ & $7.28E-03$ & $1.95E-11$ & -- & -- & -- & -- \\
+        0.125   & $4.84E-05$ & $5.96E-04$ & $1.87E-03$ & $3.89E-11$ & -- & -- & -- & -- \\
+        0.06125 & $4.99E-06$ & $1.49E-04$ & $4.69E-04$ & $7.94E-11$ & -- & -- & -- & -- \\
+        Rate & $3.00$ & $2.00$ & $2.00$ & --- & $3.00$ & $2.00$ & --- & $3.00$ \\
+        \midrule
+        \multicolumn{9}{l}{$k = 3$} \\
+        1       & $2.09E-03$ & $1.84E-03$ & $7.55E-03$ & $2.17E-12$ & -- & -- & -- & -- \\
+        0.5     & $1.38E-04$ & $2.79E-04$ & $1.72E-03$ & $4.58E-12$ & -- & -- & -- & -- \\
+        0.25    & $8.36E-06$ & $5.81E-05$ & $2.23E-04$ & $7.97E-12$ & -- & -- & -- & -- \\
+        0.125   & $5.40E-07$ & $7.29E-06$ & $2.81E-05$ & $1.69E-11$ & -- & -- & -- & -- \\
+        0.06125 & $3.40E-08$ & $9.04E-07$ & $3.49E-06$ & $3.50E-11$ & -- & -- & -- & -- \\
+		Rate & $4.00$ & $3.00$ & $3.00$ & --- & $4.00$ & $3.00$ & --- & $3.00$ \\
+        \bottomrule
+    \end{tabular}}
+	\label{tab:bishop-convergence-04999}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Cantilever beam subjected to an end shear load. Convergence analysis with $\nu=0.5$ for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (at left) and tetrahedral (at right) meshes}
+    \vspace{5pt}
+	\resizebox{\textwidth}{!}{
+    \begin{tabular}{c c c c c | c c c c}
+        \toprule
+        \multicolumn{5}{c}{\textbf{Hexahedral elements}} & \multicolumn{4}{c}{\textbf{Tetrahedral elements}} \\
+        \cmidrule(r){1-5} \cmidrule(l){6-9}
+        $h_e$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ \\
+        \midrule
+        \multicolumn{9}{l}{$k = 1$} \\
+        1       & $3.28E+00$ & $4.86E-01$ & $1.11E+00$ & $2.34E-13$ & -- & -- & -- & -- \\
+        0.5     & $8.07E-01$ & $2.43E-01$ & $5.57E-01$ & $3.57E-13$ & -- & -- & -- & -- \\
+        0.25    & $2.02E-01$ & $1.21E-01$ & $2.78E-01$ & $4.65E-13$ & -- & -- & -- & -- \\
+        0.125   & $5.04E-02$ & $6.07E-02$ & $1.39E-01$ & $7.05E-13$ & -- & -- & -- & -- \\
+        0.06125 & $1.26E-02$ & $3.04E-02$ & $6.96E-02$ & $8.03E-13$ & -- & -- & -- & -- \\
+        Rate & $2.00$ & $1.00$ & $1.00$ & --- & $2.00$ & $1.00$ & --- & $2.00$ \\
+        \midrule
+        \multicolumn{9}{l}{$k = 2$} \\
+        1       & $1.23E-01$ & $3.58E-02$ & $1.08E-01$ & $4.58E-12$ & -- & -- & -- & -- \\
+        0.5     & $7.61E-03$ & $9.32E-03$ & $2.82E-02$ & $1.01E-11$ & -- & -- & -- & -- \\
+        0.25    & $5.35E-04$ & $2.37E-03$ & $7.28E-03$ & $1.95E-11$ & -- & -- & -- & -- \\
+        0.125   & $4.84E-05$ & $5.96E-04$ & $1.87E-03$ & $3.89E-11$ & -- & -- & -- & -- \\
+        0.06125 & $4.99E-06$ & $1.49E-04$ & $4.69E-04$ & $7.94E-11$ & -- & -- & -- & -- \\
+        Rate & $3.00$ & $2.00$ & $2.00$ & --- & $3.00$ & $2.00$ & --- & $3.00$ \\
+        \midrule
+        \multicolumn{9}{l}{$k = 3$} \\
+        1       & $2.09E-03$ & $1.84E-03$ & $7.55E-03$ & $2.17E-12$ & -- & -- & -- & -- \\
+        0.5     & $1.38E-04$ & $2.79E-04$ & $1.72E-03$ & $4.58E-12$ & -- & -- & -- & -- \\
+        0.25    & $8.36E-06$ & $5.81E-05$ & $2.23E-04$ & $7.97E-12$ & -- & -- & -- & -- \\
+        0.125   & $5.40E-07$ & $7.29E-06$ & $2.81E-05$ & $1.69E-11$ & -- & -- & -- & -- \\
+        0.06125 & $3.40E-08$ & $9.04E-07$ & $3.49E-06$ & $3.50E-11$ & -- & -- & -- & -- \\
+		Rate & $4.00$ & $3.00$ & $3.00$ & --- & $4.00$ & $3.00$ & --- & $3.00$ \\
+        \bottomrule
+    \end{tabular}}
+	\label{tab:bishop-convergence-050}
+\end{table}
+
+To measure the effectiveness of the DHMH(div) method, we compare the error as a function of the number of degrees of freedom in the global system against the Taylor-Hood formulation for $\nu=0.5$. According to Figure \ref{fig:bishop-comparison-TH},  using both partitions. 
+
+
+
+
 
 \subsection{Cook's membrane \label{subsec:cook}}
 

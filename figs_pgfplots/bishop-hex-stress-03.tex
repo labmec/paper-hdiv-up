@@ -1,0 +1,38 @@
+% \documentclass[margin=0cm]{standalone}
+% \usepackage{amsmath}
+% \usepackage{tikz}
+% \usepackage{pgfplots}
+
+% \pgfplotsset{compat=newest}
+
+% \usetikzlibrary{calc}
+% \usetikzlibrary{plotmarks}
+
+% \begin{document}
+    \begin{tikzpicture}
+        \begin{loglogaxis}[
+            % width=0.40\textwidth,
+	        height=0.32\textwidth,
+	        xlabel= $h_{el}$,
+	        ylabel=${\lVert \bm{\sigma}_h-\bm{\sigma}_{exact} \rVert}_{L^2}$,
+            xmin=0.05, xmax=1.1,
+            grid style={dashed},
+            grid=major,
+            % legend style=
+            % {
+            %     at={(0.95,0.95)},
+            %     anchor=north east
+            % }
+            legend pos = outer north east
+            ]
+        \addplot[color=red,mark=*] table[x index=0, y index=3] {figs_pgfplots/bishop-hex-nu-03.dat};
+        \addplot[color=blue,mark=*] table[x index=0, y index=7] {figs_pgfplots/bishop-hex-nu-03.dat};
+        \addplot[color=orange,mark=*] table[x index=0, y index=11] {figs_pgfplots/bishop-hex-nu-03.dat};
+        \logLogSlopeTriangle{0.25}{0.15}{0.725}{1}{black}
+        \logLogSlopeTriangle{0.25}{0.15}{0.414}{2}{black}
+        \logLogSlopeTriangle{0.25}{0.15}{0.08}{3}{black}
+
+        % \legend{$k=1$, $k=2$, $k=3$}
+        \end{loglogaxis}
+    \end{tikzpicture}
+% \end{document}

@@ -25,14 +25,14 @@
             % }
             legend pos = outer north east
             ]
-        \addplot[color=red,mark=*] table[x index=0, y index=6] {figs_pgfplots/bishop-hex-nu-03-k1.dat};
-        \addplot[color=blue,mark=*] table[x index=0, y index=6] {figs_pgfplots/bishop-hex-nu-03-k2.dat};
-        \addplot[color=orange,mark=*] table[x index=0, y index=6] {figs_pgfplots/bishop-hex-nu-03-k3.dat};
-        \logLogSlopeTriangle{0.25}{0.15}{0.71}{1}{black}
-        \logLogSlopeTriangle{0.25}{0.15}{0.4}{2}{black}
+        \addplot[color=red,mark=*] table[x index=0, y index=6] {figs_pgfplots/bishop-tet-nu-03-k1.dat};
+        \addplot[color=blue,mark=*] table[x index=0, y index=6] {figs_pgfplots/bishop-tet-nu-03-k2.dat};
+        \addplot[color=orange,mark=*] table[x index=0, y index=6] {figs_pgfplots/bishop-tet-nu-03-k3.dat};
+        \logLogSlopeTriangle{0.25}{0.15}{0.7}{1}{black}
+        \logLogSlopeTriangle{0.25}{0.15}{0.38}{2}{black}
         \logLogSlopeTriangle{0.25}{0.15}{0.08}{3}{black}
 
-        % \legend{$k=1$, $k=2$, $k=3$}
+        \legend{$k=1$, $k=2$, $k=3$}
         \end{loglogaxis}
     \end{tikzpicture}
 % \end{document}

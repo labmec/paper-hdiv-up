@@ -14,7 +14,7 @@
             % width=0.40\textwidth,
 	        height=0.32\textwidth,
 	        xlabel= $h_{el}$,
-	        ylabel=${\lVert p_h-p_{exact} \rVert}_{L^2}$,
+	        ylabel=${\lVert p_h-p \rVert}_{L^2}$,
             xmin=0.05, xmax=1.1,
             grid style={dashed},
             grid=major,
@@ -25,11 +25,11 @@
             % }
             legend pos = outer north east
             ]
-        \addplot[color=red,mark=*] table[x index=0, y index=2] {figs_pgfplots/bishop-hex-nu-03.dat};
-        \addplot[color=blue,mark=*] table[x index=0, y index=6] {figs_pgfplots/bishop-hex-nu-03.dat};
-        \addplot[color=orange,mark=*] table[x index=0, y index=10] {figs_pgfplots/bishop-hex-nu-03.dat};
-        \logLogSlopeTriangle{0.25}{0.15}{0.74}{1}{black}
-        \logLogSlopeTriangle{0.25}{0.15}{0.42}{2}{black}
+        \addplot[color=red,mark=*] table[x index=0, y index=4] {figs_pgfplots/bishop-hex-nu-03-k1.dat};
+        \addplot[color=blue,mark=*] table[x index=0, y index=4] {figs_pgfplots/bishop-hex-nu-03-k2.dat};
+        \addplot[color=orange,mark=*] table[x index=0, y index=4] {figs_pgfplots/bishop-hex-nu-03-k3.dat};
+        \logLogSlopeTriangle{0.25}{0.15}{0.71}{1}{black}
+        \logLogSlopeTriangle{0.25}{0.15}{0.41}{2}{black}
         \logLogSlopeTriangle{0.25}{0.15}{0.08}{3}{black}
 
         % \legend{$k=1$, $k=2$, $k=3$}

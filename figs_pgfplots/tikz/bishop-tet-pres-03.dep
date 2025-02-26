@@ -1,0 +1,3 @@
+./figs_pgfplots/tikz/bishop-tet-pres-03.pdf: figs_pgfplots/bishop-tet-nu-03-k1.dat
+./figs_pgfplots/tikz/bishop-tet-pres-03.pdf: figs_pgfplots/bishop-tet-nu-03-k2.dat
+./figs_pgfplots/tikz/bishop-tet-pres-03.pdf: figs_pgfplots/bishop-tet-nu-03-k3.dat

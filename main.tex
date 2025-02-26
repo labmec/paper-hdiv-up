@@ -991,11 +991,11 @@ The results in Figure \ref{fig:bishop-convergence-nu-03} are very similar using 
 
 \begin{figure}[H]
     \centering
-    \subfloat[\label{fig:bishop-convergence-nu-03-a}Displacement]{\includetikz{bishop-hex-disp-03}\includetikz{bishop-hex-disp-03}} \\
-	\subfloat[\label{fig:bishop-convergence-nu-03-b}Pressure]{\includetikz{bishop-hex-pres-03}\includetikz{bishop-hex-pres-03}} \\
-	\subfloat[\label{fig:bishop-convergence-nu-03-c}Stress]{\includetikz{bishop-hex-stress-03}\includetikz{bishop-hex-stress-03}} \\
-	\subfloat[\label{fig:bishop-convergence-nu-03-d}Volumetric strain]{\includetikz{bishop-hex-div-03}\includetikz{bishop-hex-div-03}}
-    \caption{Cantilever beam subjected to an end shear load. Convergence analysis for the compressible case ($\nu=0.3$) with hexahedral (at left) and tetrahedral (at right) elements}
+    \subfloat[\label{fig:bishop-convergence-nu-03-a}Displacement]{\includetikz{bishop-hex-disp-03}\includetikz{bishop-tet-disp-03}} \\
+	\subfloat[\label{fig:bishop-convergence-nu-03-b}Pressure]{\includetikz{bishop-hex-pres-03}\includetikz{bishop-tet-pres-03}} \\
+	\subfloat[\label{fig:bishop-convergence-nu-03-c}Stress]{\includetikz{bishop-hex-stress-03}\includetikz{bishop-tet-stress-03}} \\
+	\subfloat[\label{fig:bishop-convergence-nu-03-d}Volumetric strain]{\includetikz{bishop-hex-div-03}\includetikz{bishop-tet-div-03}}
+    \caption{Cantilever beam subjected to an end shear load. Convergence analysis for the compressible case ($\nu=0.3$) with hexahedral (at left) and tetrahedral (at right) elements using the DHM-H(div) formulation}
     \label{fig:bishop-convergence-nu-03}
 \end{figure}
 
@@ -1003,8 +1003,8 @@ The results in Figure \ref{fig:bishop-convergence-nu-03} are very similar using 
     \centering
     \subfloat[\label{fig:bishop-snapshot-a}Displacement]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-disp.png}} \hfill
     \subfloat[\label{fig:bishop-snapshot-b}Pressure]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-pressure.png}} \\
-    \subfloat[\label{fig:bishop-snapshot-c}Stress magnitude $\sigma_{zz}$]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-stress.png}} \hfill
-    \subfloat[\label{fig:bishop-snapshot-d}Von Mises stress $\sigma_{yz}$]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-vonmises.png}}
+    \subfloat[\label{fig:bishop-snapshot-c}Stress magnitude]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-stress.png}} \hfill
+    \subfloat[\label{fig:bishop-snapshot-d}Von Mises stress]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-vonmises.png}}
     \caption{Cantilever beam subjected to an end shear load. Snapshots for $\nu=0.3$}
     \label{fig:bishop-snapshot}
 \end{figure}

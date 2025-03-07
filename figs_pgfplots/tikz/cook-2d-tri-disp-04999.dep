@@ -1,0 +1,5 @@
+./figs_pgfplots/tikz/cook-2d-tri-disp-04999.pdf: figs_pgfplots/cook-2d-tri-nu-04999-k1.dat
+./figs_pgfplots/tikz/cook-2d-tri-disp-04999.pdf: figs_pgfplots/cook-2d-tri-nu-04999-k2.dat
+./figs_pgfplots/tikz/cook-2d-tri-disp-04999.pdf: figs_pgfplots/cook-2d-tri-nu-04999-k3.dat
+./figs_pgfplots/tikz/cook-2d-tri-disp-04999.pdf: figs_pgfplots/cook-2d-tri-nu-04999-k4.dat
+./figs_pgfplots/tikz/cook-2d-tri-disp-04999.pdf: figs_pgfplots/cook-Hughes.dat

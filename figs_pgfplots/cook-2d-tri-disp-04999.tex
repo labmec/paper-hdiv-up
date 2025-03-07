@@ -1,0 +1,54 @@
+% \documentclass[margin=0cm]{standalone}
+% \usepackage{amsmath}
+% \usepackage{tikz}
+% \usepackage{pgfplots}
+
+% \pgfplotsset{compat=newest}
+
+% \usetikzlibrary{calc}
+% \usetikzlibrary{plotmarks}
+
+% \begin{document}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=0.47\textwidth,
+	        xlabel=Elements/side,
+	        ylabel=Vertical displacement (mm),
+            xmin=0, xmax=35,
+            ymin=0, ymax=9,
+            grid style={dashed},
+            grid=major,
+            legend style=
+            {
+                at={(0.98,0.55)},
+                anchor=east
+            },
+            legend columns=2, 
+            % legend pos = south east,
+            legend style={
+                    % the /tikz/ prefix is necessary here...
+                    % otherwise, it might end-up with `/pgfplots/column 2`
+                    % which is not what we want. compare pgfmanual.pdf
+                /tikz/column 2/.style={
+                column sep=5pt,
+                },
+                nodes={scale=0.8, transform shape}
+            }
+            ]
+        \addplot[color=red,mark=*] table[x index=0, y index=4] {figs_pgfplots/cook-2d-tri-nu-04999-k1.dat};
+        \addplot[color=blue,mark=square*] table[x index=0, y index=4] {figs_pgfplots/cook-2d-tri-nu-04999-k2.dat};
+        \addplot[color=orange,mark=triangle*] table[x index=0, y index=4] {figs_pgfplots/cook-2d-tri-nu-04999-k3.dat};
+        \addplot[color=purple,mark=x] table[x index=0, y index=4] {figs_pgfplots/cook-2d-tri-nu-04999-k4.dat};
+        \addplot[color=black,dashed,thick] table[x index=0, y index=1] {figs_pgfplots/cook-Hughes.dat};
+
+        % \addlegendentry{DHM-H(div) $k=1$}
+        % \addlegendentry{$P_2P_1$}
+        % \addlegendentry{DHM-H(div) $k=2$}
+        % \addlegendentry{$P_3P_2$}
+        % \addlegendentry{DHM-H(div) $k=3$}
+        % \addlegendentry{$P_4P_3$}
+        % \addlegendentry{DHM-H(div) $k=4$}
+        % \addlegendentry{$\bar{B}$ $Q_4/Q_3$ [1]}
+        \end{axis}
+    \end{tikzpicture}
+% \end{document}

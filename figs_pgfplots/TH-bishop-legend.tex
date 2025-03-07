@@ -1,0 +1,28 @@
+\begin{tikzpicture} 
+    \begin{axis}[%
+    width=0.9\textwidth,
+    hide axis,
+    xmin=10,
+    xmax=50,
+    ymin=0,
+    ymax=0.4,
+    legend columns=3, 
+    legend style={/tikz/column 2/.style={
+                column sep=10pt
+    },/tikz/column 4/.style={
+        column sep=10pt
+},legend cell align=left}
+    ]
+    \addlegendimage{red,mark=*}
+    \addlegendentry{DHM-H(div) $k=1$};
+    \addlegendimage{blue,mark=o}
+    \addlegendentry{DHM-H(div) $k=2$};
+    \addlegendimage{orange,mark=triangle*}
+    \addlegendentry{DHM-H(div) $k=3$};
+
+    \addlegendimage{green,mark=x,dashed}
+    \addlegendentry{$P_2P_1$};
+    \addlegendimage{purple,mark=square*,dashed}
+    \addlegendentry{$P_3P_2$};
+    \end{axis}
+\end{tikzpicture}

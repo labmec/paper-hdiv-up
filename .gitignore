@@ -2,6 +2,7 @@
 .vscode
 main.pdf
 out/*
+figs_pgfplots/tikz/*
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

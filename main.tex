@@ -925,7 +925,7 @@ As a first example, a simple uniform stretch test of a heterogeneous cube specim
 \begin{figure}[!htb]
     \centering
     \input{non-homogeneous-stretch-geometry.pdf_tex}
-    \caption{Uniform stretch of a non-homogeneous material. Geometry.}
+    \caption{Uniform stretch of a non-homogeneous material -- geometry.}
     \label{fig:non-homogeneous-stretch-geometry}
 \end{figure}
 
@@ -958,16 +958,16 @@ Figure \ref{fig:non-homogeneous-stretch-fields} depicts the $x$ displacement com
 
 \subsection{Cantilever beam subjected to an end shear load \label{subsec:bishop}}
 
-The case of a tridimensional cantilever beam under an end shear-load is considered. Its initial geometry is depicted in Figure \ref{fig:bishop-beam-geometry}, with $L=5$, $a=0.5$, $b=0.5$. The beam is assumed to be fixed at $z=0$ and subjected to a shear-force $F=1$ at $z=L$ pointing downwards in the $y$ direction, while the other faces are traction-free. The material is assumed to have a linear isotropic behaviour with a constant Young modulus $E=1$ whereas different values are used for the poisson coefficient in order to test the formulation for a wide range of compressibility.
+The case of a tridimensional cantilever beam under an end shear load is considered. Its initial geometry is depicted in Figure \ref{fig:bishop-beam-geometry}, with $L=5$, $a=0.5$, $b=0.5$. The beam is fixed at $z=0$ and is subjected to a downward shear force $F=1$ at $z=L$ in the $y$ direction. The other faces are traction-free. The material is assumed to have a linear isotropic behavior with a constant Young's modulus of $E=1$. To analyze the formulation across a broad range of material compressibility, different values of the Poisson ratio are considered.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=1.0]{bishop-beam-geometry}
-	\caption{Cantilever beam subjected to an end shear load - geometry}
+	\caption{Cantilever beam subjected to an end shear load -- geometry.}
 	\label{fig:bishop-beam-geometry}
 \end{figure}
 
-The analytical stress state for the problem is given in \cite{bishop2014displacement} and written below:
+The analytical stress state for the problem is provided in \cite{bishop2014displacement} and is expressed as follows:
 \begin{equation} \label{eq:bishop-stress}
 	\begin{aligned}
 		\sigma_{xx} &= \sigma_{xy} = \sigma_{yy} = 0 \text{,}\\
@@ -987,19 +987,23 @@ The analytical stress state for the problem is given in \cite{bishop2014displace
 	\end{split}
 \end{equation}
 
-For the analyses that follow, we kept the number of terms in the series above bounded to $n=5$. The exact solution evaluated on the boundaries of the beam is used to define the boundary conditions for the numerical analysis. At $z=0$, the exact normal and tangential displacements computed according to Eq. \eqref{eq:bishop-displacement} are prescribed, whereas surface tractions in accordance to Eq. \eqref{eq:bishop-stress} are applied on the other five faces.
+For the analyses that follow, we kept the number of terms in the series expansion limited to $n=5$. The exact solution evaluated on the boundaries of the beam is used to define the boundary conditions. At $z=0$, the exact normal and tangential displacements computed according to Eq. \eqref{eq:bishop-displacement} are prescribed, whereas surface tractions in accordance to Eq. \eqref{eq:bishop-stress} are applied on the other five faces.
 
-Two types of partitions are used, with tetrahedra and hexahedra elements. For both cases, the average element size is computed as $h_e=1/2^{n-1}$, where $n=\{1,2,3,4,5\}$. The coarsest ($h_e=1$) and finest ($h_e=0.0625$) meshes for each partition are shown in Figure \ref{fig:bishop-meshes}. The first analysis is carried out keeping $\nu=0.3$ as in the reference \cite{bishop2014displacement}, and a convergence test is performed for the displacement, pressure, stress and mass conservation $L^2$-norm errors.
+Two types of mesh partitions are considered: one using tetrahedral elements and the other using hexahedral elements. For both cases, the average element size is computed as $h_e=1/2^{n-1}$, where $n=\{1,2,3,4,5\}$. The coarsest ($h_e=1$) and finest ($h_e=0.0625$) meshes for each partition are shown in Figure \ref{fig:bishop-meshes}. The first analysis is carried out keeping $\nu=0.3$ as in \cite{bishop2014displacement}. A convergence study is then performed, evaluating the $L^2$-norm errors for displacement, pressure, stress, and mass conservation.
 
 \begin{figure}[H]
 	\centering
-	\subfloat[Hexahedral meshes. Coarsest (left) and finest (right)]{\includegraphics[width=0.48\textwidth]{bishop-mesh-hex-a.png}\includegraphics[width=0.48\textwidth]{bishop-mesh-hex-b.png}} \\
-	\subfloat[Tetrahedral meshes. Coarsest (left) and finest (right)]{\includegraphics[width=0.48\textwidth]{bishop-mesh-tet-a.png}\includegraphics[width=0.48\textwidth]{bishop-mesh-tet-b.png}}
+	\subfloat[Hexahedral meshes. Coarsest (left) and finest (right).]{\includegraphics[width=0.48\textwidth]{bishop-mesh-hex-a.png}\includegraphics[width=0.48\textwidth]{bishop-mesh-hex-b.png}} \\
+	\subfloat[Tetrahedral meshes. Coarsest (left) and finest (right).]{\includegraphics[width=0.48\textwidth]{bishop-mesh-tet-a.png}\includegraphics[width=0.48\textwidth]{bishop-mesh-tet-b.png}}
 	\caption{Cantilever beam subjected to an end shear load. Meshes used for the convergence test}
 	\label{fig:bishop-meshes}
 \end{figure}
 
-The results in Figure \ref{fig:bishop-convergence-nu-03} are very similar using both partitions, where optimal convergence rates of order $k+1$ for the displacement and $k$ for the remaining variables are achieved. Figure \ref{fig:bishop-snapshot} plots the displacement, pressure, stress magnitude and von mises stress distributions obtained with the finest hexahedral mesh using $k=3$ over the deformed configuration beam. The results qualitatively agress with the reference solution \cite{bishop2014displacement}.
+{\nathan I think axes are too small or even unnecessary.}
+
+The results in Figure \ref{fig:bishop-convergence-nu-03} are similar using both mesh partitions, exhibiting optimal convergence rates of order $k+1$ for the displacement and $k$ for the other variables. Figure \ref{fig:bishop-snapshot} presents the displacement, pressure, stress magnitude and Von Mises stress distributions obtained with the finest hexahedral mesh using $k=3$ over the deformed configuration beam. The results qualitatively agree with the reference solution \cite{bishop2014displacement}.
+
+{\nathan alguns gráficos cortam o número 1 da base do triângulo.}
 
 \begin{figure}[H]
     \centering
@@ -1007,7 +1011,7 @@ The results in Figure \ref{fig:bishop-convergence-nu-03} are very similar using 
 	\subfloat[\label{fig:bishop-convergence-nu-03-b}Pressure]{\includetikz{bishop-hex-pres-03}\includetikz{bishop-tet-pres-03}} \\
 	\subfloat[\label{fig:bishop-convergence-nu-03-c}Stress]{\includetikz{bishop-hex-stress-03}\includetikz{bishop-tet-stress-03}} \\
 	\subfloat[\label{fig:bishop-convergence-nu-03-d}Volumetric strain]{\includetikz{bishop-hex-div-03}\includetikz{bishop-tet-div-03}}
-    \caption{Cantilever beam subjected to an end shear load. Convergence analysis for the compressible case ($\nu=0.3$) with hexahedral (at left) and tetrahedral (at right) elements using the DHM-H(div) formulation}
+    \caption{Cantilever beam subjected to an end shear load. Convergence analysis for the compressible case ($\nu=0.3$) with hexahedral (at left) and tetrahedral (at right) elements using the DHM-H(div) formulation.}
     \label{fig:bishop-convergence-nu-03}
 \end{figure}
 
@@ -1017,15 +1021,15 @@ The results in Figure \ref{fig:bishop-convergence-nu-03} are very similar using 
     \subfloat[\label{fig:bishop-snapshot-b}Pressure]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-pressure.png}} \\
     \subfloat[\label{fig:bishop-snapshot-c}Stress magnitude]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-stress.png}} \hfill
     \subfloat[\label{fig:bishop-snapshot-d}Von Mises stress]{\includegraphics[width=0.47\textwidth,trim={0 0 10cm 0}, clip]{bishop-vonmises.png}}
-    \caption{Cantilever beam subjected to an end shear load. Snapshots for $\nu=0.3$}
+    \caption{Cantilever beam subjected to an end shear load. Snapshots for $\nu=0.3$.}
     \label{fig:bishop-snapshot}
 \end{figure}
 
-In order to assess the proposed methodology in different compressibility regimes, Tables \ref{tab:bishop-convergence-049}-\ref{tab:bishop-convergence-050} show the convergence results for $\nu=0.49$, $\nu=0.4999$ and $\nu=0.5$ as well. Optimal convergence rates are achieved independently of the poisson coefficient. This is a nice feature as many formulations present locking under quasi and full incompressibility. Also, for the incompressible case ($\nu=0.5$), a divergence free displacement field is obtained even for the coarsest mesh, with the error bounded to the machine precision.
+To evaluate the proposed methodology across different compressibility regimes, Tables \ref{tab:bishop-convergence-049}-\ref{tab:bishop-convergence-050} present the convergence rates obtained for $\nu=0.49$, $\nu=0.4999$ and $\nu=0.5$. Optimal convergence rates are achieved independently of the Poisson ratio. This is a noteworthy feature, as many formulations suffer from locking under quasi and full incompressibility. Additionally, for the incompressible case ($\nu=0.5$), a divergence-free displacement field is obtained even for the coarsest mesh, with the error limited to machine precision.
 
 \begin{table}[H]
     \centering
-    \caption{Cantilever beam subjected to an end shear load. Convergence analysis with $\nu=0.49$ for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (at left) and tetrahedral (at right) meshes using the DHM-H(div) formulation}
+    \caption{Convergence rates for a cantilever beam under an end shear load with $\nu=0.49$. Results are shown for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (left) and tetrahedral (right) meshes with the DHM-H(div) formulation}
     \vspace{5pt}
 	\resizebox{\textwidth}{!}{
     \begin{tabular}{c c c c c | c c c c}
@@ -1064,7 +1068,7 @@ In order to assess the proposed methodology in different compressibility regimes
 
 \begin{table}[H]
     \centering
-    \caption{Cantilever beam subjected to an end shear load. Convergence analysis with $\nu=0.4999$ for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (at left) and tetrahedral (at right) meshes using the DHM-H(div) formulation}
+    \caption{Convergence rates for a cantilever beam under an end shear load with $\nu=0.4999$. Results are presented for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (left) and tetrahedral (right) meshes with the DHM-H(div) formulation}
     \vspace{5pt}
 	\resizebox{\textwidth}{!}{
     \begin{tabular}{c c c c c | c c c c}
@@ -1103,7 +1107,7 @@ In order to assess the proposed methodology in different compressibility regimes
 
 \begin{table}[H]
     \centering
-    \caption{Cantilever beam subjected to an end shear load. Convergence analysis with $\nu=0.5$ for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (at left) and tetrahedral (at right) meshes using the DHM-H(div) formulation}
+    \caption{Convergence rates for a cantilever beam under an end shear load with $\nu=0.5$. Results are presented for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (left) and tetrahedral (right) meshes with the DHM-H(div) formulation}
     \vspace{5pt}
 	\resizebox{\textwidth}{!}{
     \begin{tabular}{c c c c c | c c c c}
@@ -1140,7 +1144,7 @@ In order to assess the proposed methodology in different compressibility regimes
 	\label{tab:bishop-convergence-050}
 \end{table}
 
-We compare the error as a function of the number of degrees of freedom in the global system against the Taylor-Hood formulation for $\nu=0.5$. According to Figure \ref{fig:bishop-comparison-TH}, the DHM-H(div) formulation demonstrates competitive performance, showing a similar convergence rate compared to the Taylor-Hood elements using both partitions. The most significant difference appears in the pressure error, where the results using Taylor-Hood elements indicate a superconvergent rate. This behavior can be attributed to the pressure analytic solution being already included in the approximation space, a phenomenon also reported in \cite{puga2025stable} for a Stokes example. Nonetheless, the DHM-H(div) formulation exactly represent the volumetric strain independently of the number of degrees of freedom, being advantageous for full incompressible materials.
+We compare the error as a function of the number of degrees of freedom in the global system against the Taylor-Hood formulation for $\nu=0.5$. According to Figure \ref{fig:bishop-comparison-TH}, the DHM-H(div) formulation demonstrates competitive performance, showing a similar convergence rate compared to the Taylor-Hood elements using both partitions. The most significant difference appears in the pressure error, where the results using Taylor-Hood elements indicate a superconvergent rate. This behavior can be attributed to the pressure analytic solution being already included in the approximation space, a phenomenon also reported in \cite{puga2025stable} for a Stokes flow problem. Nonetheless, the DHM-H(div) formulation exactly represent the volumetric strain independently of the number of degrees of freedom, being advantageous for fully incompressible materials.
 \begin{figure}[H]
     \centering
 	\includetikz{TH-bishop-legend} \\
@@ -1148,18 +1152,18 @@ We compare the error as a function of the number of degrees of freedom in the gl
 	\subfloat[\label{fig:bishop-comparison-TH-b}Pressure]{\includetikz{TH-bishop-hex-pres-05}\includetikz{TH-bishop-tet-pres-05}} \\
 	\subfloat[\label{fig:bishop-comparison-TH-c}Stress]{\includetikz{TH-bishop-hex-stress-05}\includetikz{TH-bishop-tet-stress-05}} \\
 	\subfloat[\label{fig:bishop-comparison-TH-d}Volumetric strain]{\includetikz{TH-bishop-hex-div-05}\includetikz{TH-bishop-tet-div-05}}
-    \caption{Cantilever beam subjected to an end shear load. Error analysis in respect to the number of degrees of freedom for $\nu=0.5$ with hexahedral (at left) and tetrahedral (at right) elements using the DHM-H(div) and Taylor-Hood formulations.}
+    \caption{Cantilever beam subjected to an end shear load. Error analysis with respect to the number of degrees of freedom for $\nu=0.5$ with hexahedral (left) and tetrahedral (right) elements using the DHM-H(div) and Taylor-Hood formulations.}
     \label{fig:bishop-comparison-TH}
 \end{figure}
 
 \subsection{Cook's membrane \label{subsec:cook}}
 
-The Cook's membrane is a classical benchmark for the study of locking phenomena of incompressible or nearly-incompressible elasticity problems under shear and bending conditions. It consists of a tapered cantilever beam clamped at its left side and subjected to a shear load in the $y$ direction at $x=48$ mm equal to $F=6.25$ N/mm, according to Figure \ref{fig:cooks-geometry}. The material is assumed to have a linear behaviour with a constant Young modulus $E=240.565$ MPa and two different Poisson coefficients were tested according to the references: $\nu=0.4999$ and $\nu=0.4999999$. This problem can be seen in many books and papers, such as in \cite{cook1989concepts,elguedj2008b,cesar1999new}, with different material properties, geometries and boundary conditions. Some works also studied this problem in the regime of large displacements and strains, under elastic and elastoplastic materials \cite{chavan2007locking,elguedj2008b,de1996design}. In this work, we only focus on the linear elastic analysis.
+The Cook's membrane is a classical benchmark for the study of locking phenomena of incompressible or nearly-incompressible elasticity problems under shear and bending conditions. It consists of a tapered cantilever beam clamped at its left side and subjected to a shear load in the $y$ direction at $x=48$ mm equal to $F=6.25$ N/mm, according to Figure \ref{fig:cooks-geometry}. The material is assumed to have a linear behavior with a constant Young modulus $E=240.565$ MPa and two different Poisson coefficients were tested according to the references: $\nu=0.4999$ and $\nu=0.4999999$. This problem can be seen in many books and papers, such as in \cite{cook1989concepts,elguedj2008b,cesar1999new}, with different material properties, geometries and boundary conditions. Some works also studied this problem in the regime of large displacements and strains, under elastic and elastoplastic materials \cite{chavan2007locking,elguedj2008b,de1996design}. In this work, we only focus on the linear elastic analysis.
 
 \begin{figure}[H]
     \centering
     \input{cooks-membrane.pdf_tex}
-    \caption{Cook's membrane. Geometry.}
+    \caption{Cook's membrane -- geometry.}
     \label{fig:cooks-geometry}
 \end{figure}
 
@@ -1205,7 +1209,7 @@ Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the verti
 
 \subsection{Application problem\label{subsec:module}}
 
-With the objective of testing the method's robustness regarding complex geometries, the proposed methodology is applied to a real-world problem. The geometry of a structural hull is depicted in Figure \ref{fig:module-geometry}, with dimensions $L=1\m$, $r_i=0.345\m$, $r_e=0.390\m$. The hull is subjected to an internal pressure of $p=10.34$ MPa and fixed in the normal direction of all other faces. The material is assumed to have a linear behaviour with a constant Young modulus $E=210000$ MPa and Poisson coefficient $\nu=0.3$. Since the problem is axisymmetric, only one-forth of the domain is modeled, as shown in Figure \ref{fig:module-geometry}. The results obtained with the proposed formulation are compared with the results obtained using the classical Taylor-Hood formulation.
+With the objective of testing the method's robustness regarding complex geometries, the proposed methodology is applied to a real-world problem. The geometry of a structural hull is depicted in Figure \ref{fig:module-geometry}, with dimensions $L=1\m$, $r_i=0.345\m$, $r_e=0.390\m$. The hull is subjected to an internal pressure of $p=10.34$ MPa and fixed in the normal direction of all other faces. The material is assumed to have a linear behavior with a constant Young modulus $E=210000$ MPa and Poisson coefficient $\nu=0.3$. Since the problem is axisymmetric, only one-forth of the domain is modeled, as shown in Figure \ref{fig:module-geometry}. The results obtained with the proposed formulation are compared with the results obtained using the classical Taylor-Hood formulation.
 
 \begin{figure}[h]
     \centering

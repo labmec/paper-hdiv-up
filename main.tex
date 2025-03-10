@@ -1184,7 +1184,7 @@ At first, we perform plane strain analyses using structured meshes with triangul
 	\label{fig:cooks-2d-quad-meshes}
 \end{figure}
 
-Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the vertical displacement of point A for two values of $\nu$ with some numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained with Taylor-Hood elements $P_kP_{k-1}$ with $k=\{2,3,4\}$. One notices that the DHM-H(div) formulation leads to a locking-free solution even for lower order approximation ($k=1$), and qualitatively agrees with the reference solutions for both values of $\nu$ and partitions. while the solutions obtained with classical $H^1$ shape-functions clearly exhibit an excessive bending stiffness leading to a wrong representation of the problem's cinematic.
+Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the vertical displacement of point A for two values of $\nu$ with some numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained with Taylor-Hood elements $P_kP_{k-1}$ with $k=\{2,3,4\}$. One notices that the DHM-H(div) formulation leads to a locking-free solution even for lower order approximation ($k=1$), and qualitatively agrees with the reference solutions for both values of $\nu$ and partitions. {\giovane Vamos deixar sem a solucao com locking de H1? while the solutions obtained with classical $H^1$ shape-functions clearly exhibit an excessive bending stiffness leading to a wrong representation of the problem's cinematic.}
 \begin{figure}[H]
     \centering
 	\includetikz{cook-2d-disp-legend} \\
@@ -1193,20 +1193,14 @@ Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the verti
     \caption{Cook's membrane. Vertical displacement of point A for $\nu=0.4999$ using (a) quadrilateral and (b) triangular partitions.}
     \label{fig:cooks-2d-displacement-nu-0.4999}
 \end{figure}
-% \begin{figure}[H]
-%     \centering
-% 	\includetikz{cook-2d-disp-legend} \\
-%     \subfloat[\label{fig:cooks-2d-displacement-nu-0.4999999-a}]{\includetikz{cook-2d-quad-disp-04999999}}
-% 	\subfloat[\label{fig:cooks-2d-displacement-nu-0.4999999-b}]{\includetikz{cook-2d-tri-disp-04999999}}
-%     \caption{Cook's membrane. Vertical displacement of point A for $\nu=0.4999999$ using (a) quadrilateral and (b) triangular partitions.}
-%     \label{fig:cooks-2d-displacement-nu-0.4999999}
-% \end{figure}
-% \begin{figure}[H]
-% 	\centering
-% 	\includegraphics[scale=1.0]{cook-2d-disp-0.4999}
-% 	\caption{Cook's membrane. Vertical displacement of point A.}
-% 	\label{fig:cooks-2d-displacement}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+	\includetikz{cook-2d-disp-legend} \\
+    \subfloat[\label{fig:cooks-2d-displacement-nu-0.4999999-a}]{\includetikz{cook-2d-quad-disp-04999}} \hfill
+	\subfloat[\label{fig:cooks-2d-displacement-nu-0.4999999-b}]{\includetikz{cook-2d-tri-disp-04999}}
+    \caption{Cook's membrane. Vertical displacement of point A for $\nu=0.4999999$ using (a) quadrilateral and (b) triangular partitions.}
+    \label{fig:cooks-2d-displacement-nu-0.4999999}
+\end{figure}
 
 \subsection{Application problem\label{subsec:module}}
 

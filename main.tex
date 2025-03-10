@@ -897,11 +897,11 @@ As a consequence of this procedure, a symmetric positive-definite matrix is obta
 
 \section{Examples \label{sec:Examples}}
 
-In this section, the proposed methodology is tested and verified through three benchmarks for which analytical and/or numerical solutions are available and a real-world problem. In the first case, a non-homogeneous solid under pure stretch is analyzed to show the advantage of the hybrid formulation to represent stress discontinuities over element interfaces in comparison to the Taylor-Hood scheme. In the second example, a cantilever beam is investigated in different compressibility regime to show the independency of the convergence rate to the poisson coefficient. Next, the classical Cook's membrane problem is solved, followed by a real-world problem where the applicability of the method is demonstrated.
+In this section, the proposed methodology is tested and verified through three benchmarks for which analytical and/or numerical solutions are available and a complex three-dimensional problem. In the first example, a non-homogeneous solid under pure stretch is analyzed to show the advantage of the hybrid formulation to represent stress discontinuities over element interfaces in comparison to the Taylor-Hood scheme. The second example examines a cantilever beam under different compressibility regimes, demonstrating the method's convergence rate independence from the Poisson ratio. The third benchmark solves the classical Cook's membrane problem. Finally, the methodology is tested on a complex three-dimensional case to assess its robustness.
 
 \subsection{Uniform stretch of a non-homogeneous solid \label{subsec:non-homogeneous}}
 
-As a first example, a simple uniform stretch test of a heterogeneous cube specimen is studied. The domain is $\Omega=[0,1] \times [0,1] \times [0,1]$ composed of two horizontal layers with equal Poisson coefficient $\nu$ and different Young modulus, namely $E^1$ and $E^2$, according to Figure \ref{fig:non-homogeneous-stretch-geometry}. The analytic solution for this problem is easily obtained from the linear elasticity theory, where the stresses are:
+As a first example, a simple uniform stretch test of a heterogeneous cube specimen is studied. The domain, $\Omega=[0,1] \times [0,1] \times [0,1]$, consists of two horizontal layers with the same Poisson's ratio $\nu$, but different Young's moduli, $E^1$ and $E^2$, as shown in Figure \ref{fig:non-homogeneous-stretch-geometry}. The analytic solution for this problem is trivially obtained from linear elasticity theory, where the stresses are:
 \begin{equation}
 	\begin{aligned}
 		p^i &= -\frac{(2-2 \nu ) E^i}{6 (\nu +1)}-\frac{2 \nu 
@@ -925,11 +925,11 @@ As a first example, a simple uniform stretch test of a heterogeneous cube specim
 \begin{figure}[!htb]
     \centering
     \input{non-homogeneous-stretch-geometry.pdf_tex}
-    \caption{Uniform stretch of a non-homogeneous material. Geometry}
+    \caption{Uniform stretch of a non-homogeneous material. Geometry.}
     \label{fig:non-homogeneous-stretch-geometry}
 \end{figure}
 
-It can be noted beforehand that the stress field is discontinuous at the interface between the two materials. For simplicity, we take $E^1=1$, $E^2=2$ and $\nu=0.5$. Under these conditions, the primal formulation cannot be used, so the DHM-H(div) with $k=1$ is compared with the Taylor-Hood $P_2P_1$ elements. Figure \ref{fig:non-homogeneous-stretch-graphs} shows the stresses and displacements solutions over the $y-$axis. For the DHM-H(div), a mesh composed of $2$ elements (one for each material) is used, while for the Taylor-Hood scheme, three levels of uniform refinement are considered. The results show that the DHM-H(div) formulation is able to exactly reproduce the analytical solution for stresses and displacements using a very poor discretization, while the solution using Taylor-Hood elements exhibits a convergence behavior towards the analytical solution, however, will not be able to recover the exact response as it employs $H^1$-conforming approximation for pressure.
+It is noted that the analytical stress field is discontinuous at the interface between the two materials if $E^1 \neq E^2$. For simplicity, we set $E^1=1$, $E^2=2$, and $\nu=0.5$. Under these conditions, the primal formulation cannot be used, so the DHM-H(div) with $k=1$ is compared with the Taylor-Hood $P_2P_1$ elements. Figure \ref{fig:non-homogeneous-stretch-graphs} presents a comparison of the nonzero stress fields and the $y$ displacement along the $y-$axis. For the DHM-H(div), a mesh composed of $2$ elements (one for each material) is adopted, while for the Taylor-Hood scheme, three levels of uniform refinement are analyzed. The results show that the DHM-H(div) formulation is able to exactly reproduce the analytical solution for stresses and displacements using a very coarse discretization. In contrast, the solutions using Taylor-Hood elements exhibit a convergence behavior towards the analytical solution. However, it will not be able to recover the exact solution as it employs $H^1$-conforming approximation for the pressure field.
 
 \begin{figure}[H]
     \centering
@@ -954,6 +954,7 @@ Figure \ref{fig:non-homogeneous-stretch-fields} depicts the $x$ displacement com
     \caption{Uniform stretch of a non-homogeneous material. (a) $u_x$, (b) $p$, (c) $\sigma_{xx}$ and (d) $\sigma_{zz}$ fields}
     \label{fig:non-homogeneous-stretch-fields}
 \end{figure}
+{\nathan Giovane, please change the first figure to uy instead of ux}
 
 \subsection{Cantilever beam subjected to an end shear load \label{subsec:bishop}}
 

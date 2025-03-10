@@ -1158,7 +1158,7 @@ We compare the error as a function of the number of degrees of freedom in the gl
 
 \subsection{Cook's membrane \label{subsec:cook}}
 
-The Cook's membrane is a classical benchmark for the study of locking phenomena of incompressible or nearly-incompressible elasticity problems under shear and bending conditions. It consists of a tapered cantilever beam clamped at its left side and subjected to a shear load in the $y$ direction at $x=48$ mm equal to $F=6.25$ N/mm, according to Figure \ref{fig:cooks-geometry}. The material is assumed to have a linear behavior with a constant Young modulus $E=240.565$ MPa and two different Poisson coefficients were tested according to the references: $\nu=0.4999$ and $\nu=0.4999999$. This problem can be seen in many books and papers, such as in \cite{cook1989concepts,elguedj2008b,cesar1999new}, with different material properties, geometries and boundary conditions. Some works also studied this problem in the regime of large displacements and strains, under elastic and elastoplastic materials \cite{chavan2007locking,elguedj2008b,de1996design}. In this work, we only focus on the linear elastic analysis.
+The Cook's membrane is a classical benchmark for evaluating locking phenomena of incompressible and nearly incompressible elasticity problems under shear and bending. It consists of a tapered cantilever beam, clamped at its left side and subjected to a shear load of $F=6.25$ N/mm in the $y$ direction at $x=48$ mm, as illustrated in Figure \ref{fig:cooks-geometry}. The material is assumed to have a linear behavior with a constant Young's modulus $E=240.565$ MPa and two different Poisson ratios are tested, according to the references: $\nu=0.4999$ and $\nu=0.4999999$. This problem is found in many books and papers, such as in \cite{cook1989concepts,elguedj2008b,cesar1999new}, with different material properties, geometries, and boundary conditions. Some studies have investigated this problem in the context of large displacements and strains, considering both elastic and elastoplastic materials \cite{chavan2007locking,elguedj2008b,de1996design}. In this work, we focus exclusively on linear elastic analysis.
 
 \begin{figure}[H]
     \centering
@@ -1167,7 +1167,7 @@ The Cook's membrane is a classical benchmark for the study of locking phenomena 
     \label{fig:cooks-geometry}
 \end{figure}
 
-At first, we perform plane strain analyses using structured meshes with triangular and quadrilateral partitions with uniform refinements, so that the number of elements per edge is given by $N_e=2^n$, with $n={0,1,2,3,4,5}$. Some of the meshes employed are depicted in Figures \ref{fig:cooks-2d-tri-meshes}-\ref{fig:cooks-2d-quad-meshes}.
+At first, we perform plane strain analyses using structured meshes with triangular and quadrilateral partitions, refined uniformly. The number of elements per edge adopted is $N_e=2^n$, with $n={0,1,2,3,4,5}$. Some of the meshes employed are shown in Figures \ref{fig:cooks-2d-tri-meshes}-\ref{fig:cooks-2d-quad-meshes}.
 
 \begin{figure}[H]
 	\centering
@@ -1189,7 +1189,7 @@ At first, we perform plane strain analyses using structured meshes with triangul
 	\label{fig:cooks-2d-quad-meshes}
 \end{figure}
 
-Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the vertical displacement of point A for two values of $\nu$ with some numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained with Taylor-Hood elements $P_kP_{k-1}$ with $k=\{2,3,4\}$. One notices that the DHM-H(div) formulation leads to a locking-free solution even for lower order approximation ($k=1$), and qualitatively agrees with the reference solutions for both values of $\nu$ and partitions. {\giovane Vamos deixar sem a solucao com locking de H1? while the solutions obtained with classical $H^1$ shape-functions clearly exhibit an excessive bending stiffness leading to a wrong representation of the problem's cinematic.}
+Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the vertical displacement of point A for two values of $\nu$, alongside numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained using Taylor-Hood elements $P_kP_{k-1}$ with $k=\{2,3,4\}$. The DHM-H(div) formulation leads to a locking-free solution even for lower-order approximations ($k=1$), and qualitatively matches the reference solutions for both values of $\nu$ and mesh partitions. {\giovane Vamos deixar sem a solucao com locking de H1? while the solutions obtained with classical $H^1$ shape-functions clearly exhibit an excessive bending stiffness leading to a wrong representation of the problem's cinematic.}
 \begin{figure}[H]
     \centering
 	\includetikz{cook-2d-disp-legend} \\

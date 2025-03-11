@@ -64,7 +64,7 @@
     \put(0.92862101,0.38637638){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$A$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{cooks-membrane.pdf}}%
     \put(0.03330798,0.14984169){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y$\end{tabular}}}}%
-    \put(-0.0013234,0.05129902){\rotatebox{-37.023794}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$1 \text{ mm}$\end{tabular}}}}}%
+    \put(-0.0013234,0.05129902){\rotatebox{-37.023794}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$10 \text{ mm}$\end{tabular}}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{cooks-membrane.pdf}}%
     \put(0.55477409,0.19106541){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$y$\end{tabular}}}}%
     \put(0.62981758,0.10132761){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$x$\end{tabular}}}}%

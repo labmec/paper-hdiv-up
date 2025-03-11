@@ -15,7 +15,7 @@
 	        xlabel=Elements/side,
 	        ylabel=Vertical displacement (mm),
             xmin=0, xmax=35,
-            ymin=0, ymax=9,
+            ymin=3, ymax=9,
             grid style={dashed},
             grid=major,
             legend style=
@@ -39,7 +39,7 @@
         \addplot[color=blue,mark=square*] table[x index=0, y index=4] {figs_pgfplots/cook-2d-quad-nu-04999999-k2.dat};
         \addplot[color=orange,mark=triangle*] table[x index=0, y index=4] {figs_pgfplots/cook-2d-quad-nu-04999999-k3.dat};
         \addplot[color=purple,mark=x] table[x index=0, y index=4] {figs_pgfplots/cook-2d-quad-nu-04999999-k4.dat};
-        \addplot[color=black,dashed,thick] table[x index=0, y index=1] {figs_pgfplots/cook-Hughes.dat};
+        \addplot[color=black,dashed,thick] table[x index=0, y index=1] {figs_pgfplots/cook-Sa.dat};
         \addplot[color=green,mark=o,dashed] table[x index=0, y index=4] {figs_pgfplots/cook-2d-quad-TH-nu-04999999.dat};
         \addplot[color=cyan,mark=square,dashed] table[x index=0, y index=5] {figs_pgfplots/cook-2d-quad-TH-nu-04999999.dat};
         \addplot[color=gray,mark=triangle,dashed] table[x index=0, y index=6] {figs_pgfplots/cook-2d-quad-TH-nu-04999999.dat};

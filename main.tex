@@ -264,7 +264,7 @@ The conservation of linear momentum for a generic continuum body is given by:
     \bm{\sigma} = 2\mu \bm{\varepsilon}(\bm{u}) + \lambda \text{tr}(\bm{\varepsilon}(\bm{u})) \bm{I}^d ,
 \end{equation}
 
-\noindent where $\mathbf{I}^d$ is the identity tensor of dimension $d$, $\mu$ and $\lambda$ are scalars known as Lam\'{e} constants, given respectively by
+\noindent where $\bm{I}^d$ is the identity tensor of dimension $d$, $\mu$ and $\lambda$ are scalars known as Lam\'{e} constants, given respectively by
 \begin{equation}
 	\lambda = \frac{E\nu}{(1+\nu)(1-2\nu)} \text{,} \quad \mu = \frac{E}{2(1+\nu)} \text{,}
 \end{equation}
@@ -279,7 +279,7 @@ By substituting Eqs. \eqref{eq:hook} and \eqref{eq:strain} into Eq. \eqref{eq:mo
 	\begin{align}
 		-\mu\nabla^2\bm{u} -\left(\mu+\lambda \right)\nabla\left(\nabla \cdot \bm{u} \right) - \bm{b} = \bm{0} \hspace{0.2cm} \text{in } \Omega ,&\\
 		\bm{u} = \bm{u}_D \hspace{0.2cm} \text{on } \partial\Omega_D ,&\\
-		\bm{\sigma} \mathbf{n} = \bm{t}_N \hspace{0.2cm} \text{on } \partial\Omega_N ,&
+		\bm{\sigma} \bm{n} = \bm{t}_N \hspace{0.2cm} \text{on } \partial\Omega_N ,&
 	\end{align}
 \end{subequations}
 
@@ -297,10 +297,10 @@ The elasticity problem can also be formulated using two state variables by apply
 
 \noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, is computed as $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
 \begin{equation} \label{eq:deviatoric-stress}
-	\boldsymbol{\sigma}' = 2\mu \left(\boldsymbol{\varepsilon}(\bm{u}) - \frac{1}{3}\text{tr}(\boldsymbol{\varepsilon}(\bm{u}))\mathbf{I}\right) \text{.}
+	\boldsymbol{\sigma}' = 2\mu \left(\boldsymbol{\varepsilon}(\bm{u}) - \frac{1}{3}\text{tr}(\boldsymbol{\varepsilon}(\bm{u}))\bm{I}\right) \text{.}
 \end{equation}
 
-Substituting Eqs. \eqref{eq:stress-decomposition}, \eqref{eq:pressure}, \eqref{eq:deviatoric-stress} in Eq. \eqref{eq:momentum}, the mixed elasticity problem yields: find $\mathbf{u}$ and $p$ such that
+Substituting Eqs. \eqref{eq:stress-decomposition}, \eqref{eq:pressure}, \eqref{eq:deviatoric-stress} in Eq. \eqref{eq:momentum}, the mixed elasticity problem yields: find $\bm{u}$ and $p$ such that
 \begin{subequations} \label{eq:mixed-elasticity}
 	\begin{align}
 		-\mu\nabla^2\bm{u} -\frac{1}{3}\mu\nabla\left(\nabla \cdot \bm{u} \right) + \nabla p -\bm{b}= \bm{0} \hspace{0.2cm} \text{in } \Omega ,& \label{eq:mixed-elasticity-a}\\ 
@@ -314,12 +314,12 @@ Substituting Eqs. \eqref{eq:stress-decomposition}, \eqref{eq:pressure}, \eqref{e
 
 The weak form of the problems described by Eqs. \eqref{eq:navier-cauchy} and \eqref{eq:mixed-elasticity} can be obtained by means of the weighted residual method. Depending on the choice of test functions and approximation spaces, different formulations can be derived.
 
-The simplest one is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test functions $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$, where $H^1_0(\Omega,\mathbb{R}^d)=\{\bm{v} \in H^1(\Omega,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=0 \}$ and integrating over the domain $\Omega$ \cite{becker1981finite}. The weak statement then reads: find $\mathbf{u} \in H^1_D(\Omega,\mathbb{R}^d)$ such that for all $\mathbf{v} \in H^1_0(\Omega,\mathbb{R}^d)$:
+The simplest one is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test functions $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$, where $H^1_0(\Omega,\mathbb{R}^d)=\{\bm{v} \in H^1(\Omega,\mathbb{R}^d) : \bm{v} \lvert_{\partial\Omega_D}=0 \}$ and integrating over the domain $\Omega$ \cite{becker1981finite}. The weak statement then reads: find $\bm{u} \in H^1_D(\Omega,\mathbb{R}^d)$ such that for all $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$:
 \begin{equation} \label{eq:weak-primal-displacement}
     a\left(\bm{u},\bm{v}\right)_\Omega = \left(\bm{b},\bm{v}\right)_\Omega + \langle\bm{t}_N,\bm{v}\rangle_{\partial\Omega_N},
 \end{equation}
 % \begin{equation} \label{eq:weak-primal-displacement}
-%     \int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega = \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{.}
+%     \int_{\Omega} \boldsymbol{\varepsilon}(\bm{v}) : \mathcal{D} : \boldsymbol{\varepsilon}(\bm{u}) d\Omega = \int_{\Omega} \bm{v} \cdot \bm{b} d\Omega + \int_{\partial\Omega_N} \bm{v} \cdot \bm{t} \;d\partial\Omega \text{.}
 % \end{equation}
 
 \noindent where $H^1_D(\Omega,\mathbb{R}^d)=\{\bm{u} \in H^1(\Omega,\mathbb{R}^d) : \bm{u} \lvert_{\partial\Omega_D}=\bm{u}_D\}$, $a\left(\bm{u},\bm{v}\right)_\Omega$ is a bilinear operator computed as
@@ -338,10 +338,10 @@ In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-e
 \end{subequations}
 
 % \begin{equation} \label{eq:weak-mixed1}
-% 	\int_{\Omega} \boldsymbol{\varepsilon}(\mathbf{v}) : \mathcal{D}^{'} : \boldsymbol{\varepsilon}(\mathbf{u}) d\Omega - \int_{\Omega_e} p \;(\nabla \cdot \mathbf{v}) d\Omega =  \int_{\Omega} \mathbf{v} \cdot \mathbf{b} d\Omega + \int_{\partial\Omega_N} \mathbf{v} \cdot \mathbf{t} \;d\partial\Omega \text{,}
+% 	\int_{\Omega} \boldsymbol{\varepsilon}(\bm{v}) : \mathcal{D}^{'} : \boldsymbol{\varepsilon}(\bm{u}) d\Omega - \int_{\Omega_e} p \;(\nabla \cdot \bm{v}) d\Omega =  \int_{\Omega} \bm{v} \cdot \bm{b} d\Omega + \int_{\partial\Omega_N} \bm{v} \cdot \bm{t} \;d\partial\Omega \text{,}
 % \end{equation}
 % \begin{equation} \label{eq:weak-mixed2}
-% -\int_{\Omega} (\nabla \cdot \mathbf{u}) \;q\; d\Omega -\int_{\Omega} \frac{1}{\kappa}\;p \;q\; d\Omega = \mathbf{0} \text{,}
+% -\int_{\Omega} (\nabla \cdot \bm{u}) \;q\; d\Omega -\int_{\Omega} \frac{1}{\kappa}\;p \;q\; d\Omega = \bm{0} \text{,}
 % \end{equation}
 \noindent Here, the bilinear forms are computed as
 \begin{equation*}
@@ -482,8 +482,8 @@ The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are prov
 	\begin{bNiceArray}{c | c | c}[first-row,cell-space-top-limit=4pt,extra-margin=4pt]
 		\bm{u} & \bar{p} & \bm{t}^t \\
 		\bm{A} & \bm{B} & \bm{C} \\ \hline
-		\bm{B}^T & \mathbf{0} & \mathbf{0} \\ \hline
-		\bm{C}^T & \mathbf{0} & \mathbf{0} .
+		\bm{B}^T & \bm{0} & \bm{0} \\ \hline
+		\bm{C}^T & \bm{0} & \bm{0} .
 	\end{bNiceArray}
 \end{equation*}
 
@@ -557,12 +557,12 @@ According to \cite{brezzi2005mixed}, the convergence rates of velocity and press
 
 As the continuity of the tangential component of the displacement is weakly enforced when using $\bm{u}_h \in \mathcal{V}_{h,k} \subset H(\text{div},\Omega)$, we can draw an analogy with Discontinuous Galerkin formulations featuring partial penalization, which assuming that the pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ is divergence-compatible and satisfies the inf-sup condition, Theorems 5.1 and 5.2 of \cite{wang2007new} yield the error estimate:
 \begin{equation}
-\|\mathbf{u} - \mathbf{u}_h\|_{1,h} + \|p - p_h\| \leq C \left\{ h^k \|\mathbf{u}\|_{k+1} + h^{k+1} \|p\|_{k+1} \right\},
+\|\bm{u} - \bm{u}_h\|_{1,h} + \|p - p_h\| \leq C \left\{ h^k \|\bm{u}\|_{k+1} + h^{k+1} \|p\|_{k+1} \right\},
 \end{equation}
 
 \noindent with $k$ referring to the displacement's polynomials order and $C$ is a constant independent of $h$. For bidimensional convex domains with elliptic regularity, the displacement error may exhibit improved convergence rate by the expression:
 \begin{equation}
-\|\mathbf{u} - \mathbf{u}_h\| \leq C \left\{ h^{k+1} \|\mathbf{u}\|_{k+1} + h^{k+2} \|p\|_{k+1} \right\}.
+\|\bm{u} - \bm{u}_h\| \leq C \left\{ h^{k+1} \|\bm{u}\|_{k+1} + h^{k+2} \|p\|_{k+1} \right\}.
 \end{equation}
 
 \subsection{Discrete double-hybrid-mixed finite element formulation}
@@ -634,7 +634,7 @@ The construction of the divergence-compatible spaces adopted in this work is bet
         \midrule
         \multirow{3}{*}{$\hat{T}$} 
         & $BDM(k)^{\text{\cite{brezzi1985two}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^2)$ & $\mathbb{P}_{k-1}(\hat{K})$ \\
-        & $RT(k)^{\text{\cite{arnold1990mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^2) \oplus \mathbf{x} \tilde{\mathbb{P}}_k(\hat{K})$ & $\mathbb{P}_k(\hat{K})$ \\
+        & $RT(k)^{\text{\cite{arnold1990mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^2) \oplus \bm{x} \tilde{\mathbb{P}}_k(\hat{K})$ & $\mathbb{P}_k(\hat{K})$ \\
         & $BDM^+(k)^{\text{\cite{brezzi2012mixed}}}$ & $\mathbb{P}_k^{\partial}(\hat{K}, \mathbb{R}^2) \oplus \mathring{\mathbb{P}}_{k+1}(\hat{K}, \mathbb{R}^2)$ & $\mathbb{P}_k(\hat{K})$ \\
         \midrule
         \multirow{2}{*}{$\hat{R}$} 
@@ -643,7 +643,7 @@ The construction of the divergence-compatible spaces adopted in this work is bet
         \midrule
         \multirow{3}{*}{$\hat{Te}$} 
         & $BDM(k)^{\text{\cite{brezzi1987mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^3)$ & $\mathbb{P}_{k-1}(\hat{K})$ \\
-        & $RT(k)^{\text{\cite{nedelec1980mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^3) \oplus \mathbf{x} \tilde{\mathbb{P}}_k(\hat{K})$ & $\mathbb{P}_k(\hat{K})$ \\
+        & $RT(k)^{\text{\cite{nedelec1980mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^3) \oplus \bm{x} \tilde{\mathbb{P}}_k(\hat{K})$ & $\mathbb{P}_k(\hat{K})$ \\
         & $BDM^+(k)^{\text{\cite{brezzi2012mixed}}}$ & $\mathbb{P}_k^\partial(\hat{K}, \mathbb{R}^3) \oplus \mathring{\mathbb{P}}_{k+1}(\hat{K}, \mathbb{R}^3)$ & $\mathbb{P}_k(\hat{K})$ \\
         \midrule
         \multirow{2}{*}{$\hat{H}$} 
@@ -1036,7 +1036,7 @@ To evaluate the proposed methodology across different compressibility regimes, T
         \toprule
         \multicolumn{5}{c}{\textbf{Hexahedral elements}} & \multicolumn{4}{c}{\textbf{Tetrahedral elements}} \\
         \cmidrule(r){1-5} \cmidrule(l){6-9}
-        $h_e$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ \\
+        $h_e$ & $\|\bm{u} - \bm{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\bm{u} - \bm{u}_h)\|$ & $\|\bm{u} - \bm{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\bm{u} - \bm{u}_h)\|$ \\
         \midrule
         \multicolumn{9}{l}{$k = 1$} \\
 		1       & $3.20E+00$ & $4.74E-01$ & $1.09E+00$ & $2.85E-02$ & $3.56E+00$ & $4.97E-01$ & $1.41E+00$ & $1.88E-02$ \\
@@ -1075,7 +1075,7 @@ To evaluate the proposed methodology across different compressibility regimes, T
         \toprule
         \multicolumn{5}{c}{\textbf{Hexahedral elements}} & \multicolumn{4}{c}{\textbf{Tetrahedral elements}} \\
         \cmidrule(r){1-5} \cmidrule(l){6-9}
-        $h_e$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ \\
+        $h_e$ & $\|\bm{u} - \bm{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\bm{u} - \bm{u}_h)\|$ & $\|\bm{u} - \bm{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\bm{u} - \bm{u}_h)\|$ \\
         \midrule
         \multicolumn{9}{l}{$k = 1$} \\
 		1       & $3.23E+00$ & $4.86E-01$ & $1.11E+00$ & $2.91E-04$ & $3.02E+00$ & $5.68E-01$ & $1.15E+00$ & $2.02E-04$ \\
@@ -1114,7 +1114,7 @@ To evaluate the proposed methodology across different compressibility regimes, T
         \toprule
         \multicolumn{5}{c}{\textbf{Hexahedral elements}} & \multicolumn{4}{c}{\textbf{Tetrahedral elements}} \\
         \cmidrule(r){1-5} \cmidrule(l){6-9}
-        $h_e$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ & $\|\mathbf{u} - \mathbf{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\mathbf{u} - \mathbf{u}_h)\|$ \\
+        $h_e$ & $\|\bm{u} - \bm{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\bm{u} - \bm{u}_h)\|$ & $\|\bm{u} - \bm{u}_h\|$ & $\|p - p_h\|$ & $\|\boldsymbol{\sigma} - \boldsymbol{\sigma}_h\|$ & $\|\nabla \cdot (\bm{u} - \bm{u}_h)\|$ \\
         \midrule
         \multicolumn{9}{l}{$k = 1$} \\
         1       & $3.28E+00$ & $4.86E-01$ & $1.11E+00$ & $2.34E-13$ & $3.72E+00$ & $5.18E-01$ & $1.25E+00$ & $2.76E-13$ \\
@@ -1192,7 +1192,7 @@ At first, we perform plane strain analyses using structured meshes with triangul
 Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the vertical displacement of point A for two values of $\nu$, alongside numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained using Taylor-Hood elements $P_kP_{k-1}$ with $k=\{2,3,4\}$. The DHM-H(div) formulation leads to a locking-free solution even for lower-order approximations ($k=1$), and qualitatively matches the reference solutions for both values of $\nu$ and mesh partitions. Moreover, the solution is pratically the same for both values of $\nu$. {\giovane Vamos deixar sem a solucao com locking de H1? while the solutions obtained with classical $H^1$ shape-functions clearly exhibit an excessive bending stiffness leading to a wrong representation of the problem's cinematic.}
 \begin{figure}[H]
     \centering
-	\includetikz{cook-2d-disp-legend} \\
+	\includetikz{cook-2d-disp-legend-04999} \\
     \subfloat[\label{fig:cooks-2d-displacement-nu-0.4999-a}]{\includetikz{cook-2d-quad-disp-04999}} \hfill
 	\subfloat[\label{fig:cooks-2d-displacement-nu-0.4999-b}]{\includetikz{cook-2d-tri-disp-04999}}
     \caption{Cook's membrane. Vertical displacement of point A for $\nu=0.4999$ using (a) quadrilateral and (b) triangular partitions.}
@@ -1200,16 +1200,70 @@ Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the verti
 \end{figure}
 \begin{figure}[H]
     \centering
-	\includetikz{cook-2d-disp-legend} \\
+	\includetikz{cook-2d-disp-legend-04999999} \\
     \subfloat[\label{fig:cooks-2d-displacement-nu-0.4999999-a}]{\includetikz{cook-2d-quad-disp-04999999}} \hfill
 	\subfloat[\label{fig:cooks-2d-displacement-nu-0.4999999-b}]{\includetikz{cook-2d-tri-disp-04999999}}
     \caption{Cook's membrane. Vertical displacement of point A for $\nu=0.4999999$ using (a) quadrilateral and (b) triangular partitions.}
     \label{fig:cooks-2d-displacement-nu-0.4999999}
 \end{figure}
 
-The three dimensional case is studied using similar meshes with hexahedra and tetrahedra elements for $\nu=0.5$. Zero normal displacement is imposed at the facets parallel to the $x-y$ plane to simulate a plane strain condition. Table \ref{tab:cooks-3d} shows the displacement obtained with the different partitions and polynomial degrees. The results are in agreement with the two-dimensional case. Lastly, we plot the Von mises stress over the deformed configuration using the finest meshes showing that a smooth field is obtained with the DHM-H(div) formulation, as depicted in Figure \ref{fig:cooks-3d-stress}.
+The three dimensional case is studied using similar meshes with hexahedra and tetrahedra elements for $\nu=0.5$. Zero normal displacement is imposed at the facets parallel to the $x-y$ plane to simulate a plane strain condition. Table \ref{tab:cooks-3d} shows the displacement obtained with the different partitions and polynomial degrees. The results are in agreement with the two-dimensional case, whereas the competitiveness of the HDM-H(div) formulation to simulate three dimensional problems is enabled by the static condensation prodecure. For the most optimal case (hexahedra mesh with $k=4$), it is possible to reduce the number of degrees of freedom up to $90$\%. We plot the Von Mises stress and pressure over the deformed configuration using $k=1$, $k=3$ and $N_e=16$, as depicted in Figure \ref{fig:cooks-3d-stress}. A satisfactory stress and pressure distributions are observed even for linear approximation, where most of standard methods fail to display reasonable results.
 
+\begin{table}[H]
+    \centering
+    \caption{Cook's membrane. Vertical displacement of point A using hexahedral (left) and tetrahedral (right) meshes with the DHM-H(div) formulation. Results are presented for different polynomial degrees, alongside the number of degrees of freedom before and after static condensation.}
+    \vspace{5pt}
+	% \resizebox{\textwidth}{!}{
+    \begin{tabular}{c c c c | c c c}
+        \toprule
+        \multicolumn{4}{c}{\textbf{Hexahedral elements}} & \multicolumn{3}{c}{\textbf{Tetrahedral elements}} \\
+        \cmidrule(r){1-4} \cmidrule(l){5-7}
+        $N_e$ & \# DOFs & \# DOFs condensed & $\bm{u}_y^A$ & \# DOFs & \# DOFs condensed & $\bm{u}_y^A$ \\
+        \midrule
+        \multicolumn{7}{l}{$k = 1$} \\
+        1       & $242   $ & $29   $ & $3.51470$ & $514   $ & $80   $ & $3.51470$ \\
+        2       & $960   $ & $100  $ & $5.81802$ & $2048  $ & $296  $ & $5.81802$ \\
+        4	    & $3824  $ & $368  $ & $7.09253$ & $8176  $ & $1136 $ & $7.09253$ \\
+        8	    & $15264 $ & $1408 $ & $7.68688$ & $32672 $ & $4448 $ & $7.68688$ \\
+        16	  	& $60992 $ & $5504 $ & $7.91496$ & $130624$ & $17600$ & $7.91496$ \\
+        32	  	& $243840$ & $21760$ & $8.00541$ & $522368$ & $70016$ & $8.00541$ \\
+        \midrule
+		\multicolumn{7}{l}{$k = 2$} \\
+		1       & $513   $ & $71   $ & $7.29057$ & $1002   $ & $174   $ & $7.29057$ \\
+        2       & $2048  $ & $248  $ & $7.91270$ & $4008   $ & $648   $ & $7.91270$ \\
+        4	    & $8184  $ & $920  $ & $7.97116$ & $16032  $ & $2496  $ & $7.97116$ \\
+        8	    & $32720 $ & $3536 $ & $8.02015$ & $64128  $ & $9792  $ & $8.02015$ \\
+        16	  	& $130848$ & $13856$ & $8.04809$ & $256512 $ & $38784 $ & $8.04809$ \\
+        32	  	& $523328$ & $54848$ & $8.06170$ & $1026048$ & $154368$ & $8.06170$ \\
+		\midrule
+		\multicolumn{7}{l}{$k = 3$} \\
+		1       & $926   $ & $133   $ & $7.92179$ & $1700   $ & $306   $ & $7.92179$ \\
+        2       & $3712  $ & $468   $ & $7.96793$ & $6816   $ & $1144  $ & $7.96793$ \\
+        4	    & $14864 $ & $1744  $ & $8.02057$ & $27296  $ & $4416  $ & $8.02057$ \\
+        8	    & $59488 $ & $6720  $ & $8.04853$ & $109248 $ & $17344 $ & $8.04853$ \\
+        16	  	& $238016$ & $26368 $ & $8.06180$ & $437120 $ & $68736 $ & $8.06180$ \\
+        32	  	& $952192$ & $104448$ & $8.06846$ & $1748736$ & $273664$ & $8.06846$ \\
+		\midrule
+		\multicolumn{7}{l}{$k = 4$} \\
+		1       & $1505   $ & $215   $ & $7.92279$ & $2632   $ & $476   $ & $7.92279$ \\
+        2       & $6048   $ & $760   $ & $8.00582$ & $10568  $ & $1784  $ & $8.00582$ \\
+        4	    & $24248  $ & $2840  $ & $8.04228$ & $42352  $ & $6896  $ & $8.04228$ \\
+        8	    & $97104  $ & $10960 $ & $8.05864$ & $169568 $ & $27104 $ & $8.05864$ \\
+        16	  	& $388640 $ & $43040 $ & $8.06687$ & $678592 $ & $107456$ & $8.06687$ \\
+        32	  	& $1555008$ & $170560$ & $8.07100$ & $2715008$ & $427904$ & $8.07100$ \\
+        \bottomrule
+    \end{tabular}
+	% }
+	\label{tab:cooks-3d}
+\end{table}
 
+\begin{figure}[H]
+	\centering
+	\subfloat[\label{fig:cooks-3d-stress-a}]{\includegraphics[trim={0 0 5cm 0}, clip, width=0.4\textwidth]{cooks-3d-vonmises-hex-k1.png} \quad \includegraphics[trim={0 0 5cm 0}, clip, width=0.4\textwidth]{cooks-3d-pressure-hex-k1.png}} \\
+	\subfloat[\label{fig:cooks-3d-stress-b}]{\includegraphics[trim={0 0 5cm 0}, clip, width=0.4\textwidth]{cooks-3d-vonmises-hex-k3.png} \quad \includegraphics[trim={0 0 5cm 0}, clip, width=0.4\textwidth]{cooks-3d-pressure-hex-k3.png}} \\
+	\caption{Cook's membrane. Von Mises stress (at left) and pressure (at right) fields over the deformed configuration using hexahedral meshes with $N_e=16$ for (a) $k=1$ and (b) $k=3$}
+	\label{fig:cooks-3d-stress}
+\end{figure}
 
 \subsection{Application problem\label{subsec:module}}
 

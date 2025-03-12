@@ -521,11 +521,10 @@ As done before, the inter-element continuity of a discontinuous tangential tract
 
 At first glance, one may notice that a new constraint equation was introduced in the variational problem, potentially leading to a more complex linear system. To better illustrate the strategy, Figure \ref{fig:hybrid-variables} depicts the resulting variables associated with each method for an arbitrary mesh partition. The key advantage of the double-hybrid formulation lies on the fact that the shear component of the traction is now associated with a single element, enabling its static condensation at the element level. This procedure leads to a positive-semi definite matrix block composed only by the two components of the primal variable, while a single Lagrange multiplier per element represents the average pressure. This process is further detailed in Section \ref{sec:static-condensation}.
 
-\begin{figure}[htb!]
+\begin{figure}[H]
     \centering 
-	\subfloat[\label{fig:semi-hybrid-variables}]{\includegraphics[scale=.5]{semi-hybrid-variables.pdf}}\hspace{2cm}
-    \subfloat[\label{fig:double-hybrid-variables}]{\includegraphics[scale=.5]{double-hybrid-variables.pdf}}\hfill
-	\caption{Resulting variables for an internal interface shared by two adjacent elements using (a) Semi-hybrid and (b) hybrid-hybrid formulations. {\nathan Check if we are using lambdat}} {\giovane im gonna change this figure}
+	\input{hybridization.pdf_tex}
+	\caption{Resulting variables for an internal interface shared by two adjacent elements using the semi-hybrid and double-hybrid formulations.}
 	\label{fig:hybrid-variables}
 \end{figure}
 
@@ -663,10 +662,6 @@ On top of that, let us adopt vector-valued polynomial spaces for the Lagrange mu
 \end{itemize}
 
 \noindent In the above expressions, $\bm{\tau}^{\partial\hat{K}}$ and $\bm{\tau}^{\hat{E}}$ are the tangential vectors to the line segment, unique for $\hat{E}$ and a pair with opposite directions for $\partial\hat{K}$, and $\wedge$ stands for the wedge product. The order $m$ is not arbitrary, instead it has to be chosen accordingly to ensure the trace compatibility between the discrete spaces shown in Table \ref{tab:FE_pairs}. {\giovane Devemos fazer uma analise com diferentes valores de m para verificar a compatibilidade do traco?}
-
-\subsection{Comparison with H1-hybrid formulation}
-
-{\giovane O Phil trabalhou nisso na China, talvez ele poderia escrever essa parte?}
 
 \subsection{Static condensation procedure} \label{sec:static-condensation}
 

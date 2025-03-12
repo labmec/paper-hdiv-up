@@ -196,9 +196,9 @@ One viable alternative is to employ hybrid methods, where interelement continuit
 
 In this work we present an innovative approach able to solve compressible, near-incompressible and incompressible two- and three-dimensional elasticity problems. In the incompressible limit, the divergence-free condition is naturally satisfied. The formulation builds upon the semi-hybrid method proposed in \cite{carvalho2024semi} for Stokes flows, later extended to a double-hybrid approach in \cite{puga2025stable}. Here, we adapt it to elasticity by introducing a second hybridization on the tangential stresses. The method relies on a de Rham-compatible  $H(\text{div})-L^2$  pair for displacements and pressure, with $H(\text{div})$ functions systematically constructed using the methodology described in \cite{devloo2022efficient, de2013new}. It is noted that a similar idea is introduced in the framework of the Tangential Displacement Normal-Normal Stress (TDNNS) approach \cite{Joaquim2011}. In this method, the functions that define the approximation space exhibit continuity in tangential displacement (belonging to $H(\text{curl}, \Omega)$), and in the the normal-normal stress component which belongs to $H(\text{div div}, \Omega)$. Additionally, a Lagrange multiplier representing normal displacement may be introduced to break the continuity of the normal-normal stress.
 
-{\phil This paper is organized as follows... THIS IS MISSING}
+This paper is organized as follows: Section \ref{sec:notations} introduces the notation and preliminaries herein adopted. In Section \ref{sec:Governing-equations}, the primal and mixed elasticity problems and their weak forms are shown. Section \ref{sec:taylor-hood} is devoted to the discretization of the mixed problem using the Taylor-Hood elements. In Section \ref{sec:hybrid-mixed}, the hybrid-mixed formulations are derived, i.e. the semi-hybrid approach in \cite{carvalho2024semi} is extended to the elasticity problem, and the double-hybrid formulation is properly defined. We show the error analysis, the discrete finite element spaces chosen, the static condensation procedure and hightlight some of its advantages in terms of stability and spectral properties. Section \ref{sec:Examples} shows some numerical benchmarks used to verify the proposed methodology. A real life problem consisting of a structural casket tailored to petroleum engineering applications is also included. Finally,  we summarize the main features and outcomes in Section \ref{sec:conclusions}. The resulting method is implemented in the open-source object-oriented programming environment NeoPZ\footnote{NeoPZ open source platform \url{https://github.com/labmec/neopz}} written in C++.
 
-\section{Preliminaries and notation}
+\section{Preliminaries and notation} \label{sec:notations}
 
 Firstly, we introduce basic notation, functional spaces, and definitions that will be used throughout this work. Elasticity problems involve scalar, vector and tensor-valued fields. Hereinafter, vector fields are denoted by bold Latin letters, tensors are written using bold symbols or bold Greek letters, whilst plain Latin or Greek letters are chosen for scalars.
 
@@ -412,7 +412,7 @@ The discretized mixed elasticity problem of Eq. \eqref{eq:mixed-elasticity} usin
 
 In this approach, displacements are strongly imposed on the Dirichlet boundary $\partial \Omega_D$ through the restricted space $\mathcal{U}_{D,k}$ while surface tractions are weakly imposed on the boundary $\partial \Omega_N$ in the right-hand side of Eq. \eqref{eq:TH-weak-b}.
 
-\section{Hybrid-mixed formulations}
+\section{Hybrid-mixed formulations} \label{sec:hybrid-mixed}
 
 The mixed problem of Eq. \eqref{eq:weak-mixed} can be presented in an alternative way by relaxing the continuity requirement of the displacement functions across elements. The space of the stress traces over the mesh skeleton is defined as
 \begin{equation}
@@ -1316,14 +1316,14 @@ The plots for the displacement magnitude, pressure, and Von Mises stresses along
 	
 \end{figure}
 
-\section{Conclusions}
+\section{Conclusions} \label{sec:conclusions}
 
 {\giovane A first shot, please give your contributions}
 In this work, a primal hybrid formulation for two and tridimensional elasticity problems is developed. The approximation space composed of De Rham compatible $H(\text{div})$ functions for normal displacements and $L^2$ functions for the pressure, results in a locally conservative scheme. A second hybridization of the tangential stresses is applied in order to obtain positive semi-definite element matrices after condensing internal degrees of freedom. The resulting global system exhibits a symmetric positive-definite matrix when analyzing compressible solids and a saddle-point problem with a single mean pressure per element, which acts as a Lagrange multiplier for incompressible materials.
 
 The formulation is tested for a cantilever beam subjected to an end shear load, with the results demonstrating optimal convergence rates of $k+1$ for the displacement and $k$ for the other variables, independent of the Poisson ratio. The formulation was able to capture the correct stress and displacement distributions for the compressible case and a divergence-free displacement field for the incompressible case. The simulation of a real scale structural hull subjected to an internal pressure qualitatively indicates that the proposed method is applicable to real engineering problems.
 
-\bigskip\noindent {\bf Acknowledgments:} Authors  Nat, Gio, Hug, and Phil acknowledge the support from...
+\bigskip\noindent {\bf Acknowledgments:} The authors thankfully acknowledge the support of ANP - Brazil's National Oil, Natural Gas and Biofuels Agency through the R\&D levy regulation. The acknowledgments are extended to the Center for Petroleum Studies (CEPETRO) and the School of Civil Engineering, Architecture and Urban Planning (FECFAU). G.~Avancini is grateful to Total Energies Brazil through FUNCAMP (processes 23289-2 and 76042-23) and EPIC - Energy Production Innovation Center through FAPESP/Equinor (grant 2023/06981/-5). N.~Shauer (scholarship 2021/03791-5) is grateful to FAPESP - S\~ao Paulo Research Foundation. H.L.~Oliveira thanks the support from FAEPEX PIND grant n. 519.287. P.R.B.~ Devloo acknowledges the Brazilian National Council for Scientific and Technological Development (grants 305823/2017-5 and 309597/2021-8).
 
 %\bibliographystyle{plainnat}
 \bibliographystyle{elsarticle-num}

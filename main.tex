@@ -473,6 +473,34 @@ From Eqs. \eqref{eq:traction-decomposed} and \eqref{eq:normal-traction2}, the se
 
 \noindent where $\bm{s}^t$ stands for tangential traction test functions. Equation \eqref{eq:semi-hybrid-weak-c} plays the role of weakly enforcing the tangential displacement continuity over the element interfaces, as the normal component continuity is naturally satisfied for $\bm{u} \in \mathcal{V}$. Thus, the formulation is named semi-hybrid because only the tangential component of the traction vector is hybridized. In this approach, the velocities normal to the Dirichlet boundary are strongly imposed through the restricted space $\mathcal{V}_D$ whilst its tangential counterpart is weakly prescribed on the right-hand side of Eq. \eqref{eq:semi-hybrid-weak-c}. Similarly, the normal component of the surface traction is weakly applied on the right-hand side of Eq. \eqref{eq:semi-hybrid-weak-a} and the tangential component is strongly imposed through the restricted space $\mathcal{L}^t_N$.
 
+\subsubsection{Recovering a locally equilibrated stress solution} \label{sec:local-stress}
+
+{\giovane escrever algo sobre o que e conservacao local em termos de tensoes.}
+
+For simplicity, let us consider a pure homogeneous Dirichlet problem, i.e. $\bm{u}_D=\bm{0}$ on $\partial\Omega$. The solution $\{\bm{u}_0,p_0,\bm{t}^t_0 \} \in \{\mathcal{V}_0 \times L^2 \times \mathcal{L}^t_0 \}$ is assumed to satisfy the semi-hybrid weak form of Eq. \eqref{eq:semi-hybrid-weak}. A locally equilibrated stress solution can be retrieved by relaxing the inter-element continuity requirement of the normal component of the displacement field. In the standard hybridization fashion, normal tractions $\bm{t}^n \in \mathcal{L}^n(\Gamma_h,\mathbb{R}^d)$ are added to the mesh skeleton. The continuity of the normal component of the displacement field can be imposed in a weak manner by setting $\langle\bm{t}^n,\bm{v}^n\rangle_{\Gamma_h} = 0$, that is,
+\begin{equation*}
+	\sum_{E \in \Gamma_h} \int_{E} \jump{\bm{v}\cdot\bm{n}} \bm{t}^n \,d\partial K = 0 .
+\end{equation*}
+
+Therefore, we can search for $\{\bm{u},p,\bm{t}^t,\bm{t}^n\} \in \bar{H}_0(\text{div}) \times L^2 \times \mathcal{L}^t_0 \times \mathcal{L}^n_0$ such that:
+\begin{subequations} \label{eq:semi-hybrid-weak-broken}
+	\begin{align}
+		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h} + \langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} ~~\forall\, \bm{v} \in \bar{H}_0(\text{div}),\label{eq:semi-hybrid-weak-broken-a}\\ 
+		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in L^2, \label{eq:semi-hybrid-weak-broken-b}\\
+		\langle\bm{u},\bm{s}^t\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{s}^t \in \mathcal{L}^t_0, \label{eq:semi-hybrid-weak-broken-c}\\
+		\langle\bm{u},\bm{s}^n\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{s}^n \in \mathcal{L}^n_0 . \label{eq:semi-hybrid-weak-broken-d}
+	\end{align}
+\end{subequations}
+
+The solution $\{\bm{u}_0,p_0,\bm{t}^t_0\}$ satisfies the Eqs. \eqref{eq:semi-hybrid-weak-broken-b} and \eqref{eq:semi-hybrid-weak-broken-c}. Recalling that $\bm{u}_0 \in \mathcal{V}_0 \subset H_0(\text{div})$ implies $\jump{\bm{u}\cdot\bm{n}}_E=0$, Eq. \eqref{eq:semi-hybrid-weak-broken-d} is also automatically satisfied. Rewritting Eq. \eqref{eq:semi-hybrid-weak-broken-a} in a residual form yields:
+\begin{equation} \label{eq:semi-hybrid-residual}
+	\begin{aligned}
+		\mathcal{R}(\bm{v}) := \langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} = \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} -a\left(\bm{u}_0,\bm{v}\right)_{\mathcal{T}_h} + b\left( p_0, \bm{v}\right)_{\mathcal{T}_h} - \langle\bm{t}^t_0,\bm{v}\rangle_{\Gamma_h}.
+	\end{aligned}
+\end{equation}
+
+\noindent where the right-hand side of Eq. \eqref{eq:semi-hybrid-residual} is not null since $\bm{v} \in \bar{H}_0(\text{div})$. If the approximation spaces are chosen properly, the number of functions in $\mathcal{L}^n_0$ matches the ones in $\bar{H}_0(\text{div})$, so that the term $\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h}$ gives rise to an invertible matrix where the solution $\bm{t}^n$ can be computed. The locally equilibrated stress solution is then obtained for each $\partial K$ as $\bm{t} = \bm{t}^t + \bm{t}^n$.
+
 \subsection{The double-hybrid-mixed \(H(\mathrm{div},\Omega)\) formulation}
 
 {\giovane Reescrevi esta secao de uma forma mais consistente que em Stokes (eu acho). Poderiam checar?}
@@ -500,7 +528,7 @@ The strategy adopted here to overcome this issue was first proposed in \cite{pug
 Similarly, the associated broken traction space is written as:
 \begin{equation}
 	\label{eq:space-traction-broken}
-	\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{t} \in L^2(\partial\mathcal{T}_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, \partial K \in \partial\mathcal{T}_h ~:~\bm{\sigma} \in H(\text{div},\mathcal{T}_h,\mathbb{R}^d \times \mathbb{R}^d) \right\},
+	\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{t} \in L^2(\partial\mathcal{T}_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, \partial K \in \partial\mathcal{T}_h ~:~\bm{\sigma} \in \bar{H}(\text{div},K,\mathbb{R}^d \times \mathbb{R}^d) \right\},
 \end{equation}
 
 \noindent which encompasses functions that can assume different values on the common boundary of adjacent elements, so that $\mathcal{L}(\Gamma_h,\mathbb{R}^d) \subset \bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d)$. Equation \eqref{eq:space-traction-broken} can be decomposed in the same way as Eq. \eqref{eq:space-traction}, so that:
@@ -546,7 +574,7 @@ Finally, the double-hybrid weak form searches for $\{\bm{u},p,\bm{t}^t,\bm{w}\} 
 
 Note that Eq. \eqref{eq:double-hybrid-weak-d} is introduced to enforce the compatibility of tangential tractions across $\mathring{\Gamma}_h$ and to enforce $\bm{t}^t\lvert_{\partial\Omega_N}=\bm{t}_N^t$ in a weak sense. Moreover, Equation \eqref{eq:double-hybrid-weak-c} is deliberately written to emphasize the symmetry between its second term on the left-hand side and the left-hand side of Equation \eqref{eq:double-hybrid-weak-d}. 
 
-The equivalence of problems \eqref{eq:double-hybrid-weak} and \eqref{eq:semi-hybrid-weak} can be verified by setting $\bm{s}^t \in \mathcal{L}^t \subset \bar{\mathcal{L}}^t$, so that $\jump{\bm{s}^t}\lvert_E=0$. Consequently, the second term in the left-hand side of Eq. \eqref{eq:double-hybrid-weak-c} vanishes. Moreover, $\langle\bm{u},\bm{s}^t\rangle_{\partial\mathcal{T}_h}=\langle\bm{u},\bm{s}^t\rangle_{\Gamma_h}-\langle\bm{u}_D,\bm{s}^t\rangle_{\partial\Omega_D} \, \forall \, \bm{s}^t \in \mathcal{L}^t$, considering that $\langle\bm{t}^t,\bm{v}\rangle_{\partial\mathcal{T}_h} = \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}$ since $\bm{v}=\bm{0}\lvert_{\partial\Omega_D}$, and recalling that Eq. \eqref{eq:double-hybrid-weak-d} is no longer needed as it enforces the continuity of the broken tangential tractions, the solution $\left\{\bm{u},p,\bm{t}^t \right\}$ of problem \eqref{eq:double-hybrid-weak} is numerically equivalent to $\left\{\bm{u},p,\bm{t}^t \right\}$ from problem \eqref{eq:semi-hybrid-weak}. Therefore, convergence rates and error estimates are inherited from the semi-hybrid formulation.
+The equivalence of problems \eqref{eq:double-hybrid-weak} and \eqref{eq:semi-hybrid-weak} can be verified by setting $\bm{s}^t \in \mathcal{L}^t \subset \bar{\mathcal{L}}^t$, so that $\jump{\bm{s}^t}\lvert_E=0$. Consequently, the second term in the left-hand side of Eq. \eqref{eq:double-hybrid-weak-c} vanishes. Moreover, $\langle\bm{u},\bm{s}^t\rangle_{\partial\mathcal{T}_h}=\langle\bm{u},\bm{s}^t\rangle_{\Gamma_h}-\langle\bm{u}_D,\bm{s}^t\rangle_{\partial\Omega_D} \, \forall \, \bm{s}^t \in \mathcal{L}^t$, considering that $\langle\bm{t}^t,\bm{v}\rangle_{\partial\mathcal{T}_h} = \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h}$ since $\bm{v}=\bm{0}\lvert_{\partial\Omega_D}$, and recalling that Eq. \eqref{eq:double-hybrid-weak-d} is no longer needed as it enforces the continuity of the broken tangential tractions, the solution $\left\{\bm{u},p,\bm{t}^t \right\}$ of problem \eqref{eq:double-hybrid-weak} is numerically equivalent to $\left\{\bm{u},p,\bm{t}^t \right\}$ from problem \eqref{eq:semi-hybrid-weak}. Therefore, convergence rates and error estimates are inherited from the semi-hybrid formulation. Moreover, a locally equilibrated stress solution can also be recovered by the double-hybrid formulation, as detailed in Section \ref{sec:local-stress}.
 
 \subsubsection{Error analysis}
 

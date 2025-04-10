@@ -198,7 +198,7 @@ In this work we present an innovative approach able to solve compressible, near-
 
 % {\nathan is extended the right word here? Maybe }
 
-This paper is organized as follows. Section \ref{sec:notations} introduces the notation and preliminaries herein adopted. In Section \ref{sec:Governing-equations}, the primal and mixed elasticity formulations and their weak forms are shown. Section \ref{sec:taylor-hood} is devoted to the discretization of the mixed formulation using Taylor-Hood elements. In Section \ref{sec:hybrid-mixed}, the semi-hybrid approach in \cite{carvalho2024semi} is extended {\nathan not sure if extended is the right word. Maybe adapted?} to elasticity problems, and the double-hybrid formulation is defined. We show the error analysis, the discrete finite element spaces chosen, the static condensation procedure, and hightlight advantages in terms of stability and spectral properties. Section \ref{sec:Examples} presents numerical benchmarks used to verify the proposed methodology. The analysis of a complex three-dimensional problem consisting of a pressurized structural hull is also included. Finally, we summarize the main features and outcomes in Section \ref{sec:conclusions}. The resulting method is implemented in the open-source object-oriented programming environment NeoPZ\footnote{NeoPZ open source platform \url{https://github.com/labmec/neopz}} written in C++.
+This paper is organized as follows. Section \ref{sec:notations} introduces the notation and preliminaries herein adopted. In Section \ref{sec:Governing-equations}, the primal and mixed elasticity formulations and their weak forms are shown. Section \ref{sec:taylor-hood} is devoted to the discretization of the mixed formulation using Taylor-Hood elements. In Section \ref{sec:hybrid-mixed}, the semi-hybrid approach in \cite{carvalho2024semi} is adapted to elasticity problems, and the double-hybrid formulation is defined. We show the error analysis, the discrete finite element spaces chosen, the static condensation procedure, and hightlight advantages in terms of stability and spectral properties. Section \ref{sec:Examples} presents numerical benchmarks used to verify the proposed methodology. The analysis of a complex three-dimensional problem consisting of a pressurized structural hull is also included. Finally, we summarize the main features and outcomes in Section \ref{sec:conclusions}. The resulting method is implemented in the open-source object-oriented programming environment NeoPZ\footnote{NeoPZ open source platform \url{https://github.com/labmec/neopz}} written in C++.
 
 \section{Preliminaries and notation} \label{sec:notations}
 
@@ -220,7 +220,7 @@ The space $H(\text{div},\Omega,\mathbb{R}^d)$ comprises square-integrable vector
 	H(\text{div},\Omega,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) : \nabla \cdot \bm{v} \in L^2(\Omega) \right\},
 \end{equation*}
 
-\noindent equipped with the norm $\| \cdot \|_{H(\text{div})}$. {\giovane Henceforth, a space of vector-valued functions is denoted by the symbol $\mathbb{R}^d, \,d \in \{2,3\}$. The same notation can be used for tensor fields, e.g. $\mathbb{R}^d \times \mathbb{R}^d$. Thus, \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{2,3\} \}\).}
+\noindent equipped with the norm $\| \cdot \|_{H(\text{div})}$. Henceforth, a space of vector-valued functions is denoted by the symbol $\mathbb{R}^d, \,d \in \{2,3\}$. The same notation can be used for tensor fields, e.g. $\mathbb{R}^d \times \mathbb{R}^d$. Thus, \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{2,3\} \}\).
 
 The notation used for the $L^2$ inner product is $(\cdot,\cdot)_{\Omega}$, while $\langle \cdot,\cdot\rangle_{\partial\Omega}$ stands for the duality pairing between the trace spaces
 \begin{equation*}
@@ -477,18 +477,16 @@ From Eqs. \eqref{eq:traction-decomposed} and \eqref{eq:normal-traction2}, the se
 
 \subsubsection{Recovering a locally equilibrated stress solution} \label{sec:local-stress}
 
-{\giovane escrever algo sobre o que e conservacao local em termos de tensoes.}
-
-Consider a pure homogeneous Dirichlet problem, i.e. $\bm{u}_D=\bm{0}$ on $\partial\Omega$. Let $\{\bm{u}_0,p_0,\bm{t}^t_0 \} \in \{\mathcal{V}_0 \times L^2 \times \mathcal{L}^t_0 \}$ be the solutions of the semi-hybrid weak form of Eq. \eqref{eq:semi-hybrid-weak}. A locally equilibrated stress solution can be recovered by relaxing the inter-element continuity requirement {\nathan is it a requirement or a consequence of the approximation space choice? Maybe we can just say we relax that continuity without talking about requirement or consequence} of the normal component of the displacement field. Following the standard hybridization approach, normal tractions $\bm{t}^n \in \mathcal{L}^n(\Gamma_h,\mathbb{R}^d)$ are introduced to the mesh skeleton {\nathan this previous phrase sounds weird. What about cutting it and just saying later that $\bm{t}^n$ is the normal traction?}. The continuity of the normal component of the displacement field can be enforced weakly by imposing $\langle\bm{t}^n,\bm{v}^n\rangle_{\Gamma_h} = 0$, that is,
+Let $\{\bm{u}_0,p_0,\bm{t}^t_0 \} \in \{\mathcal{V}_0 \times L^2 \times \mathcal{L}^t_0 \}$ be the solutions of the semi-hybrid weak form of Eq. \eqref{eq:semi-hybrid-weak}. A locally equilibrated stress solution can be recovered by hybridizing the inter-element continuity of the normal component of the displacement field, resulting in a normal traction Lagrange multiplier. Following this standard hybridization approach, normal tractions $\bm{t}^n \in \mathcal{L}^n(\Gamma_h,\mathbb{R}^d)$ are introduced to the mesh skeleton. The continuity of the normal component of the displacement field is enforced by imposing $\langle\bm{t}^n,\bm{v}^n\rangle_{\Gamma_h} = 0$, that is,
 \begin{equation*}
 	\sum_{E \in \Gamma_h} \int_{E} \jump{\bm{v}\cdot\bm{n}} \bm{t}^n \,d\partial K = 0 .
 \end{equation*}
 
-Thus, in this newly defined broken space, we seek $\{\bm{u},p,\bm{t}^t,\bm{t}^n\} \in \bar{H}_0(\text{div}) \times L^2 \times \mathcal{L}^t_0 \times \mathcal{L}^n_0$ such that {\nathan Is $\bar{H}_0(\text{div})$ the broken Hdiv space? Is so, we should define it.}:
+In this newly defined broken space, we seek $\{\bm{u},p,\bm{t}^t,\bm{t}^n\} \in \bar{H}_0(\text{div}) \times L^2 \times \mathcal{L}^t_0 \times \mathcal{L}^n_0$ such that:
 \begin{subequations} \label{eq:semi-hybrid-weak-broken}
 	\begin{align}
-		a\left(\bm{u},\bm{v}\right)_{\mathcal{T}_h} - b\left( p, \bm{v}\right)_{\mathcal{T}_h} + \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h} + \langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} ~~\forall\, \bm{v} \in \bar{H}_0(\text{div}),\label{eq:semi-hybrid-weak-broken-a}\\ 
-		-b\left(\bm{u}, q\right)_{\mathcal{T}_h} - c\left(p,q \right)_{\mathcal{T}_h} &= 0 ~~\forall\, q \in L^2, \label{eq:semi-hybrid-weak-broken-b}\\
+		a\left(\bm{u},\bm{v}\right)_{K} - b\left( p, \bm{v}\right)_{K} + \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h} + \langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{K} ~~\forall\, \bm{v} \in \bar{H}_0(\text{div}),\label{eq:semi-hybrid-weak-broken-a}\\ 
+		-b\left(\bm{u}, q\right)_{K} - c\left(p,q \right)_{K} &= 0 ~~\forall\, q \in L^2, \label{eq:semi-hybrid-weak-broken-b}\\
 		\langle\bm{u},\bm{s}^t\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{s}^t \in \mathcal{L}^t_0, \label{eq:semi-hybrid-weak-broken-c}\\
 		\langle\bm{u},\bm{s}^n\rangle_{\Gamma_h} &= 0 ~~\forall\, \bm{s}^n \in \mathcal{L}^n_0 . \label{eq:semi-hybrid-weak-broken-d}
 	\end{align}
@@ -501,10 +499,17 @@ Since $\{\bm{u}_0,p_0,\bm{t}^t_0\}$ satisfies the Eqs. \eqref{eq:semi-hybrid-wea
 	\end{aligned}
 \end{equation}
 
-\noindent where the right-hand side of Eq. \eqref{eq:semi-hybrid-residual} is not null since $\bm{v} \in \bar{H}_0(\text{div})$. If the approximation spaces are chosen properly {\nathan properly sounds vague here}, the number of functions in $\mathcal{L}^n_0$ matches the ones in $\bar{H}_0(\text{div})$, so that the term $\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h}$ gives rise to an invertible matrix where the solution $\bm{t}^n$ can be computed. The locally equilibrated stress solution is then obtained for each $\partial K$ as $\bm{t} = \bm{t}^t + \bm{t}^n$. {\nathan It feels to me that this section is lacking a small conclusion. Like, why does it matter that we can recover a locally equilibrated stress solution?}
+\noindent where the right-hand side of Eq. \eqref{eq:semi-hybrid-residual} is not null since $\bm{v} \in \bar{H}_0(\text{div})$. If the approximation spaces are dual to $\bm{v}\cdot \bm{n}$ on the boundary, the number of functions in $\mathcal{L}^n_0$ matches the ones in $\bar{H}_0(\text{div})$, so that the term $\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h}$ gives rise to an invertible matrix where the solution $\bm{t}^n$ can be computed. Eq. \eqref{eq:semi-hybrid-weak-broken-a} allows to demonstrate that $\bm{t}^n$ and $\bm{t}^t$ are in equilibrium with respect to $\bm{b}$ for each element of the mesh. For instance, choose $\bm{v}(\bm{x}) = \{\{1,0,0\}\  |\  x\in K, 0\  \rm{ otherwise}\}$. Then, $a\left(\bm{u},\bm{v}\right)_{K} = 0$ and  $b\left( p, \bm{v}\right)_{K} = 0$ and $\jump{\bm{v}\cdot\bm{n}} = \pm \bm{v}.$
+
+\begin{equation}
+	\int_{\partial K} \pm \bm{t}^t \, d\partial K + \int_{\partial K}\pm \bm{t}^n \, d\partial K = \int_{K} \bm{b}\, dK 
+\end{equation}
+
+We then conclude that the normal tractions are in equilibrium with the body forces $\bm{b}$.
+
 
 \subsection{The double-hybrid-mixed \(H(\mathrm{div},\Omega)\) formulation}
-
+{\giovane Checar phil por favor}
 {\giovane Reescrevi esta secao de uma forma mais consistente que em Stokes (eu acho). Poderiam checar?}
 The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are proven in \cite{carvalho2024semi,carvalho2024two} provided that an appropriated combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some numerical challenges that must be highlighted. After some algebraic operations, the linear system to be solved is a saddle-point problem with two different constraints: the average element pressure $\bar{p} \in L^2(\Omega)$ and the shear component of the interface traction $\bm{t}^t \in \mathcal{L}^t(\Gamma_h,\mathbb{R}^d)$:
 \begin{equation*}
@@ -547,7 +552,7 @@ As done before, the inter-element continuity of a discontinuous tangential tract
 	\mathcal{W}(\Gamma_h,\mathbb{R}^d) = \left\{\bm{w} \in H^{1/2}(\Gamma_h,\mathbb{R}^d), \, \bm{w}=\bm{u}-((\bm{u}\cdot\bm{n})\bm{n})\lvert_{\partial K}, \, \forall \, E \in \Gamma_h \,:\, \bm{u} \in \mathcal{V}(\mathcal{T}_h,\mathbb{R}^d) \right\}.
 \end{equation}
 
-\noindent From Eq. \eqref{eq:space-tangential-vel}, it is clear that $\bm{w}$ plays the role of a Lagrange multiplier whose physical meaning is the tangential component of the displacement field $\bm{u}$, equipped with the dual norm {\giovane existe uma norma para este espaco? $\lVert\bm{w}\rVert_{\mathcal{W}}=\sup_{\bm{s}^t \in \bar{\mathcal{L}}} \frac{\langle\bm{w},\bm{s}^t \rangle_{\Gamma_h}}{\lVert\bm{s}^t\rVert_{\bar{\mathcal{L}}}}$.}
+\noindent From Eq. \eqref{eq:space-tangential-vel}, it is clear that $\bm{w}$ plays the role of a Lagrange multiplier whose physical meaning is the tangential component of the displacement field $\bm{u}$.
 
 At first glance, one may notice that a new constraint equation was introduced in the variational problem, potentially leading to a more complex linear system. To better illustrate the strategy, Figure \ref{fig:hybrid-variables} depicts the resulting variables associated with each method for an arbitrary mesh partition. The key advantage of the double-hybrid formulation lies on the fact that the shear component of the traction is now associated with a single element, enabling its static condensation at the element level. This procedure leads to a positive-semi definite matrix block composed only by the two components of the primal variable, while a single Lagrange multiplier per element represents the average pressure. This process is further detailed in Section \ref{sec:static-condensation}.
 
@@ -691,10 +696,10 @@ On top of that, let us adopt vector-valued polynomial spaces for the Lagrange mu
 	\item For quadrilateral facets: $\bar{\mathcal{L}}(\partial \hat{K})=\bm{\hat{n}} \wedge \mathbb{Q}_{m,m}(\partial \hat{K},\mathbb{R}^3)$ and $\mathcal{W}(\hat{E})=\bm{\hat{n}} \wedge \mathbb{Q}_{m,m}(\hat{E},\mathbb{R}^3)$.
 \end{itemize}
 
-\noindent In the above expressions, $\bm{\tau}^{\partial\hat{K}}$ and $\bm{\tau}^{\hat{E}}$ are the tangential vectors to the line segment, unique for $\hat{E}$ and a pair with opposite directions for $\partial\hat{K}$, and $\wedge$ stands for the wedge product. The order $m$ is not arbitrary, instead it has to be chosen accordingly to ensure the trace compatibility between the discrete spaces shown in Table \ref{tab:FE_pairs}. {\giovane Devemos fazer uma analise com diferentes valores de m para verificar a compatibilidade do traco?}
+\noindent In the above expressions, $\bm{\tau}^{\partial\hat{K}}$ and $\bm{\tau}^{\hat{E}}$ are the tangential vectors to the line segment, unique for $\hat{E}$ and a pair with opposite directions for $\partial\hat{K}$, and $\wedge$ stands for the wedge product. The order $m$ is not arbitrary, instead it has to be chosen accordingly to ensure the trace compatibility between the discrete spaces shown in Table \ref{tab:FE_pairs}.
 
 \subsection{Static condensation procedure} \label{sec:static-condensation}
-
+{\giovane Checar phil por favor}
 Solving the problem of Equation \eqref{eq:double-hybrid-discrete} as presented would demand significantly more computational efforts compared to traditional $H^1$ primal methods or even with mixed Taylor-Hood approximations. First, the divergence-compatible pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ includes a larger number of functions for a given polynomial order $k$ than the traditional $H^1$ subspaces. Second, the introduction of Lagrange multipliers due to hybridization not only increase the number of unknowns but also leads to a a more challenging saddle-point problem. Moreover, {\nathan some of?} the advantages of the DHM-H(div) formulation only appear after applying the static condensation procedure, as shall be demonstrated next.
 
 Hybridization techniques have been widely used in the literature {\nathan if you state this, you should include citations} along with static condensation to reduce the size of global system to be solved. The procedure consists on separating the global degrees of freedom (DOFs) into two sets: one containing the DOFs that are possible to be solved within a single element, called internal DOFs, and the other containing the DOFs that are shared between elements and therefore cannot be solved locally, called external (or main) DOFs. {\nathan should we cite TNDSS here or in the introduction?}
@@ -1342,7 +1347,7 @@ The plots for the displacement magnitude, pressure, and Von Mises stresses along
 \end{figure}
 
 \section{Conclusions} \label{sec:conclusions}
-
+{\giovane Checar phil e contribuir}
 {\giovane A first shot, please give your contributions}
 In this work, a primal hybrid formulation for two and tridimensional elasticity problems is developed. The approximation space composed of De Rham compatible $H(\text{div})$ functions for normal displacements and $L^2$ functions for the pressure, results in a locally conservative scheme. A second hybridization of the tangential stresses is applied in order to obtain positive semi-definite element matrices after condensing internal degrees of freedom. The resulting global system exhibits a symmetric positive-definite matrix when analyzing compressible solids and a saddle-point problem with a single mean pressure per element, which acts as a Lagrange multiplier for incompressible materials.
 

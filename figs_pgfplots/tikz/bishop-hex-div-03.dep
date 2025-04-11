@@ -1,3 +1,0 @@
-./figs_pgfplots/tikz/bishop-hex-div-03.pdf: figs_pgfplots/bishop-hex-nu-03-k1.dat
-./figs_pgfplots/tikz/bishop-hex-div-03.pdf: figs_pgfplots/bishop-hex-nu-03-k2.dat
-./figs_pgfplots/tikz/bishop-hex-div-03.pdf: figs_pgfplots/bishop-hex-nu-03-k3.dat

@@ -1,4 +1,0 @@
-./figs_pgfplots/tikz/module_pressure.pdf: figs_pgfplots/p_th_2.txt
-./figs_pgfplots/tikz/module_pressure.pdf: figs_pgfplots/p_th_3.txt
-./figs_pgfplots/tikz/module_pressure.pdf: figs_pgfplots/p_hdiv_2.txt
-./figs_pgfplots/tikz/module_pressure.pdf: figs_pgfplots/p_hdiv_3.txt

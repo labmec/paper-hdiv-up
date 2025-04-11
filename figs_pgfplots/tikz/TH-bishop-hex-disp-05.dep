@@ -1,5 +1,0 @@
-./figs_pgfplots/tikz/TH-bishop-hex-disp-05.pdf: figs_pgfplots/bishop-hex-nu-05-k1.dat
-./figs_pgfplots/tikz/TH-bishop-hex-disp-05.pdf: figs_pgfplots/bishop-hex-nu-05-k2.dat
-./figs_pgfplots/tikz/TH-bishop-hex-disp-05.pdf: figs_pgfplots/bishop-hex-nu-05-k3.dat
-./figs_pgfplots/tikz/TH-bishop-hex-disp-05.pdf: figs_pgfplots/TH-bishop-hex-nu-05-k2.dat
-./figs_pgfplots/tikz/TH-bishop-hex-disp-05.pdf: figs_pgfplots/TH-bishop-hex-nu-05-k3.dat

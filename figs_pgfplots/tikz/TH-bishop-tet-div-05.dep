@@ -1,5 +1,0 @@
-./figs_pgfplots/tikz/TH-bishop-tet-div-05.pdf: figs_pgfplots/bishop-tet-nu-05-k1.dat
-./figs_pgfplots/tikz/TH-bishop-tet-div-05.pdf: figs_pgfplots/bishop-tet-nu-05-k2.dat
-./figs_pgfplots/tikz/TH-bishop-tet-div-05.pdf: figs_pgfplots/bishop-tet-nu-05-k3.dat
-./figs_pgfplots/tikz/TH-bishop-tet-div-05.pdf: figs_pgfplots/TH-bishop-tet-nu-05-k2.dat
-./figs_pgfplots/tikz/TH-bishop-tet-div-05.pdf: figs_pgfplots/TH-bishop-tet-nu-05-k3.dat

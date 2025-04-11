@@ -1,4 +1,0 @@
-./figs_pgfplots/tikz/module_vonmises_zoom.pdf: figs_pgfplots/sz_th_2.txt
-./figs_pgfplots/tikz/module_vonmises_zoom.pdf: figs_pgfplots/sz_th_3.txt
-./figs_pgfplots/tikz/module_vonmises_zoom.pdf: figs_pgfplots/sz_hdiv_2.txt
-./figs_pgfplots/tikz/module_vonmises_zoom.pdf: figs_pgfplots/sz_hdiv_3.txt

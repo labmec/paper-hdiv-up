@@ -1,8 +1,0 @@
-./figs_pgfplots/tikz/cook-2d-quad-disp-04999999.pdf: figs_pgfplots/cook-2d-quad-nu-04999999-k1.dat
-./figs_pgfplots/tikz/cook-2d-quad-disp-04999999.pdf: figs_pgfplots/cook-2d-quad-nu-04999999-k2.dat
-./figs_pgfplots/tikz/cook-2d-quad-disp-04999999.pdf: figs_pgfplots/cook-2d-quad-nu-04999999-k3.dat
-./figs_pgfplots/tikz/cook-2d-quad-disp-04999999.pdf: figs_pgfplots/cook-2d-quad-nu-04999999-k4.dat
-./figs_pgfplots/tikz/cook-2d-quad-disp-04999999.pdf: figs_pgfplots/cook-Sa.dat
-./figs_pgfplots/tikz/cook-2d-quad-disp-04999999.pdf: figs_pgfplots/cook-2d-quad-TH-nu-04999999.dat
-./figs_pgfplots/tikz/cook-2d-quad-disp-04999999.pdf: figs_pgfplots/cook-2d-quad-TH-nu-04999999.dat
-./figs_pgfplots/tikz/cook-2d-quad-disp-04999999.pdf: figs_pgfplots/cook-2d-quad-TH-nu-04999999.dat

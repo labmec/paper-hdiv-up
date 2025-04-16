@@ -1,0 +1,91 @@
+%% Creator: Inkscape 1.1.2 (0a00cf5339, 2022-02-04), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'static-condensation.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{453.54330709bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.8625)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{static-condensation.pdf}}%
+    \put(0.14304487,0.54827745){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathcal{T}_h$\end{tabular}}}}%
+    \put(0.11102343,0.4271364){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_1$\end{tabular}}}}%
+    \put(0.1681603,0.42766836){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_2$\end{tabular}}}}%
+    \put(0.10966213,0.36347006){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_3$\end{tabular}}}}%
+    \put(0.16789146,0.36209171){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_4$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{static-condensation.pdf}}%
+    \put(0.515469,0.68539947){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_1$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{static-condensation.pdf}}%
+    \put(0.69973252,0.68868355){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_2$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{static-condensation.pdf}}%
+    \put(0.52141709,0.51372845){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_3$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{static-condensation.pdf}}%
+    \put(0.69711568,0.51179812){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_4$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{static-condensation.pdf}}%
+    \put(0.47621236,0.21104896){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_1$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{static-condensation.pdf}}%
+    \put(0.62498729,0.2122195){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_2$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{static-condensation.pdf}}%
+    \put(0.47621236,0.0622741){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_3$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{static-condensation.pdf}}%
+    \put(0.62498729,0.06344464){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_4$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{static-condensation.pdf}}%
+    \put(0.50520189,0.83908515){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\text{External DOFs}$\end{tabular}}}}%
+    \put(0.45800512,0.33158262){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\text{Internal DOFs}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{static-condensation.pdf}}%
+    \put(0.89363544,0.77490369){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{u}^\partial_h \in \mathcal{V}^\partial_h$\end{tabular}}}}%
+    \put(0.89354069,0.73914204){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{w}_h \in \mathcal{W}_h$\end{tabular}}}}%
+    \put(0.89408734,0.70635464){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{p}_h \in \bar{\mathcal{P}}_h$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{static-condensation.pdf}}%
+    \put(0.79341419,0.26797722){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathring{\bm{u}}_h \in \mathring{\mathcal{V}}_h$\end{tabular}}}}%
+    \put(0.79414298,0.229404){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{t}^t_h \in \bar{\mathcal{L}}_h$\end{tabular}}}}%
+    \put(0.7952584,0.1911969){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$p_h \in \mathcal{P}_h$\end{tabular}}}}%
+    \put(0.79565742,0.14982512){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bar{g}_h \in \bar{\mathcal{P}}_h$\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

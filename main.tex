@@ -926,7 +926,14 @@ The tangential tractions $\bm{t}^t$ in Eq. \eqref{eq:block-matrix-1} can be cond
 \end{bNiceArray}.
 \end{equation}
 
-As a consequence of this procedure, a symmetric positive-definite matrix is obtained for a compressible solid with two unknowns, $\{\bm{u}^\partial_h,\bm{w}\} \in \mathcal{V}^\partial \times \mathcal{W}$. In this case, the block matrix $\bm{C}$ is positive definite, allowing it to be condensed without the need of introducing $\bar{p}$ and $\bar{g}$. For the incompressible case, where pressures cannot be explicitly computed from the displacements, a single mean pressure per element $\bar{p}_h \in \bar{\mathcal{P}}$ acts as a Lagrange multiplier in the global system. This results in a saddle-point matrix, but with improved spectral properties and easier to solve compared to Eqs. \eqref{eq:semi-hybrid-weak-a}-\eqref{eq:semi-hybrid-weak-c}.
+As a consequence of this procedure, a symmetric positive-definite matrix is obtained for a compressible solid with two unknowns, $\{\bm{u}^\partial_h,\bm{w}\} \in \mathcal{V}^\partial \times \mathcal{W}$. In this case, the block matrix $\bm{C}$ is positive definite, allowing it to be condensed without the need of introducing $\bar{p}$ and $\bar{g}$. For the incompressible case, where pressures cannot be explicitly computed from the displacements, a single mean pressure per element $\bar{p}_h \in \bar{\mathcal{P}}$ acts as a Lagrange multiplier in the global system. This results in a saddle-point matrix, but with improved spectral properties and easier to solve compared to Eqs. \eqref{eq:semi-hybrid-weak-a}-\eqref{eq:semi-hybrid-weak-c}. The external and internal variables are illustrated in Figure \ref{fig:static-condensation} for a given set of neighboring elements of the mesh. 
+
+\begin{figure}[H]
+	\centering
+	\input{static-condensation.pdf_tex}
+	\caption{Static condensation of the DHM-H(div) formulation. Representation of the external DOFs and internal DOFs for a given mesh partition.}
+	\label{fig:static-condensation}
+\end{figure}
 
 \section{Examples \label{sec:Examples}}
 

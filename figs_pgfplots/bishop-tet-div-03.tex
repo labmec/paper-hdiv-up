@@ -16,6 +16,7 @@
 	        xlabel= $h_{el}$,
 	        ylabel=${\lVert \nabla\cdot\bm{u}-\nabla\cdot\bm{u}_h \rVert}_{L^2}$,
             xmin=0.05, xmax=1.1,
+            ymin=1.0e-7,
             grid style={dashed},
             grid=major,
             % legend style=
@@ -29,8 +30,8 @@
         \addplot[color=blue,mark=*] table[x index=0, y index=6] {figs_pgfplots/bishop-tet-nu-03-k2.dat};
         \addplot[color=orange,mark=*] table[x index=0, y index=6] {figs_pgfplots/bishop-tet-nu-03-k3.dat};
         \logLogSlopeTriangle{0.25}{0.15}{0.7}{1}{black}
-        \logLogSlopeTriangle{0.25}{0.15}{0.38}{2}{black}
-        \logLogSlopeTriangle{0.25}{0.15}{0.08}{3}{black}
+        \logLogSlopeTriangle{0.25}{0.15}{0.4}{2}{black}
+        \logLogSlopeTriangle{0.25}{0.15}{0.13}{3}{black}
 
         \legend{$k=1$, $k=2$, $k=3$}
         \end{loglogaxis}

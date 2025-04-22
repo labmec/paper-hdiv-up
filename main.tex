@@ -986,7 +986,7 @@ It is noted that the analytical stress field is discontinuous at the interface b
     \label{fig:non-homogeneous-stretch-graphs}
 \end{figure}
 
-Figure \ref{fig:non-homogeneous-stretch-fields} depicts the $x$ displacement component, pressure, $xx$-stress component and $zz$-stress component using the DHM-H(div). {\phil These values are identical to the analytic solution.}
+Figure \ref{fig:non-homogeneous-stretch-fields} depicts the $x$ displacement component, pressure, $xx$-stress component and $zz$-stress component using the DHM-H(div). {\phil These values are identical to the analytic solution.} {\giovane should we remove them?}
 
 \begin{figure}[H]
     \centering
@@ -1044,11 +1044,7 @@ Two types of mesh partitions are considered: one using tetrahedral elements and 
 	\label{fig:bishop-meshes}
 \end{figure}
 
-{\nathan I think axes are too small or even unnecessary.}
-
 The results in Figure \ref{fig:bishop-convergence-nu-03} are similar using both mesh partitions, exhibiting optimal convergence rates of order $k+1$ for the displacement and $k$ for the other variables. Figure \ref{fig:bishop-snapshot} presents the displacement, pressure, stress magnitude and Von Mises stress distributions obtained with the finest hexahedral mesh using $k=3$ over the deformed configuration beam. The results qualitatively agree with the reference solution \cite{bishop2014displacement}.
-
-{\nathan alguns gráficos cortam o número 1 da base do triângulo.}
 
 \begin{figure}[H]
     \centering
@@ -1234,7 +1230,7 @@ At first, we perform plane strain analyses using structured meshes with triangul
 	\label{fig:cooks-2d-quad-meshes}
 \end{figure}
 
-Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the vertical displacement of point A for two values of $\nu$, alongside numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained using Taylor-Hood elements $P_kP_{k-1}$ with $k=\{2,3,4\}$. The DHM-H(div) formulation leads to a locking-free solution even for lower-order approximations ($k=1$), and qualitatively matches the reference solutions for both values of $\nu$ and mesh partitions. Moreover, the solution is pratically the same for both values of $\nu$. {\giovane Vamos deixar sem a solucao com locking de H1? while the solutions obtained with classical $H^1$ shape-functions clearly exhibit an excessive bending stiffness leading to a wrong representation of the problem's cinematic.}
+Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the vertical displacement of point A for two values of $\nu$, alongside numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained using Taylor-Hood elements $P_kP_{k-1}$ with $k=\{2,3,4\}$. The DHM-H(div) formulation leads to a locking-free solution even for lower-order approximations ($k=1$), and qualitatively matches the reference solutions for both values of $\nu$ and mesh partitions. Moreover, the solution is pratically the same for both values of $\nu$.
 \begin{figure}[H]
     \centering
 	\includetikz{cook-2d-disp-legend-04999} \\
@@ -1304,8 +1300,8 @@ The three dimensional case is studied using similar meshes with hexahedra and te
 
 \begin{figure}[H]
 	\centering
-	\subfloat[\label{fig:cooks-3d-stress-a}]{\includegraphics[trim={0 0 5cm 0}, clip, width=0.4\textwidth]{cooks-3d-vonmises-hex-k1.png} \quad \includegraphics[trim={0 0 5cm 0}, clip, width=0.4\textwidth]{cooks-3d-pressure-hex-k1.png}} \\
-	\subfloat[\label{fig:cooks-3d-stress-b}]{\includegraphics[trim={0 0 5cm 0}, clip, width=0.4\textwidth]{cooks-3d-vonmises-hex-k3.png} \quad \includegraphics[trim={0 0 5cm 0}, clip, width=0.4\textwidth]{cooks-3d-pressure-hex-k3.png}} \\
+	\subfloat[\label{fig:cooks-3d-stress-a}]{\includegraphics[trim={0 0 4cm 0}, clip, width=0.4\textwidth]{cooks-3d-vonmises-hex-k1.png} \quad \includegraphics[trim={0 0 4cm 0}, clip, width=0.4\textwidth]{cooks-3d-pressure-hex-k1.png}} \\
+	\subfloat[\label{fig:cooks-3d-stress-b}]{\includegraphics[trim={0 0 4cm 0}, clip, width=0.4\textwidth]{cooks-3d-vonmises-hex-k3.png} \quad \includegraphics[trim={0 0 4cm 0}, clip, width=0.4\textwidth]{cooks-3d-pressure-hex-k3.png}} \\
 	\caption{Cook's membrane. Von Mises stress (at left) and pressure (at right) fields over the deformed configuration using hexahedral meshes with $N_e=16$ for (a) $k=1$ and (b) $k=3$}
 	\label{fig:cooks-3d-stress}
 \end{figure}

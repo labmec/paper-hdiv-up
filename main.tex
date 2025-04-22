@@ -478,12 +478,18 @@ From Eqs. \eqref{eq:traction-decomposed} and \eqref{eq:normal-traction2}, the se
 
 \subsubsection{Recovering a locally equilibrated stress solution} \label{sec:local-stress}
 
-Let $\{\bm{u}_0,p_0,\bm{t}^t_0 \} \in \{\mathcal{V}_0 \times L^2 \times \mathcal{L}^t_0 \}$ be the solutions of the semi-hybrid weak form of Eq. \eqref{eq:semi-hybrid-weak}. A locally equilibrated stress solution can be recovered by hybridizing the inter-element continuity of the normal component of the displacement field, resulting in a normal traction Lagrange multiplier. Following this standard hybridization approach, normal tractions $\bm{t}^n \in \mathcal{L}^n(\Gamma_h,\mathbb{R}^d)$ are introduced to the mesh skeleton. The continuity of the normal component of the displacement field is enforced by imposing $\langle\bm{t}^n,\bm{v}^n\rangle_{\Gamma_h} = 0$, that is,
+Let $\{\bm{u}_0,p_0,\bm{t}^t_0 \} \in \{\mathcal{V}_0 \times L^2 \times \mathcal{L}^t_0 \}$ be the solution of the semi-hybrid weak form of Eq. \eqref{eq:semi-hybrid-weak}. A locally equilibrated stress solution can be recovered by hybridizing the inter-element continuity of the normal component of the displacement field, resulting in a normal traction Lagrange multiplier. Following this standard hybridization approach, normal tractions $\bm{t}^n \in \mathcal{L}^n(\Gamma_h,\mathbb{R}^d)$ are introduced to the mesh skeleton. The continuity of the normal component of the displacement field is enforced by imposing $\langle\bm{t}^n,\bm{v}^n\rangle_{\Gamma_h} = 0$, that is,
 \begin{equation*}
 	\sum_{E \in \Gamma_h} \int_{E} \jump{\bm{v}\cdot\bm{n}} \bm{t}^n \,d\partial K = 0 .
 \end{equation*}
 
-In this newly defined broken space, we seek $\{\bm{u},p,\bm{t}^t,\bm{t}^n\} \in \bar{H}_0(\text{div}) \times L^2 \times \mathcal{L}^t_0 \times \mathcal{L}^n_0$ such that:
+The broken $\bar{H}(\text{div})$ space is defined as:
+\begin{equation}
+	\label{eq:brokenspace-div}
+	\bar{H}(\text{div},\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) ~:~ \bm{v}\lvert_K \in H(\text{div},K,\mathbb{R}^d), ~\forall K \in \mathcal{T}_h\right\},
+\end{equation}
+
+\noindent whose functions can now assume discontinuous normal components over the mesh skeleton. In this newly defined broken space, we seek $\{\bm{u},p,\bm{t}^t,\bm{t}^n\} \in \bar{H}(\text{div}) \times L^2 \times \mathcal{L}^t \times \mathcal{L}^n$ such that:
 \begin{subequations} \label{eq:semi-hybrid-weak-broken}
 	\begin{align}
 		a\left(\bm{u},\bm{v}\right)_{K} - b\left( p, \bm{v}\right)_{K} + \langle\bm{t}^t,\bm{v}\rangle_{\Gamma_h} + \langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} &= \left(\bm{b},\bm{v}\right)_{K} ~~\forall\, \bm{v} \in \bar{H}_0(\text{div}),\label{eq:semi-hybrid-weak-broken-a}\\ 
@@ -500,14 +506,13 @@ Since $\{\bm{u}_0,p_0,\bm{t}^t_0\}$ satisfies the Eqs. \eqref{eq:semi-hybrid-wea
 	\end{aligned}
 \end{equation}
 
-\noindent where the right-hand side of Eq. \eqref{eq:semi-hybrid-residual} is not null since $\bm{v} \in \bar{H}_0(\text{div})$. If the approximation spaces are dual to $\bm{v}\cdot \bm{n}$ on the boundary, the number of functions in $\mathcal{L}^n_0$ matches the ones in $\bar{H}_0(\text{div})$, so that the term $\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h}$ gives rise to an invertible matrix where the solution $\bm{t}^n$ can be computed. Eq. \eqref{eq:semi-hybrid-weak-broken-a} allows to demonstrate that $\bm{t}^n$ and $\bm{t}^t$ are in equilibrium with respect to $\bm{b}$ for each element of the mesh. For instance, choose $\bm{v}(\bm{x}) = \{\{1,0,0\}\  |\  x\in K, 0\  \rm{ otherwise}\}$. Then, $a\left(\bm{u},\bm{v}\right)_{K} = 0$ and  $b\left( p, \bm{v}\right)_{K} = 0$ and $\jump{\bm{v}\cdot\bm{n}} = \pm \bm{v}.$
+\noindent where the right-hand side of Eq. \eqref{eq:semi-hybrid-residual} is not null since $\bm{v} \in \bar{H}_0(\text{div})$. If the approximation spaces are dual to $\bm{v}\cdot \bm{n}$ on the boundary, the number of functions in $\mathcal{L}^n$ matches the ones in $\bar{H}_0(\text{div})$, so that the term $\langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h}$ gives rise to an invertible matrix where the solution $\bm{t}^n$ can be computed. Eq. \eqref{eq:semi-hybrid-weak-broken-a} allows to demonstrate that $\bm{t}^n$ and $\bm{t}^t$ are in equilibrium with respect to $\bm{b}$ for each element of the mesh. For instance, choosing $\bm{v}(\bm{x}) = \{\{1,0,0\}\  |\  x\in K, 0\  \rm{ otherwise}\}$ results in $a\left(\bm{u},\bm{v}\right)_{K} = 0$, $b\left( p, \bm{v}\right)_{K} = 0$ and $\jump{\bm{v}\cdot\bm{n}} = \pm \bm{v}$, yielding
 
 \begin{equation}
-	\int_{\partial K} \pm \bm{t}^t \, d\partial K + \int_{\partial K}\pm \bm{t}^n \, d\partial K = \int_{K} \bm{b}\, dK 
+	\int_{\partial K} \pm \bm{t}^t \, d\partial K + \int_{\partial K}\pm \bm{t}^n \, d\partial K = \int_{K} \bm{b}\, dK ~~ \forall K \in \mathcal{T}_h .
 \end{equation}
 
 We then conclude that the computed normal tractions are in equilibrium with the body forces $\bm{b}$.
-
 
 \subsection{The double-hybrid-mixed \(H(\mathrm{div},\Omega)\) formulation}
 {\giovane Checar phil por favor}

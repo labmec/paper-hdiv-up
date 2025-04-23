@@ -436,7 +436,7 @@ Then, a hybrid-mixed problem is derived by finding $\{\bm{u},p,\bm{t}\} \in X_D 
 
 \noindent where the spaces $\mathcal{L}_0$ and $\mathcal{L}_N$ can be written using the same notation as in Eqs. \eqref{eq:uTH0} and \eqref{eq:uTHD} but restricted on $\partial\Omega_N$, and $\langle\bm{t},\bm{v}\rangle_{\Gamma_h}=\sum_{E \in \Gamma_h}\int_{E} \bm{t} \cdot \jump{\bm{v}} \,d\partial K$. The new traction variable $\bm{t}$ acts as a Lagrange multiplier weakly imposing the displacement continuity over the discretized domain.
 
-The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqref{eq:weak-mixed} is detailed in \cite{raviart1977primal}. The hybridization technique is commonly employed to enhance the conditioning and spectral properties of the system matrix. This aspect will be further explored in the following sections {\phil this doesn't make sense? what do you mean?}  \cite{arnold1985mixed}.
+The equivalence of problems described in Eq. \eqref{eq:hybrid-weak} and Eq. \eqref{eq:weak-mixed} is detailed in \cite{raviart1977primal}. The hybridization technique is commonly employed to enhance the conditioning and spectral properties of the system matrix, and will be further explored in the following sections.
 
 \subsection{Semi-hybrid-mixed formulation using \(H(\mathrm{div},\Omega)\) approximation space}
 
@@ -515,8 +515,7 @@ Since $\{\bm{u}_0,p_0,\bm{t}^t_0\}$ satisfies the Eqs. \eqref{eq:semi-hybrid-wea
 We then conclude that the computed normal tractions are in equilibrium with the body forces $\bm{b}$.
 
 \subsection{The double-hybrid-mixed \(H(\mathrm{div},\Omega)\) formulation}
-{\giovane Checar phil por favor}
-{\giovane Reescrevi esta secao de uma forma mais consistente que em Stokes (eu acho). Poderiam checar?}
+
 The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are proven in \cite{carvalho2024semi,carvalho2024two} provided that an appropriated combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some numerical challenges that must be highlighted. After some algebraic operations, the linear system to be solved is a saddle-point problem with two different constraints: the average element pressure $\bar{p} \in L^2(\Omega)$ and the shear component of the interface traction $\bm{t}^t \in \mathcal{L}^t(\Gamma_h,\mathbb{R}^d)$:
 \begin{equation*}
 	\bm{K}=
@@ -530,21 +529,13 @@ The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are prov
 
 This structure significantly increases the effort required to solve the linear system, as a specific permutation order must be chosen when decomposing the equations asociated with the Lagrange multipliers. Moreover, we observed that using numerical techniques to impose shear stress boundary conditions (e.g when using the penalty method) may lead to loss of accuracy which directly affects the convergence rate.
 
-The strategy adopted to overcome this issue was first proposed in \cite{puga2025stable} in the context of Stokes flows, and consists in performing a second hybridization of the tangential stresses. This approach can be readily extended to the elasticity problem. {\phil ??} The tangential traction space defined in Eq. \eqref{eq:space-traction-tangential} does not admit different absolute values when evaluated on the boundary of two adjacent elements. To properly define a broken space of Lagrange multipliers that weakens this continuity requirement, we shall start by introducing the broken $\bar{H}(\text{div})$ space as:
-\begin{equation}
-	\label{eq:brokenspace-div}
-	\bar{H}(\text{div},\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) ~:~ \bm{v}\lvert_K \in H(\text{div},K,\mathbb{R}^d), ~\forall K \in \mathcal{T}_h\right\},
-\end{equation}
-
-\noindent whose functions can now assume discontinuous normal components over the mesh skeleton.
-
-Similarly, the associated broken traction space is written as:
+The strategy adopted to overcome this issue was first proposed in \cite{puga2025stable} in the context of Stokes flows, and consists in performing a second hybridization of the tangential stresses. This approach can be readily applied to the elasticity problem as shall be demonstrated next. The tangential traction space defined in Eq. \eqref{eq:space-traction-tangential} is continuous on the boundary of two adjacent elements. The broken space of Lagrange multipliers, $\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d)$, can be seen as the trace of the broken $\bar{H}(\text{div})$ space defined in Eq. \eqref{eq:brokenspace-div}, and is written as:
 \begin{equation}
 	\label{eq:space-traction-broken}
-	\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{t} \in L^2(\partial\mathcal{T}_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, \partial K \in \partial\mathcal{T}_h ~:~\bm{\sigma} \in \bar{H}(\text{div},K,\mathbb{R}^d \times \mathbb{R}^d) \right\},
+	\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{t} \in L^2(\partial\mathcal{T}_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, \partial K \in \partial\mathcal{T}_h ~:~\bm{\sigma} \in \bar{H}(\text{div},K,\mathbb{R}^d \times \mathbb{R}^d) \right\}.
 \end{equation}
 
-\noindent which encompasses functions that can assume different values on the common boundary of adjacent elements, so that $\mathcal{L}(\Gamma_h,\mathbb{R}^d) \subset \bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d)$. Equation \eqref{eq:space-traction-broken} can be decomposed in the same way as Eq. \eqref{eq:space-traction}, so that:
+\noindent This set encompasses functions that can assume different values on the common boundary of adjacent elements, so that $\mathcal{L}(\Gamma_h,\mathbb{R}^d) \subset \bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d)$. Equation \eqref{eq:space-traction-broken} can be decomposed in the same way as Eq. \eqref{eq:space-traction}, so that:
 \begin{subequations}
 	\begin{align}
 		\bar{\mathcal{L}}^n(\partial\mathcal{T}_h,\mathbb{R}^d) &= \left\{\bm{t}^n=((\bm{t}\cdot\bm{n})\bm{n})\lvert_{\partial K}, ~\bm{t} \in \bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d) \right\} , \label{eq:space-traction-broken-normal}\\
@@ -595,7 +586,7 @@ The error analysis of the double-hybrid formulation for the Stokes flow is prese
 
 According to \cite{brezzi2005mixed}, the convergence rates of velocity and pressure approximations are intrinsically linked, making the choice of approximation spaces a crucial factor. Specifically, the convergence rate is determined by the lowest of the approximation orders associated with $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, measured in the $H^1$ and $L^2$ norms, respectively. Moreover, when adjoint-consistent formulations are utilized, the convergence of the $L^2$-norm error of the displacement can be increased by one order.
 
-As the continuity of the tangential component of the displacement is weakly enforced when using $\bm{u}_h \in \mathcal{V}_{h,k} \subset H(\text{div},\Omega)$, we can draw an analogy with Discontinuous Galerkin formulations featuring partial penalization, {\phil \sout{which}} assuming that the pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ is divergence-compatible and satisfies the inf-sup condition, Theorems 5.1 and 5.2 of \cite{wang2007new} yield the error estimate:
+As the continuity of the tangential component of the displacement is weakly enforced when using $\bm{u}_h \in \mathcal{V}_{h,k} \subset H(\text{div},\Omega)$, we can draw an analogy with Discontinuous Galerkin formulations featuring partial penalization, assuming that the pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ is divergence-compatible and satisfies the inf-sup condition, Theorems 5.1 and 5.2 of \cite{wang2007new} yield the error estimate:
 \begin{equation}
 \|\bm{u} - \bm{u}_h\|_{1,h} + \|p - p_h\| \leq C \left\{ h^k \|\bm{u}\|_{k+1} + h^{k+1} \|p\|_{k+1} \right\},
 \end{equation}
@@ -619,7 +610,7 @@ The discrete form of the Double Hybrid Mixed methodology is henceforth denoted a
 	\end{align}
 \end{subequations}
 
-{\phil In order to satisfy stability \sout{According to the Brezzi's theory in}} \cite{girault2012finite,brezzi2012mixed,arnold1988new}, the FE spaces associated with each variable cannot be chosen arbitrarily. 
+To ensure stability \cite{girault2012finite,brezzi2012mixed,arnold1988new}, the FE spaces associated with each variable cannot be chosen arbitrarily. 
 
 Assume the pressure space is discontinuous, i.e.:
 \begin{equation}
@@ -637,7 +628,7 @@ However, mathematically proving the trace compatibility required in $\langle\bm{
 	\text{rank}~ \bm{D}^T = \text{dim} ~\mathcal{L}^t_{h,k},
 \end{equation*}
 
-\noindent where $\bm{D}^T=[\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}]$. {\giovane Checar essa parte Phil }Analogously, the compatibility between the tangential tractions and tangential displacement is verified by checking the condition
+\noindent where $\bm{D}^T=[\langle\bm{s}^t,\bm{v}\rangle_{\partial\mathcal{T}_h}]$. Analogously, the compatibility between the tangential tractions and tangential displacement is verified by checking the condition
 \begin{equation*}
 	\text{rank}~ \bm{L}^T = \text{dim} ~\mathcal{W}_{h,k},
 \end{equation*}
@@ -663,9 +654,9 @@ For vector-valued functions, the isomorphism $L^2(\hat{K})$ to $L^2(K)$ defined 
 
 \noindent where $\nabla\mathcal{F}$ is the Jacobian matrix of the transformation $\mathcal{F}$ and $J=\lvert\text{det}(\nabla\mathcal{F})\lvert$. It direct follows from Eq. \eqref{eq:piola-transform} that $\nabla \cdot \bar{\mathcal{F}}(\bm{\hat{v}})=\frac{1}{J} \hat{\nabla} \cdot \bm{\hat{v}}$. The same transformation is valid for vector functions $\bm{s}^t \in \bar{\mathcal{L}}_{h,k}(\partial K): \bm{s}^t=\bar{\mathcal{F}}(\bm{\hat{s}}^t)$ and $\bm{z} \in \mathcal{W}_{h,k}(E): \bm{z}=\bar{\mathcal{F}}(\bm{\hat{z}})$ defined over the mesh skeleton. Additionally, the displacement space admits a decomposition $\mathcal{V}_{h,k}=\mathcal{V}^\partial_{h,k} \oplus \mathring{\mathcal{V}}_{h,k}$ in terms of functions with continuous normal components over $\partial\hat{K}$, $\mathcal{V}^\partial_{h,k}$, and the ones with vanishing trace over $\partial\hat{K}$, $\mathring{\mathcal{V}}_{h,k}$.
 
-The construction of the divergence-compatible spaces adopted in this work is {\phil \sout{better}} detailed in \cite{de2013new,devloo2022efficient}, and some classic stable pairs are depicted in Table \ref{tab:FE_pairs} for the element shapes described above. The notation adopted is as follows: $\mathbb{P}_k(\hat{K})$ stands for scalar polynomials of total degree at most $k$, $\tilde{\mathbb{P}}_k(\hat{K})=\left\{\mathbb{P}_k(\hat{K}) ~:~\mathbb{P}_k\lvert_{\partial\hat{K}}=0 \right\}$ its the homogeneous set and $\mathbb{P}_k(\hat{K},\mathbb{R}^d)$ is their respective vectorial counterpart. $\mathbb{Q}_{k,m}(\hat{K})$ and $\mathbb{Q}_{k,m,n}(\hat{K})$ refer to the polynomials with maximum degree order $k,m$ or $n$ in each direction, respectively.
+The construction of the divergence-compatible spaces adopted in this work is  detailed in \cite{de2013new,devloo2022efficient}, and the stable pairs herein used are depicted in Table \ref{tab:FE_pairs} for the element shapes described above. The notation adopted is as follows: $\mathbb{P}_k(\hat{K})$ stands for scalar polynomials of total degree at most $k$, $\tilde{\mathbb{P}}_k(\hat{K})=\left\{\mathbb{P}_k(\hat{K}) ~:~\mathbb{P}_k\lvert_{\partial\hat{K}}=0 \right\}$ its the homogeneous set and $\mathbb{P}_k(\hat{K},\mathbb{R}^d)$ is their respective vectorial counterpart. $\mathbb{Q}_{k,m}(\hat{K})$ and $\mathbb{Q}_{k,m,n}(\hat{K})$ refer to the polynomials with maximum degree order $k,m$ or $n$ in each direction, respectively.
 
-{\phil Colocar apenas espacos com quais trabalhamos}
+{\phil Colocar apenas espacos com quais trabalhamos} {\giovane Feito. Visto que para a formulacao dupla hibrida aumentamos a ordem interna em k+2, removi as citacoes anteriores}
 \begin{table}[h]
     \centering
     \renewcommand{\arraystretch}{1.5}
@@ -673,30 +664,24 @@ The construction of the divergence-compatible spaces adopted in this work is {\p
         \toprule
         $\bm{\hat{K}}$ & \textbf{Method} & $\bm{\mathcal{V}(\hat{K})}$ & $\bm{\mathcal{P}(\hat{K})}$ \\
         \midrule
-        \multirow{3}{*}{$\hat{T}$} 
-        & $BDM(k)^{\text{\cite{brezzi1985two}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^2)$ & $\mathbb{P}_{k-1}(\hat{K})$ \\
-        & $RT(k)^{\text{\cite{arnold1990mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^2) \oplus \bm{x} \tilde{\mathbb{P}}_k(\hat{K})$ & $\mathbb{P}_k(\hat{K})$ \\
-        & $BDM^+(k)^{\text{\cite{brezzi2012mixed}}}$ & $\mathbb{P}_k^{\partial}(\hat{K}, \mathbb{R}^2) \oplus \mathring{\mathbb{P}}_{k+1}(\hat{K}, \mathbb{R}^2)$ & $\mathbb{P}_k(\hat{K})$ \\
+        \multirow{1}{*}{$\hat{T}$} 
+        & $BDM^{++}(k)$ & $\mathbb{P}_k^{\partial}(\hat{K}, \mathbb{R}^2) \oplus \mathring{\mathbb{P}}_{k+2}(\hat{K}, \mathbb{R}^2)$ & $\mathbb{P}_{k+1}(\hat{K})$ \\
         \midrule
-        \multirow{2}{*}{$\hat{R}$} 
-        & $RT(k)^{\text{\cite{arnold1990mixed}}}$ & $\mathbb{Q}_{k+1,k} \times \mathbb{Q}_{k,k+1}(\hat{K})$ & $\mathbb{Q}_{k,k}(\hat{K})$ \\
-        & $RT^+(k)^{\text{\cite{farias2017two}}}$ & $\mathcal{V}_{RT(k)}^\partial(\hat{K}) \oplus \mathring{\mathcal{V}}_{RT(k+1)}(\hat{K})$ & $\mathbb{Q}_{k+1,k+1}(\hat{K})$ \\
+        \multirow{1}{*}{$\hat{R}$} 
+        & $RT^{++}(k)$ & $\mathcal{V}_{RT(k)}^\partial(\hat{K}) \oplus \mathring{\mathcal{V}}_{RT(k+2)}(\hat{K})$ & $\mathbb{Q}_{k+2,k+2}(\hat{K})$ \\
         \midrule
-        \multirow{3}{*}{$\hat{Te}$} 
-        & $BDM(k)^{\text{\cite{brezzi1987mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^3)$ & $\mathbb{P}_{k-1}(\hat{K})$ \\
-        & $RT(k)^{\text{\cite{nedelec1980mixed}}}$ & $\mathbb{P}_k(\hat{K}, \mathbb{R}^3) \oplus \bm{x} \tilde{\mathbb{P}}_k(\hat{K})$ & $\mathbb{P}_k(\hat{K})$ \\
-        & $BDM^+(k)^{\text{\cite{brezzi2012mixed}}}$ & $\mathbb{P}_k^\partial(\hat{K}, \mathbb{R}^3) \oplus \mathring{\mathbb{P}}_{k+1}(\hat{K}, \mathbb{R}^3)$ & $\mathbb{P}_k(\hat{K})$ \\
+        \multirow{1}{*}{$\hat{Te}$}
+        & $BDM^{++}(k)$ & $\mathbb{P}_k^\partial(\hat{K}, \mathbb{R}^3) \oplus \mathring{\mathbb{P}}_{k+2}(\hat{K}, \mathbb{R}^3)$ & $\mathbb{P}_{k+1}(\hat{K})$ \\
         \midrule
-        \multirow{2}{*}{$\hat{H}$} 
-        & $RT(k)^{\text{\cite{nedelec1980mixed}}}$ & $\mathbb{Q}_{k+1,k,k} \times \mathbb{Q}_{k,k+1,k} \times \mathbb{Q}_{k,k,k+1}(\hat{K})$ & $\mathbb{Q}_{k,k,k}(\hat{K})$ \\
-        & $RT^+(k)^{\text{\cite{castro2016hierarchical}}}$ & $\mathcal{V}_{RT(k)}^\partial(\hat{K}) \oplus \mathring{\mathcal{V}}_{RT(k+1)}(\hat{K})$ & $\mathbb{Q}_{k+1,k+1,k+1}(\hat{K})$ \\
+        \multirow{1}{*}{$\hat{H}$} 
+        & $RT^{++}(k)$ & $\mathcal{V}_{RT(k)}^\partial(\hat{K}) \oplus \mathring{\mathcal{V}}_{RT(k+2)}(\hat{K})$ & $\mathbb{Q}_{k+2,k+2,k+2}(\hat{K})$ \\
         \bottomrule
     \end{tabular}
-    \caption{Examples of divergence-compatible pairs $\mathcal{V}(\hat{K}) \times \mathcal{P}(\hat{K})$ in the reference element for displacement and pressure fields \cite{carvalho2024semi}.}
+    \caption{Divergence-compatible pairs $\mathcal{V}(\hat{K}) \times \mathcal{P}(\hat{K})$ in the reference element for displacement and pressure fields.}
     \label{tab:FE_pairs}
 \end{table}
 
-{\phil \sout{On top of that, let us adopt v} V}ector-valued polynomial spaces for the Lagrange multipliers $\bm{\hat{t}}^t \in \bar{\mathcal{L}}(\partial \hat{K})$ (tangent traction) and $\bm{\hat{w}} \in \mathcal{W}(\hat{E})$ (associated with tangent displacement), {\phil are \sout{to be}} combined with the divergence-compatible $\mathcal{V}(\hat{K})\times\mathcal{P}(\hat{K})$:
+Vector-valued polynomial spaces for the Lagrange multipliers $\bm{\hat{t}}^t \in \bar{\mathcal{L}}(\partial \hat{K})$ (tangent traction) and $\bm{\hat{w}} \in \mathcal{W}(\hat{E})$ (associated with tangent displacement), are combined with the divergence-compatible $\mathcal{V}(\hat{K})\times\mathcal{P}(\hat{K})$:
 \begin{itemize}
 	\item For 1D segments: $\bar{\mathcal{L}}(\partial \hat{K})=\mathbb{P}_m(\partial \hat{K})\bm{\tau}^{\partial\hat{K}}$ and $\mathcal{W}(\hat{E})=\mathbb{P}_m(\hat{E})\bm{\tau}^{\hat{E}}$;
 	\item For triangular facets: $\bar{\mathcal{L}}(\partial \hat{K})=\bm{\hat{n}} \wedge \mathbb{P}_m(\partial \hat{K},\mathbb{R}^3)$ and $\mathcal{W}(\hat{E})=\bm{\hat{n}} \wedge \mathbb{P}_m(\hat{E},\mathbb{R}^3)$;
@@ -706,11 +691,10 @@ The construction of the divergence-compatible spaces adopted in this work is {\p
 \noindent In the above expressions, $\bm{\tau}^{\partial\hat{K}}$ and $\bm{\tau}^{\hat{E}}$ are the tangential vectors to the line segment, unique for $\hat{E}$ and a pair with opposite directions for $\partial\hat{K}$, and $\wedge$ stands for the wedge product. The order $m$ is not arbitrary, instead it has to be chosen accordingly to ensure the trace compatibility between the discrete spaces shown in Table \ref{tab:FE_pairs}.
 
 \subsection{Static condensation procedure} \label{sec:static-condensation}
-{\giovane Checar phil por favor}{\phil Combinamos que ira retirar as funcoes que nao utilizamos}
 
-Solving the problem of Equation \eqref{eq:double-hybrid-discrete} as presented would demand significantly more computational efforts compared to traditional $H^1$ primal methods or even with mixed Taylor-Hood approximations. First, the divergence-compatible pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ includes a larger number of functions for a given polynomial order $k$ than the traditional $H^1$ subspaces. Second, the introduction of Lagrange multipliers due to hybridization not only increase the number of unknowns but also leads to a a more challenging saddle-point problem. Moreover, {\nathan some of?} the advantages of the DHM-H(div) formulation only appear after applying the static condensation procedure, as shall be demonstrated next.
+Solving the problem of Equation \eqref{eq:double-hybrid-discrete} as presented would demand significantly more computational efforts compared to traditional $H^1$ primal methods or even with mixed Taylor-Hood approximations. First, the divergence-compatible pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ includes a larger number of functions for a given polynomial order $k$ than the traditional $H^1$ subspaces. Second, the introduction of Lagrange multipliers due to hybridization not only increase the number of unknowns but also leads to a a more challenging saddle-point problem. Moreover, some of the advantages of the DHM-H(div) formulation only appear after applying the static condensation procedure, as shall be demonstrated next.
 
-Hybridization techniques have been widely used in the literature {\nathan if you state this, you should include citations}{\phil There is a publication where we show this} along with static condensation to reduce the size of global system to be solved. The procedure consists on separating the global degrees of freedom (DOFs) into two sets: one containing the DOFs that are possible to be solved within a single element, called internal DOFs, and the other containing the DOFs that are shared between elements and therefore cannot be solved locally, called external (or main) DOFs. {\nathan should we cite TNDSS here or in the introduction?}
+Hybridization techniques have been widely used in the literature along with static condensation to reduce the size of global system to be solved \cite{castro2016three,dobrev2019algebraic}. The procedure consists on separating the global degrees of freedom (DOFs) into two sets: one containing the DOFs that are possible to be solved within a single element, called internal DOFs, and the other containing the DOFs that are shared between elements and therefore cannot be solved locally, called external (or main) DOFs.
 
 As previously mentioned, the displacement functions $\bm{u}_h \in \mathcal{V}_{h,k}$ can be separated into element-wise divergence-free functions with vanishing normal components over the element boundaries, namely $\mathring{\bm{u}}_h$, and the remaining functions with continuous normal components across elements boundaries, $\bm{u}^\partial_h$. This leads to the definition of two auxiliary spaces, namely:
 \begin{subequations} \label{eq:internal-external-functions}

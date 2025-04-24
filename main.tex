@@ -146,7 +146,7 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 \begin{frontmatter}{}
 
 %Um primeiro título
-\title{A primal double-hybrid finite element method to solve tridimensional compressible, quasi-incompressible and incompressible elasticity using de Rham compatible H(div)-L2 spaces}
+\title{A primal double-hybrid finite element method to solve tridimensional compressible, quasi-incompressible, and incompressible elasticity using de Rham compatible H(div)-L2 spaces}
 
 \author[uni]{Giovane Avancini}
 
@@ -184,26 +184,22 @@ Various techniques have been developed to mitigate the shear-locking and problem
 
 % The regularity of the solution to the Biot model can be used to indicate how displacement becomes divergence-free as Poisson's ratio approaches 0.5 \cite{yi2017study}. Using another scheme, a three-field formulation can be used to obtain symmetric saddle point problem expressed by a biorthogonal system of equations, which can be condensed to decrease the number of unknowns and generate locking-free approximations \cite{lamichhane2012symmetric, lamichhane2014mixed}. 
 
-% {\nathan this paragraph is ok} Another class of algorithms for incompressible solids and structures has relied on Weak Galerkin (WG) approach. Using weak function and weak gradient, this method introduces degrees of freedom that allow discontinuous functions to be used as basis function \cite{lin2018weak}. On polygonal convex meshes, the lowest-order WG method employs piecewise constant vector-valued spaces on interior elements and edges \cite{wang2024lowest}. This approach is straightforward, effective, does not require stabilization, and leads to a symmetric positive-definite system. For meshes composed of rectangular or hexahedral elements, the lowest-order WG method is locking-free and achieves first-order accuracy in displacement, stress, and dilation \cite{harper2019lowest}.
-
-One of the most widely adopted techniques is the mixed formulation \cite{brezzi2012mixed,arnold1988new} with Taylor-Hood elements \cite{taylor1973numerical}. In this approach, displacements and stresses (or pressure) are approximated independently, with $H^1$-continuous approximation spaces. The Taylor-Hood element \cite{taylor1973numerical} satisfies the \textit{inf-sup} condition for the mixed displacement-pressure formulation, ensuring stability even in the incompressible regime. However, a major drawback of this formulation is the continuity of the pressure field which can lead to numerical issues, such as spurious oscillations at material interfaces with contrasting elasticity modulus.
+One of the most widely adopted techniques is the mixed formulation \cite{brezzi2012mixed,arnold1988new} with Taylor-Hood elements \cite{taylor1973numerical}. In this approach, displacements and stresses (or pressure) are approximated independently, with $H^1$-continuous approximation spaces. The Taylor-Hood element \cite{taylor1973numerical} satisfies the \textit{inf-sup} condition for the mixed displacement-pressure formulation, ensuring stability even in the incompressible regime. However, a major drawback of this formulation is the continuity of the pressure field, which can lead to numerical issues, such as spurious oscillations at material interfaces with contrasting elasticity modulus.
 %its lack of local mass conservation in the incompressible limit, as it does not enforce the divergence constraint strongly.
 
-The Discontinuous Galerkin (DG) method has proved to be a viable approach to treat incompressibility \cite{CARVALHO2020, DEVLOO2013}. In combination with the Nitsche's approach -- which allows different approximations to be made in different elements, and the continuity of the solution is satisfied weakly through interface contributions between the elements -- DG shows optimal error estimates that are uniform with respect to Poisson's ratio for triangular and tetrahedra meshes \cite{hansbo2002discontinuous}. Since the DG method uses spaces of discontinuous basis functions, it enables high-order accuracy for generally-shaped mesh elements, simplifies the implementation of $hp$ adaptivity and parallelization \cite{gulizzi2023discontinuous, riviere2003discontinuous}, which is very attractive for massive computations. A disadvantage of the DG method is its wide coupling stencil, as all equations of an element are coupled to all equations of the neighbouring elements. Hybridized versions (HDG) are also available, particularly suitable for problems with strong discontinuities (cracks) \cite{soon2009hybridizable}. 
+The Discontinuous Galerkin (DG) method has proved to be a viable approach to treat incompressibility \cite{CARVALHO2020, DEVLOO2013}. In combination with Nitsche's approach -- which allows different approximations to be made in different elements, and the continuity of the solution is satisfied weakly through interface contributions between the elements -- DG shows optimal error estimates that are uniform with respect to Poisson's ratio for triangular and tetrahedral meshes \cite{hansbo2002discontinuous}. Since the DG method uses spaces of discontinuous basis functions, it enables high-order accuracy for generally-shaped mesh elements, simplifies the implementation of $hp$ adaptivity and parallelization \cite{gulizzi2023discontinuous, riviere2003discontinuous}, which is very attractive for massive computations. A disadvantage of the DG method is its wide coupling stencil, as all equations of an element are coupled to all equations of the neighboring elements. Hybridized versions (HDG) are also available, particularly suitable for problems with strong discontinuities (cracks) \cite{soon2009hybridizable}. 
 
-In the context of locally conservative methods, one approach involves using weak symmetry methods, where the stress tensor is not assumed to be symmetric a priori. Instead, an additional equation is introduced to enforce its symmetry \cite{DEVLOO2020, DEVLOO2024, Weslley}. This method has been shown to be effective in the incompressible limit but it does not naturally satisfy the divergence-free condition on the displacements locally. Although the number of degrees of freedom is higher compared to other methods, the authors suggest that the approach can remain competitive when static condensation is employed efficiently.
+In the context of locally conservative methods, one approach involves using weak symmetry methods, where the stress tensor is not assumed to be symmetric a priori. Instead, an additional equation is introduced to enforce its symmetry \cite{DEVLOO2020, DEVLOO2024, Weslley}. This method has been shown to be effective in the incompressible limit, but it does not naturally satisfy the divergence-free condition on the displacements locally. Although the number of degrees of freedom is higher compared to other methods, the authors suggest that the approach can remain competitive when static condensation is employed efficiently.
 
-One viable alternative is to employ hybrid methods, where interelement continuity of a given field is relaxed and weakly enforced using Lagrange multipliers. This methodology was first proposed by \cite{raviart1977primal} to solve primal elasticity problems where the continuity requirement of the displacement field is weakly enforced on element boundaries through Lagrange multipliers that physically represent tractions. Since then, this idea has been widely explored in the literature \cite{brezzi2012mixed, harder2016hybrid, farhloul1997dual}. This technique has recently been applied to solve Stokes flow problems \cite{carvalho2024semi,puga2025stable} which can be shown to be analogous to incompressible elasticity problems. 
+One viable alternative is to employ hybrid methods, where interelement continuity of a given field is relaxed and weakly enforced using Lagrange multipliers. This methodology was first proposed by \cite{raviart1977primal} to solve primal elasticity problems where the continuity requirement of the displacement field is weakly enforced on element boundaries through Lagrange multipliers that physically represent tractions. Since then, this idea has been widely explored in the literature \cite{brezzi2012mixed, harder2016hybrid, farhloul1997dual}. This technique has recently been applied to solve Stokes flow problems \cite{carvalho2024semi,puga2025stable}, which can be shown to be analogous to incompressible elasticity problems. 
 
-In this work we present an innovative approach able to solve compressible, near-incompressible and incompressible two- and three-dimensional elasticity problems. In the incompressible limit, the divergence-free condition is naturally satisfied. The formulation builds upon the semi-hybrid method proposed in \cite{carvalho2024semi} for Stokes flows, later extended to a double-hybrid approach in \cite{puga2025stable}. Here, we adapt it to elasticity by introducing a second hybridization on the tangential stresses. The method relies on a de Rham-compatible  $H(\text{div})-L^2$  pair for displacements and pressure, with $H(\text{div})$ functions systematically constructed using the methodology described in \cite{devloo2022efficient, de2013new}. It is noted that a similar idea is introduced in the framework of the Tangential Displacement Normal-Normal Stress (TDNNS) approach \cite{Joaquim2011}. In this method, the functions that define the approximation space exhibit continuity in tangential displacement (belonging to $H(\text{curl}, \Omega)$), and in the the normal-normal stress component which belongs to $H(\text{div div}, \Omega)$. Additionally, a Lagrange multiplier representing normal displacement may be introduced to break the continuity of the normal-normal stress.
+In this work, we present an innovative approach able to solve compressible, near-incompressible, and incompressible two- and three-dimensional elasticity problems. In the incompressible limit, the divergence-free condition is naturally satisfied. The formulation builds upon the semi-hybrid method proposed in \cite{carvalho2024semi} for Stokes flows, later extended to a double-hybrid approach in \cite{puga2025stable}. Here, we adapt it to elasticity by introducing a second hybridization on the tangential stresses. The method relies on a de Rham-compatible  $H(\text{div})-L^2$  pair for displacements and pressure, with $H(\text{div})$ functions systematically constructed using the methodology described in \cite{devloo2022efficient, de2013new}. It is noted that a similar idea is introduced in the framework of the Tangential Displacement Normal-Normal Stress (TDNNS) approach \cite{Joaquim2011}. In this method, the functions that define the approximation space exhibit continuity in tangential displacement (belonging to $H(\text{curl}, \Omega)$), and in the normal-normal stress component, which belongs to $H(\text{div div}, \Omega)$. Additionally, a Lagrange multiplier representing normal displacement may be introduced to break the continuity of the normal-normal stress.
 
-% {\nathan is extended the right word here? Maybe }
-
-This paper is organized as follows. Section \ref{sec:notations} introduces the notation and preliminaries herein adopted. In Section \ref{sec:Governing-equations}, the primal and mixed elasticity formulations and their weak forms are shown. Section \ref{sec:taylor-hood} is devoted to the discretization of the mixed formulation using Taylor-Hood elements. In Section \ref{sec:hybrid-mixed}, the semi-hybrid approach in \cite{carvalho2024semi} is adapted to elasticity problems, and the double-hybrid formulation is defined. We show the error analysis, the discrete finite element spaces chosen, the static condensation procedure, and hightlight advantages in terms of stability and spectral properties. Section \ref{sec:Examples} presents numerical benchmarks used to verify the proposed methodology. The analysis of a complex three-dimensional problem consisting of a pressurized structural hull is also included. Finally, we summarize the main features and outcomes in Section \ref{sec:conclusions}. The resulting method is implemented in the open-source object-oriented programming environment NeoPZ\footnote{NeoPZ open source platform \url{https://github.com/labmec/neopz}} written in C++.
+This paper is organized as follows. Section \ref{sec:notations} introduces the notation and preliminaries herein adopted. In Section \ref{sec:Governing-equations}, the primal and mixed elasticity formulations and their weak forms are shown. Section \ref{sec:taylor-hood} is devoted to the discretization of the mixed formulation using Taylor-Hood elements. In Section \ref{sec:hybrid-mixed}, the semi-hybrid approach in \cite{carvalho2024semi} is adapted to elasticity problems, and the double-hybrid formulation is defined. We show the error analysis, the discrete finite element spaces chosen, the static condensation procedure, and highlight advantages in terms of stability and spectral properties. Section \ref{sec:Examples} presents numerical benchmarks used to verify the proposed methodology. The analysis of a complex three-dimensional problem consisting of a pressurized structural hull is also included. Finally, we summarize the main features and outcomes in Section \ref{sec:conclusions}. The resulting method is implemented in the open-source object-oriented programming environment NeoPZ\footnote{NeoPZ open source platform \url{https://github.com/labmec/neopz}} written in C++.
 
 \section{Preliminaries and notation} \label{sec:notations}
 
-Firstly, we introduce basic notation, functional spaces, and definitions that will be used throughout this work. Elasticity problems involve scalar, vector and tensor-valued fields. Hereinafter, vector fields are denoted by bold Latin letters, tensors are written using bold symbols or bold Greek letters, whilst plain Latin or Greek letters are chosen for scalars.
+Firstly, we introduce basic notation, functional spaces, and definitions that will be used throughout this work. Elasticity problems involve scalar, vector, and tensor-valued fields. Hereinafter, vector fields are denoted by bold Latin letters, tensors are written using bold symbols or bold Greek letters, whilst plain Latin or Greek letters are chosen for scalars.
 
 Let $\Omega \subset \mathbb{R}^d$, $d \in \{2, 3\}$, be a closed domain with Lipschitz boundary $\partial \Omega \subset \mathbb{R}^{d-1}$ whose  associated unit outward normal vector is denoted by $\bm{n}$. The scalar Hilbert spaces $L^2(\Omega)$ and $H^1(\Omega)$ have their usual meanings:
 \begin{equation*}
@@ -254,7 +250,7 @@ Moreover, a broken Sobolev space of the square-integrable functions on the discr
 
 \section{Elasticity problem \label{sec:Governing-equations}}
 
-In this section, the governing equations for the linear elasticity problem are defined. First, the primal displacement based formulation is presented, followed by the mixed version introducing the pressure as an indepent variable.
+In this section, the governing equations for the linear elasticity problem are defined. First, the primal displacement-based formulation is presented, followed by the mixed version introducing the pressure as an independent variable.
 
 \subsection{Problem definition}
 
@@ -262,7 +258,7 @@ The conservation of linear momentum for a generic continuum body is given by:
 \begin{equation} \label{eq:momentum}
 		-\nabla \cdot \bm{\sigma} - \bm{b} = \bm{0} \hspace{0.2cm} \text{in } \Omega ,
 \end{equation}
-\noindent where $\bm{b}$ is the body force vector and $\bm{\sigma}$ denotes the Cauchy stress tensor. The Generalized Hooke's law relates the stresses and strains in a isotropic body as:
+\noindent where $\bm{b}$ is the body force vector and $\bm{\sigma}$ denotes the Cauchy stress tensor. The Generalized Hooke's law relates the stresses and strains in an isotropic body as:
 \begin{equation} \label{eq:hook}
     \bm{\sigma} = 2\mu \bm{\varepsilon}(\bm{u}) + \lambda \text{tr}(\bm{\varepsilon}(\bm{u})) \bm{I}^d ,
 \end{equation}
@@ -272,7 +268,7 @@ The conservation of linear momentum for a generic continuum body is given by:
 	\lambda = \frac{E\nu}{(1+\nu)(1-2\nu)} \text{,} \quad \mu = \frac{E}{2(1+\nu)} \text{,}
 \end{equation}
 
-\noindent with $E$ and $\nu$ standing for the Young modulus and Poisson coefficient. The infinitesimal strain tensor $\bm{\varepsilon}(\bm{u})$ is the symmetric countepart of the displacement gradient:
+\noindent with $E$ and $\nu$ standing for the Young modulus and Poisson coefficient. The infinitesimal strain tensor $\bm{\varepsilon}(\bm{u})$ is the symmetric counterpart of the displacement gradient:
 \begin{equation} \label{eq:strain}
     \bm{\varepsilon}(\bm{u})=\frac{1}{2}(\nabla\bm{u}^T+\nabla\bm{u}) \text{.}
 \end{equation}
@@ -298,7 +294,7 @@ The elasticity problem can also be formulated using two state variables by apply
 	p = -\kappa \;\text{tr}(\bm{\varepsilon}(\bm{u})) ,
 \end{equation}
 
-\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, is computed as $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypothesis can also be derived by imposing the constraints on each case. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
+\noindent with $\kappa$ standing for the bulk modulus, which for the generalized tridimensional case, is computed as $\kappa=\frac{2\mu+3\lambda}{3}$. Its value for the plane stress and plane strain hypotheses can also be derived by imposing the constraints on each case. Plugging Eqs. \eqref{eq:pressure} and \eqref{eq:hook} into Eq. \eqref{eq:stress-decomposition}, the deviatoric stress tensor $\boldsymbol{\sigma}'$ is computed as:
 \begin{equation} \label{eq:deviatoric-stress}
 	\boldsymbol{\sigma}' = 2\mu \left(\boldsymbol{\varepsilon}(\bm{u}) - \frac{1}{3}\text{tr}(\boldsymbol{\varepsilon}(\bm{u}))\bm{I}\right) \text{.}
 \end{equation}
@@ -330,7 +326,7 @@ The simplest one is obtained by multiplying Eq. \eqref{eq:navier-cauchy} by test
 	a\left(\bm{u},\bm{v}\right)_\Omega = \int_{\Omega} \bm{\varepsilon}(\bm{v}) : \mathcal{D} : \bm{\varepsilon}(\bm{u}) d\Omega
 \end{equation*}
 
-In the above equations, $\mathcal{D}$ refers to the elasticity constitutive tensor, defined for an isotropic solid as $\mathcal{D}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})+\lambda\delta_{ij}\delta_{kl}$, where $\delta_{ij}$ is the Kronecker delta, and $:$ is a double contraction operator i.e. $\bm{\sigma}:\bm{\varepsilon} = \sigma_{ij}\varepsilon_{ji}$. Equation \eqref{eq:weak-primal-displacement} is the starting point for the $H^1$ primal displacement based finite element formulations.
+In the above equations, $\mathcal{D}$ refers to the elasticity constitutive tensor, defined for an isotropic solid as $\mathcal{D}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})+\lambda\delta_{ij}\delta_{kl}$, where $\delta_{ij}$ is the Kronecker delta, and $:$ is a double contraction operator i.e. $\bm{\sigma}:\bm{\varepsilon} = \sigma_{ij}\varepsilon_{ji}$. Equation \eqref{eq:weak-primal-displacement} is the starting point for the $H^1$ primal displacement-based finite element formulations.
 
 In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-elasticity}, we multiply Eq. \eqref{eq:mixed-elasticity-a} by displacement test functions $\bm{v} \in H^1_0(\Omega,\mathbb{R}^d)$ and the Eq. \eqref{eq:mixed-elasticity-b} by pressure test functions $q \in L^2(\Omega)$. Integrating over the domain $\Omega$ and applying the divergence theorem, the weak form consists in finding $\bm{u} \in H^1_D(\Omega,\mathbb{R}^d)$ and $p \in L^2(\Omega)$ such that for all $\bm{v} \in H^1_0(\Omega)$ and $q \in L^2(\Omega)$:
 \begin{subequations} \label{eq:weak-mixed}
@@ -357,7 +353,7 @@ In order to derive the weak form of the mixed problem from Eq. \eqref{eq:mixed-e
 	c\left(p,q \right)_\Omega = \int_{\Omega} \frac{1}{\kappa} \,p \,q \, d\Omega ,
 \end{equation*}
 
-\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle point problem with pressure playing the role of a Lagrange multiplier. As the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system takes the form of a saddle-point problem. In this case, an appropriate choice for the approximation spaces used for displacement and pressure must follow a specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, that is, there exist a constant $\beta>0$ such that
+\noindent where $\mathcal{D}^{'}$ stands for the deviatoric part of the elasticity constitutive tensor, computed as $\mathcal{D}^{'}_{ijkl} = \mu(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})-\frac{2}{3}\mu\delta_{ij}\delta_{kl}$. Eqs. \eqref{eq:weak-mixed-a}-\eqref{eq:weak-mixed-b} give rise to a saddle point problem with pressure playing the role of a Lagrange multiplier. As the material approaches the incompressible regime, i.e. $\nu \rightarrow 0.5$, the system takes the form of a saddle-point problem. In this case, an appropriate choice for the approximation spaces used for displacement and pressure must follow specific criteria to ensure stability. A stable solution can be obtained if the Ladyzhenskaya-Babuska-Brezzi (LBB) condition is satisfied \cite{brezzi2012mixed}, that is, there exists a constant $\beta>0$ such that
 \begin{equation} \label{eq:LBB}
 	\inf_{q \in L^2,q\neq0} \sup_{\bm{v} \in H^1_0,\bm{v}\neq\bm{0}} \frac{b\left(\bm{v},q\right)}{\|\bm{v}\|_{H^1} \|q\|_{L^2}} \geq \beta .
 \end{equation}
@@ -499,7 +495,7 @@ The broken $\bar{H}(\text{div})$ space is defined as:
 	\end{align}
 \end{subequations}
 
-Since $\{\bm{u}_0,p_0,\bm{t}^t_0\}$ satisfies the Eqs. \eqref{eq:semi-hybrid-weak-broken-b} and \eqref{eq:semi-hybrid-weak-broken-c}, and given that $\bm{u}_0 \in \mathcal{V}_0 \subset H_0(\text{div})$ ensures $\jump{\bm{u}\cdot\bm{n}}_E=0$, Eq. \eqref{eq:semi-hybrid-weak-broken-d} is satisfied. Rewritting Eq. \eqref{eq:semi-hybrid-weak-broken-a} in a residual form yields:
+Since $\{\bm{u}_0,p_0,\bm{t}^t_0\}$ satisfies the Eqs. \eqref{eq:semi-hybrid-weak-broken-b} and \eqref{eq:semi-hybrid-weak-broken-c}, and given that $\bm{u}_0 \in \mathcal{V}_0 \subset H_0(\text{div})$ ensures $\jump{\bm{u}\cdot\bm{n}}_E=0$, Eq. \eqref{eq:semi-hybrid-weak-broken-d} is satisfied. Rewriting Eq. \eqref{eq:semi-hybrid-weak-broken-a} in a residual form yields:
 \begin{equation} \label{eq:semi-hybrid-residual}
 	\begin{aligned}
 		\mathcal{R}(\bm{v}) := \langle\bm{t}^n,\bm{v}\rangle_{\Gamma_h} = \left(\bm{b},\bm{v}\right)_{\mathcal{T}_h} -a\left(\bm{u}_0,\bm{v}\right)_{\mathcal{T}_h} + b\left( p_0, \bm{v}\right)_{\mathcal{T}_h} - \langle\bm{t}^t_0,\bm{v}\rangle_{\Gamma_h},
@@ -516,7 +512,7 @@ We then conclude that the computed normal tractions are in equilibrium with the 
 
 \subsection{The double-hybrid-mixed \(H(\mathrm{div},\Omega)\) formulation}
 
-The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are proven in \cite{carvalho2024semi,carvalho2024two} provided that an appropriated combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some numerical challenges that must be highlighted. After some algebraic operations, the linear system to be solved is a saddle-point problem with two different constraints: the average element pressure $\bar{p} \in L^2(\Omega)$ and the shear component of the interface traction $\bm{t}^t \in \mathcal{L}^t(\Gamma_h,\mathbb{R}^d)$:
+The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are proven in \cite{carvalho2024semi,carvalho2024two} provided that an appropriate combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some numerical challenges that must be highlighted. After some algebraic operations, the linear system to be solved is a saddle-point problem with two different constraints: the average element pressure $\bar{p} \in L^2(\Omega)$ and the shear component of the interface traction $\bm{t}^t \in \mathcal{L}^t(\Gamma_h,\mathbb{R}^d)$:
 \begin{equation*}
 	\bm{K}=
 	\begin{bNiceArray}{c | c | c}[first-row,cell-space-top-limit=4pt,extra-margin=4pt]
@@ -527,9 +523,9 @@ The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are prov
 	\end{bNiceArray}
 \end{equation*}
 
-This structure significantly increases the effort required to solve the linear system, as a specific permutation order must be chosen when decomposing the equations asociated with the Lagrange multipliers. Moreover, we observed that using numerical techniques to impose shear stress boundary conditions (e.g when using the penalty method) may lead to loss of accuracy which directly affects the convergence rate.
+This structure significantly increases the effort required to solve the linear system, as a specific permutation order must be chosen when decomposing the equations associated with the Lagrange multipliers. Moreover, we observed that using numerical techniques to impose shear stress boundary conditions (e.g., when using the penalty method) may lead to loss of accuracy, which directly affects the convergence rate.
 
-The strategy adopted to overcome this issue was first proposed in \cite{puga2025stable} in the context of Stokes flows, and consists in performing a second hybridization of the tangential stresses. This approach can be readily applied to the elasticity problem as shall be demonstrated next. The tangential traction space defined in Eq. \eqref{eq:space-traction-tangential} is continuous on the boundary of two adjacent elements. The broken space of Lagrange multipliers, $\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d)$, can be seen as the trace of the broken $\bar{H}(\text{div})$ space defined in Eq. \eqref{eq:brokenspace-div}, and is written as:
+The strategy adopted to overcome this issue was first proposed in \cite{puga2025stable} in the context of Stokes flows and consists of performing a second hybridization of the tangential stresses. This approach can be readily applied to the elasticity problem, as shall be demonstrated next. The tangential traction space defined in Eq. \eqref{eq:space-traction-tangential} is continuous on the boundary of two adjacent elements. The broken space of Lagrange multipliers, $\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d)$, can be seen as the trace of the broken $\bar{H}(\text{div})$ space defined in Eq. \eqref{eq:brokenspace-div}, and is written as:
 \begin{equation}
 	\label{eq:space-traction-broken}
 	\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d) = \left\{\bm{t} \in L^2(\partial\mathcal{T}_h,\mathbb{R}^d), \, \bm{t}=\bm{\sigma}\bm{n}\lvert_{\partial K}, \, \forall \, \partial K \in \partial\mathcal{T}_h ~:~\bm{\sigma} \in \bar{H}(\text{div},K,\mathbb{R}^d \times \mathbb{R}^d) \right\}.
@@ -551,7 +547,7 @@ As done before, the inter-element continuity of a discontinuous tangential tract
 
 \noindent From Eq. \eqref{eq:space-tangential-vel}, it is clear that $\bm{w}$ plays the role of a Lagrange multiplier whose physical meaning is the tangential component of the displacement field $\bm{u}$.
 
-At first glance, one may notice that a new constraint equation was introduced in the variational problem, potentially leading to a more complex linear system. To better illustrate the strategy, Figure \ref{fig:hybrid-variables} depicts the resulting variables associated with each method for an arbitrary mesh partition. The key advantage of the double-hybrid formulation lies on the fact that the shear component of the traction is now associated with a single element, enabling its static condensation at the element level. This procedure leads to a positive-semi definite matrix block composed only by the two components of the primal (displacement) variable, while a single Lagrange multiplier per element imposes the incompressibility restraint and represents the average pressure. This process is further detailed in Section \ref{sec:static-condensation}.
+At first glance, one may notice that a new constraint equation was introduced in the variational problem, potentially leading to a more complex linear system. To better illustrate the strategy, Figure \ref{fig:hybrid-variables} depicts the resulting variables associated with each method for an arbitrary mesh partition. The key advantage of the double-hybrid formulation lies in the fact that the shear component of the traction is now associated with a single element, enabling its static condensation at the element level. This procedure leads to a positive-semi definite matrix block composed only of the two components of the primal (displacement) variable, while a single Lagrange multiplier per element imposes the incompressibility restraint and represents the average pressure. This process is further detailed in Section \ref{sec:static-condensation}.
 
 \begin{figure}[H]
     \centering 
@@ -584,7 +580,7 @@ The equivalence of problems \eqref{eq:double-hybrid-weak} and \eqref{eq:semi-hyb
 
 The error analysis of the double-hybrid formulation for the Stokes flow is presented in \cite{puga2025stable} as an extension of \cite{carvalho2024semi} using the semi-hybrid method. We consider a homogeneous problem with $\bm{b}=\bm{0}$ and pure Dirichlet boundaries, i.e. $\bm{u}_D=\bm{0}$ on $\partial\Omega$. Let $\bm{u}$ and $p$ denote the exact solutions for displacement and pressure, respectively, while their approximations, $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, are defined over a mesh $\mathcal{T}_h$ with size $h$ and polynomial order $k$.
 
-According to \cite{brezzi2005mixed}, the convergence rates of velocity and pressure approximations are intrinsically linked, making the choice of approximation spaces a crucial factor. Specifically, the convergence rate is determined by the lowest of the approximation orders associated with $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, measured in the $H^1$ and $L^2$ norms, respectively. Moreover, when adjoint-consistent formulations are utilized, the convergence of the $L^2$-norm error of the displacement can be increased by one order.
+According to \cite{brezzi2005mixed}, the convergence rates of velocity and pressure approximations are intrinsically linked, making the choice of approximation spaces a crucial factor. Specifically, the convergence rate is determined by the lowest of the approximation orders associated with $\bm{u}_h \in \mathcal{V}_{h,k}$ and $p_h \in \mathcal{P}_{h,k}$, measured in the $H^1$ and $L^2$ norms, respectively. Moreover, when adjoint-consistent formulations are utilized, the convergence of the displacement error in the $L^2$-norm can be increased by one order.
 
 As the continuity of the tangential component of the displacement is weakly enforced when using $\bm{u}_h \in \mathcal{V}_{h,k} \subset H(\text{div},\Omega)$, we can draw an analogy with Discontinuous Galerkin formulations featuring partial penalization, assuming that the pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ is divergence-compatible and satisfies the inf-sup condition, Theorems 5.1 and 5.2 of \cite{wang2007new} yield the error estimate:
 \begin{equation}
@@ -598,7 +594,7 @@ As the continuity of the tangential component of the displacement is weakly enfo
 
 \subsection{Discrete double-hybrid-mixed finite element formulation}
 
-The aim is to construct FE discrete spaces $\mathcal{S}_{h,k}=\mathcal{V}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W}_{h,k}$ for the double-hybrid-mixed formulation \eqref{eq:double-hybrid-weak}, associated with the mesh partition $\mathcal{T}_h$ with characteristic size $h$ and polynomial degree $k$. For conveniente, the subindex $k$ may be dropped in some equations.
+The aim is to construct FE discrete spaces $\mathcal{S}_{h,k}=\mathcal{V}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W}_{h,k}$ for the double-hybrid-mixed formulation \eqref{eq:double-hybrid-weak}, associated with the mesh partition $\mathcal{T}_h$ with characteristic size $h$ and polynomial degree $k$. For convenience, the subindex $k$ may be dropped in some equations.
 
 The discrete form of the Double Hybrid Mixed methodology is henceforth denoted as DHM-H(div)($\mathcal{S}_{h,k}$). It seeks for $\{\bm{u}_h,p_h,\bm{t}^t_h,\bm{w}_h\} \in \mathcal{S}_{h,k}$ such that:
 \begin{subequations} \label{eq:double-hybrid-discrete}
@@ -652,9 +648,9 @@ For vector-valued functions, the isomorphism $L^2(\hat{K})$ to $L^2(K)$ defined 
 \bm{v} \in \mathcal{V}_{h,k}(K): \bm{v}=\bar{\mathcal{F}}(\bm{\hat{v}})=\left[\frac{1}{J}\nabla\mathcal{F}\bm{\hat{v}} \right] \,\circ\, \mathcal{F}^{-1}, \, \bm{\hat{v}} \in \mathcal{V}_{h,k}(\hat{K}), 
 \end{equation}
 
-\noindent where $\nabla\mathcal{F}$ is the Jacobian matrix of the transformation $\mathcal{F}$ and $J=\lvert\text{det}(\nabla\mathcal{F})\lvert$. It direct follows from Eq. \eqref{eq:piola-transform} that $\nabla \cdot \bar{\mathcal{F}}(\bm{\hat{v}})=\frac{1}{J} \hat{\nabla} \cdot \bm{\hat{v}}$. The same transformation is valid for vector functions $\bm{s}^t \in \bar{\mathcal{L}}_{h,k}(\partial K): \bm{s}^t=\bar{\mathcal{F}}(\bm{\hat{s}}^t)$ and $\bm{z} \in \mathcal{W}_{h,k}(E): \bm{z}=\bar{\mathcal{F}}(\bm{\hat{z}})$ defined over the mesh skeleton. Additionally, the displacement space admits a decomposition $\mathcal{V}_{h,k}=\mathcal{V}^\partial_{h,k} \oplus \mathring{\mathcal{V}}_{h,k}$ in terms of functions with continuous normal components over $\partial\hat{K}$, $\mathcal{V}^\partial_{h,k}$, and the ones with vanishing trace over $\partial\hat{K}$, $\mathring{\mathcal{V}}_{h,k}$.
+\noindent where $\nabla\mathcal{F}$ is the Jacobian matrix of the transformation $\mathcal{F}$ and $J=\lvert\text{det}(\nabla\mathcal{F})\lvert$. It directly follows from Eq. \eqref{eq:piola-transform} that $\nabla \cdot \bar{\mathcal{F}}(\bm{\hat{v}})=\frac{1}{J} \hat{\nabla} \cdot \bm{\hat{v}}$. The same transformation is valid for vector functions $\bm{s}^t \in \bar{\mathcal{L}}_{h,k}(\partial K): \bm{s}^t=\bar{\mathcal{F}}(\bm{\hat{s}}^t)$ and $\bm{z} \in \mathcal{W}_{h,k}(E): \bm{z}=\bar{\mathcal{F}}(\bm{\hat{z}})$ defined over the mesh skeleton. Additionally, the displacement space admits a decomposition $\mathcal{V}_{h,k}=\mathcal{V}^\partial_{h,k} \oplus \mathring{\mathcal{V}}_{h,k}$ in terms of functions with continuous normal components over $\partial\hat{K}$, $\mathcal{V}^\partial_{h,k}$, and the ones with vanishing trace over $\partial\hat{K}$, $\mathring{\mathcal{V}}_{h,k}$.
 
-The construction of the divergence-compatible spaces adopted in this work is  detailed in \cite{de2013new,devloo2022efficient}, and the stable pairs herein used are depicted in Table \ref{tab:FE_pairs} for the element shapes described above. The notation adopted is as follows: $\mathbb{P}_k(\hat{K})$ stands for scalar polynomials of total degree at most $k$, $\tilde{\mathbb{P}}_k(\hat{K})=\left\{\mathbb{P}_k(\hat{K}) ~:~\mathbb{P}_k\lvert_{\partial\hat{K}}=0 \right\}$ its the homogeneous set and $\mathbb{P}_k(\hat{K},\mathbb{R}^d)$ is their respective vectorial counterpart. $\mathbb{Q}_{k,m}(\hat{K})$ and $\mathbb{Q}_{k,m,n}(\hat{K})$ refer to the polynomials with maximum degree order $k,m$ or $n$ in each direction, respectively.
+The construction of the divergence-compatible spaces adopted in this work is  detailed in \cite{de2013new,devloo2022efficient}, and the stable pairs herein used are depicted in Table \ref{tab:FE_pairs} for the element shapes described above. The notation adopted is as follows: $\mathbb{P}_k(\hat{K})$ stands for scalar polynomials of total degree at most $k$, $\tilde{\mathbb{P}}_k(\hat{K})=\left\{\mathbb{P}_k(\hat{K}) ~:~\mathbb{P}_k\lvert_{\partial\hat{K}}=0 \right\}$ its the homogeneous set, and $\mathbb{P}_k(\hat{K},\mathbb{R}^d)$ is their respective vectorial counterpart. $\mathbb{Q}_{k,m}(\hat{K})$ and $\mathbb{Q}_{k,m,n}(\hat{K})$ refer to the polynomials with maximum degree order $k,m$ or $n$ in each direction, respectively.
 
 {\phil Colocar apenas espacos com quais trabalhamos} {\giovane Feito. Visto que para a formulacao dupla hibrida aumentamos a ordem interna em k+2, removi as citacoes anteriores} {\nathan iai? Podemos apagar esse comentarios?}
 \begin{table}[h]
@@ -692,11 +688,11 @@ Vector-valued polynomial spaces for the Lagrange multipliers $\bm{\hat{t}}^t \in
 
 \subsection{Static condensation procedure} \label{sec:static-condensation}
 
-Solving the problem of Equation \eqref{eq:double-hybrid-discrete} as presented would demand significantly more computational efforts compared to traditional $H^1$ primal methods or even with mixed Taylor-Hood approximations. First, the divergence-compatible pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ includes a larger number of functions for a given polynomial order $k$ than the traditional $H^1$ subspaces. Second, the introduction of Lagrange multipliers due to hybridization not only increase the number of unknowns but also leads to a a more challenging saddle-point problem. Moreover, some of the advantages of the DHM-H(div) formulation only appear after applying the static condensation procedure, as shall be demonstrated next.
+Solving the problem of Equation \eqref{eq:double-hybrid-discrete} as presented would demand significantly more computational efforts compared to traditional $H^1$ primal methods or even with mixed Taylor-Hood approximations. First, the divergence-compatible pair $\mathcal{V}_{h,k} \times \mathcal{P}_{h,k}$ includes a larger number of functions for a given polynomial order $k$ than the traditional $H^1$ subspaces. Second, the introduction of Lagrange multipliers due to hybridization not only increases the number of unknowns but also leads to a more challenging saddle-point problem. Moreover, some of the advantages of the DHM-H(div) formulation only appear after applying the static condensation procedure, as shall be demonstrated next.
 
-Hybridization techniques have been widely used in the literature along with static condensation to reduce the size of global system to be solved \cite{castro2016three,dobrev2019algebraic}. The procedure consists on separating the global degrees of freedom (DOFs) into two sets: one containing the DOFs that are possible to be solved within a single element, called internal DOFs, and the other containing the DOFs that are shared between elements and therefore cannot be solved locally, called external (or main) DOFs.
+Hybridization techniques have been widely used in the literature along with static condensation to reduce the size of the global system to be solved \cite{castro2016three,dobrev2019algebraic}. The procedure consists of separating the global degrees of freedom (DOFs) into two sets: one containing the DOFs that are possible to be solved within a single element, called internal DOFs, and the other containing the DOFs that are shared between elements and therefore cannot be solved locally, called external (or main) DOFs.
 
-As previously mentioned, the displacement functions $\bm{u}_h \in \mathcal{V}_{h,k}$ can be separated into element-wise divergence-free functions with vanishing normal components over the element boundaries, namely $\mathring{\bm{u}}_h$, and the remaining functions with continuous normal components across elements boundaries, $\bm{u}^\partial_h$. This leads to the definition of two auxiliary spaces, namely:
+As previously mentioned, the displacement functions $\bm{u}_h \in \mathcal{V}_{h,k}$ can be separated into element-wise divergence-free functions with vanishing normal components over the element boundaries, namely $\mathring{\bm{u}}_h$, and the remaining functions with continuous normal components across element boundaries, $\bm{u}^\partial_h$. This leads to the definition of two auxiliary spaces, namely:
 \begin{subequations} \label{eq:internal-external-functions}
 	\begin{align}
 		\mathring{\mathcal{V}}_{h,k}(K,\mathbb{R}^d) &= \left\{ \bm{v} \in \mathcal{V}_{h,k}(K,\mathbb{R}^d) ~:~ \int_K\nabla \cdot \bm{v}\,dK = 0, ~\bm{v}\cdot\bm{n}\lvert_{\partial K} = 0 \right\},\\
@@ -706,7 +702,7 @@ As previously mentioned, the displacement functions $\bm{u}_h \in \mathcal{V}_{h
 
 The element-wise divergence-free functions can be classified as internal functions because they do not contribute to the pure dilation and compression deformation modes that could affect multiple elements.
 
-To avoid constructing a pressure space $\mathcal{P}_{h,k}$ that includes both piecewise constant and piecewise zero-mean functions, two additional variables can be added to the problem, namely the elemental average pressure $\bar{p}_h \in \bar{\mathcal{P}}_h$ and the distributed force $g_h \in \bar{\mathcal{P}}_{h}$. This approach enables not only the construction of $\mathcal{P}_{h,k}$ using traditional piecewise polynomials of order $k$ but also the condensation of all the higher-order pressure functions. It is worth mentioning that for compressible solids, the pressure can be computed explicitly from the displacement, making these two additional spaces no longer necessary.
+To avoid constructing a pressure space $\mathcal{P}_{h,k}$ that includes both piecewise constant and piecewise zero-mean functions, two additional variables can be added to the problem, namely the element's average pressure $\bar{p}_h \in \bar{\mathcal{P}}_h$ and a dilative force $g_h \in \bar{\mathcal{P}}_{h}$. This approach enables not only the construction of $\mathcal{P}_{h,k}$ using traditional piecewise polynomials of order $k$ but also the condensation of all the higher-order pressure functions. It is worth mentioning that for compressible solids, the pressure can be computed explicitly from the displacement, making these two additional spaces no longer necessary.
 
 Under these assumptions, the DHM-H(div)($\mathcal{S}_{h,k}$) can be written as: find $\{\bm{u}^\partial_h,\mathring{\bm{u}}_h,p_h,\bm{t}^t_h,\bm{w}_h,\bar{p}_h,\bar{g}_h\} \in \{\mathcal{V}^\partial_h \times \mathring{\mathcal{V}}_h \times \mathcal{P}_h \times \bar{\mathcal{L}}_h \times \mathcal{W}_h \times \bar{\mathcal{P}} \times \bar{\mathcal{P}} \}$ such that:
 \begin{subequations} \label{eq:double-hybrid-six-field}
@@ -724,7 +720,7 @@ Under these assumptions, the DHM-H(div)($\mathcal{S}_{h,k}$) can be written as: 
 \noindent for all$\{\bm{v}^\partial,\mathring{\bm{v}}, q, \bm{s}^t, \bm{z}, \bar{\rho}, \bar{q} \} \in \{\mathcal{V}^\partial_{h,k} \times \mathring{\mathcal{V}}_{h,k} \times \mathcal{P}_{h,k} \times \bar{\mathcal{L}}^t_{h,k} \times \mathcal{W
 }_{h,k} \times \bar{\mathcal{P}} \times \bar{\mathcal{P}}\}$.
 
-The definition of $\mathcal{V}^\partial \text{ and } \mathring{\mathcal{V}}$ in Eq. \eqref{eq:internal-external-functions} directly implies that the terms $\langle\bm{t}^t_h,\bm{v}^\partial\rangle_{\partial\mathcal{T}_h}, b( p_h, \mathring{\bm{v}}_h)_{\mathcal{T}_h}, \langle\bm{t}_N\cdot\bm{n},\mathring{\bm{v}}_h\cdot\bm{n}\rangle_{\partial\Omega_N} \text{ and }\langle\bm{u}^\partial_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h}$ vanish. Recalling that $\bm{t}^t \in \bar{\mathcal{L}}_{h,k}$ is discontinuous over the mesh sleleton, meaning that it can be computed from a single element in the mesh, the problem of Eq. \eqref{eq:double-hybrid-six-field} can be rearranged in matrix form as:
+The definition of $\mathcal{V}^\partial \text{ and } \mathring{\mathcal{V}}$ in Eq. \eqref{eq:internal-external-functions} directly implies that the terms $\langle\bm{t}^t_h,\bm{v}^\partial\rangle_{\partial\mathcal{T}_h}, b( p_h, \mathring{\bm{v}}_h)_{\mathcal{T}_h}, \langle\bm{t}_N\cdot\bm{n},\mathring{\bm{v}}_h\cdot\bm{n}\rangle_{\partial\Omega_N} \text{ and }\langle\bm{u}^\partial_h,\bm{s}^t\rangle_{\partial\mathcal{T}_h}$ vanish. Recalling that $\bm{t}^t \in \bar{\mathcal{L}}_{h,k}$ is discontinuous over the mesh skeleton, meaning that it can be computed from a single element in the mesh, the problem of Eq. \eqref{eq:double-hybrid-six-field} can be rearranged in matrix form as:
 \vspace{0.8cm}
 \begin{equation} \label{eq:block-matrix}
 	\begin{bNiceArray}{c | c}[cell-space-top-limit=10pt,cell-space-bottom-limit=10pt,extra-margin=5pt]
@@ -840,7 +836,7 @@ Writing Eq. \eqref{eq:block-matrix} in a compact form yields
 
 \noindent The internal variables are then recovered in a post-processing step by solving a local problem at the element level: $\bm{\alpha}_i = \bm{K}_{ii}^{-1}(\bm{f}_i - \bm{K}_{ie}\bm{\alpha}_e)$.
 
-To better analyze the spectral properties of the resulting matrix, let us break through the static condensation procedure step by step. The Lagrange multiplier $\bm{w}$, representing the tangential velocities, only has coupling terms with the tangent tractions by the matrix $\bm{L}$. Therefore, matrix $\bm{A}_{\smallcirc\smallcirc}$ is positive definite. Proceeding by statically condensing the internal displacements onto the tangential tractions $\bm{t}^t$ leads to:
+To better analyze the spectral properties of the resulting matrix, let us break down the static condensation procedure step by step. The Lagrange multiplier $\bm{w}$, representing the tangential velocities, only has coupling terms with the tangent tractions through the matrix $\bm{L}$. Therefore, matrix $\bm{A}_{\smallcirc\smallcirc}$ is positive definite. Proceeding by statically condensing the internal displacements onto the tangential tractions $\bm{t}^t$ leads to:
 \begin{equation} \label{eq:block-matrix-1}
 	\begin{NiceArray}{l}[cell-space-top-limit=2pt,cell-space-bottom-limit=2pt,extra-margin=4pt]
 			p \\
@@ -915,7 +911,7 @@ The tangential tractions $\bm{t}^t$ in Eq. \eqref{eq:block-matrix-1} can be cond
 \end{bNiceArray}.
 \end{equation}
 
-As a consequence of this procedure, a symmetric positive-definite matrix is obtained for a compressible solid with two unknowns, $\{\bm{u}^\partial_h,\bm{w}\} \in \mathcal{V}^\partial \times \mathcal{W}$. In this case, the block matrix $\bm{C}$ is positive definite, allowing it to be condensed without the need of introducing $\bar{p}$ and $\bar{g}$. For the incompressible case, where pressures cannot be explicitly computed from the displacements, a single mean pressure per element $\bar{p}_h \in \bar{\mathcal{P}}$ acts as a Lagrange multiplier in the global system. This results in a saddle-point matrix, but with improved spectral properties and easier to solve compared to Eqs. \eqref{eq:semi-hybrid-weak-a}-\eqref{eq:semi-hybrid-weak-c}. The external and internal variables are illustrated in Figure \ref{fig:static-condensation} for a given set of neighboring elements of the mesh. 
+As a consequence of this procedure, a symmetric positive-definite matrix is obtained for a compressible solid with two unknowns, $\{\bm{u}^\partial_h,\bm{w}\} \in \mathcal{V}^\partial \times \mathcal{W}$. In this case, the block matrix $\bm{C}$ is positive definite, allowing it to be condensed without the need to introduce $\bar{p}$ and $\bar{g}$. For the incompressible case, where pressures cannot be explicitly computed from the displacements, a single mean pressure per element $\bar{p}_h \in \bar{\mathcal{P}}$ acts as a Lagrange multiplier in the global system. This results in a saddle-point matrix, but with improved spectral properties and easier to solve compared to Eqs. \eqref{eq:semi-hybrid-weak-a}-\eqref{eq:semi-hybrid-weak-c}. The external and internal variables are illustrated in Figure \ref{fig:static-condensation} for a given set of neighboring elements of the mesh. 
 
 \begin{figure}[H]
 	\centering
@@ -926,7 +922,7 @@ As a consequence of this procedure, a symmetric positive-definite matrix is obta
 
 \section{Examples \label{sec:Examples}}
 
-In this section, the proposed methodology is tested and verified through three benchmarks for which analytical and/or numerical solutions are available and a complex three-dimensional problem. In the first example, a non-homogeneous solid under pure stretch is analyzed to show the advantage of the hybrid formulation to represent stress discontinuities over element interfaces in comparison to the Taylor-Hood scheme. The second example examines a cantilever beam under different compressibility regimes, demonstrating the method's convergence rate independence from the Poisson ratio. The third benchmark solves the classical Cook's membrane problem. Finally, the methodology is tested on a complex three-dimensional case to assess its robustness.
+In this section, the proposed methodology is tested and verified through three benchmarks for which analytical and/or numerical solutions are available, and a complex three-dimensional problem. In the first example, a non-homogeneous solid under pure stretch is analyzed to show the advantage of the hybrid formulation to represent stress discontinuities over element interfaces in comparison to the Taylor-Hood scheme. The second example examines a cantilever beam under different compressibility regimes, demonstrating the method's convergence rate independence from the Poisson ratio. The third benchmark solves the classical Cook's membrane problem. Finally, the methodology is tested on a complex three-dimensional case to assess its robustness.
 
 \subsection{Uniform stretch of a non-homogeneous solid \label{subsec:non-homogeneous}}
 
@@ -942,7 +938,7 @@ As a first example, a simple uniform stretch test of a heterogeneous cube specim
 	\end{aligned}
 \end{equation}
 
-\noindent with the superscript $(\cdot)^i$ standing for the $i$-th material. The displacements solution is given by:
+\noindent with the superscript $(\cdot)^i$ standing for the $i$-th material. The displacement solution is given by:
 \begin{equation}
 	\begin{aligned}
 		u_x &= (1-\nu)x, \\
@@ -970,7 +966,7 @@ It is noted that the analytical stress field is discontinuous at the interface b
     \label{fig:non-homogeneous-stretch-graphs}
 \end{figure}
 
-Figure \ref{fig:non-homogeneous-stretch-fields} depicts the $y$ displacement component, pressure, $xx$-stress component and $zz$-stress component using the DHM-H(div).
+Figure \ref{fig:non-homogeneous-stretch-fields} depicts the $y$ displacement component, pressure, $xx$-stress component, and $zz$-stress component using the DHM-H(div).
 
 \begin{figure}[H]
     \centering
@@ -1005,7 +1001,7 @@ The analytical stress state for the problem is provided in \cite{bishop2014displ
 	\end{aligned}
 \end{equation}
 
-\noindent where $F=\int_{-b}^{b}\int_{-a}^{a}\sigma_{yz}dxdy$ and $I=4ab^3/3$ is the second moment of area about the $x$-axis. The following displacement field is obtained by integrating Equations \eqref{eq:bishop-stress} and enforcing compatibility constrains:
+\noindent where $F=\int_{-b}^{b}\int_{-a}^{a}\sigma_{yz}dxdy$ and $I=4ab^3/3$ is the second moment of area about the $x$-axis. The following displacement field is obtained by integrating Equations \eqref{eq:bishop-stress} and enforcing compatibility constraints:
 \begin{equation} \label{eq:bishop-displacement}
 	\begin{split}
 		u_x & = -\frac{F\nu}{EI} xyz \text{,}\\
@@ -1015,7 +1011,7 @@ The analytical stress state for the problem is provided in \cite{bishop2014displ
 	\end{split}
 \end{equation}
 
-For the analyses that follow, we kept the number of terms in the series expansion limited to $n=5$. The exact solution evaluated on the boundaries of the beam is used to define the boundary conditions. At $z=0$, the exact normal and tangential displacements computed according to Eq. \eqref{eq:bishop-displacement} are prescribed, whereas surface tractions in accordance to Eq. \eqref{eq:bishop-stress} are applied on the other five faces.
+For the analyses that follow, we kept the number of terms in the series expansion limited to $n=5$. The exact solution evaluated on the boundaries of the beam is used to define the boundary conditions. At $z=0$, the exact normal and tangential displacements computed according to Eq. \eqref{eq:bishop-displacement} are prescribed, whereas surface tractions in accordance with Eq. \eqref{eq:bishop-stress} are applied on the other five faces.
 
 Two types of mesh partitions are considered: one using tetrahedral elements and the other using hexahedral elements. For both cases, the average element size is computed as $h_e=1/2^{n-1}$, where $n=\{1,2,3,4,5\}$. The coarsest ($h_e=1$) and finest ($h_e=0.0625$) meshes for each partition are shown in Figure \ref{fig:bishop-meshes}. The first analysis is carried out keeping $\nu=0.3$ as in \cite{bishop2014displacement}. A convergence study is then performed, evaluating the $L^2$-norm errors for displacement, pressure, stress, and mass conservation.
 
@@ -1027,7 +1023,7 @@ Two types of mesh partitions are considered: one using tetrahedral elements and 
 	\label{fig:bishop-meshes}
 \end{figure}
 
-The results in Figure \ref{fig:bishop-convergence-nu-03} are similar using both mesh partitions, exhibiting optimal convergence rates of order $k+1$ for the displacement and $k$ for the other variables. Figure \ref{fig:bishop-snapshot} presents the displacement, pressure, stress magnitude and Von Mises stress distributions obtained with the finest hexahedral mesh using $k=3$ over the deformed configuration beam. The results qualitatively agree with the reference solution \cite{bishop2014displacement}.
+The results in Figure \ref{fig:bishop-convergence-nu-03} are similar using both mesh partitions, exhibiting optimal convergence rates of order $k+1$ for the displacement and $k$ for the other variables. Figure \ref{fig:bishop-snapshot} presents the displacement, pressure, stress magnitude, and Von Mises stress distributions obtained with the finest hexahedral mesh using $k=3$ over the deformed configuration beam. The results qualitatively agree with the reference solution \cite{bishop2014displacement}.
 
 \begin{figure}[H]
     \centering
@@ -1049,11 +1045,11 @@ The results in Figure \ref{fig:bishop-convergence-nu-03} are similar using both 
     \label{fig:bishop-snapshot}
 \end{figure}
 
-To evaluate the proposed methodology across different compressibility regimes, Tables \ref{tab:bishop-convergence-049}-\ref{tab:bishop-convergence-050} present the convergence rates obtained for $\nu=0.49$, $\nu=0.4999$ and $\nu=0.5$. Optimal convergence rates are achieved independently of the Poisson ratio. This is a noteworthy feature, as many formulations suffer from locking under quasi and full incompressibility. Additionally, for the incompressible case ($\nu=0.5$), a divergence-free displacement field is obtained even for the coarsest mesh, with the error limited to machine precision.
+To evaluate the proposed methodology across different compressibility regimes, Tables \ref{tab:bishop-convergence-049}-\ref{tab:bishop-convergence-050} present the convergence rates obtained for $\nu=0.49$, $\nu=0.4999$, and $\nu=0.5$. Optimal convergence rates are achieved independently of the Poisson ratio. This is a noteworthy feature, as many formulations suffer from locking under quasi and full incompressibility. Additionally, for the incompressible case ($\nu=0.5$), a divergence-free displacement field is obtained even for the coarsest mesh, with the error limited to machine precision.
 
 \begin{table}[H]
     \centering
-    \caption{Convergence rates for a cantilever beam under an end shear load with $\nu=0.49$. Results are shown for $\bm{u}$, $p$, $\bm{\sigma}$ and $\nabla \cdot \bm{u}$ using hexahedral (left) and tetrahedral (right) meshes with the DHM-H(div) formulation}
+    \caption{Convergence rates for a cantilever beam under an end shear load with $\nu=0.49$. Results are shown for $\bm{u}$, $p$, $\bm{\sigma}$, and $\nabla \cdot \bm{u}$ using hexahedral (left) and tetrahedral (right) meshes with the DHM-H(div) formulation}
     \vspace{5pt}
 	\resizebox{\textwidth}{!}{
     \begin{tabular}{c c c c c | c c c c}
@@ -1213,7 +1209,7 @@ At first, we perform plane strain analyses using structured meshes with triangul
 	\label{fig:cooks-2d-quad-meshes}
 \end{figure}
 
-Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the vertical displacement of point A for two values of $\nu$, alongside numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained using Taylor-Hood elements $P_kP_{k-1}$ with $k=\{2,3,4\}$. The DHM-H(div) formulation leads to a locking-free solution even for lower-order approximations ($k=1$), and qualitatively matches the reference solutions for both values of $\nu$ and mesh partitions. Moreover, the solution is pratically the same for both values of $\nu$.
+Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the vertical displacement of point A for two values of $\nu$, alongside numerical results available in the literature \cite{elguedj2008b,cesar1999new} and results obtained using Taylor-Hood elements $P_kP_{k-1}$ with $k=\{2,3,4\}$. The DHM-H(div) formulation leads to a locking-free solution even for lower-order approximations ($k=1$), and qualitatively matches the reference solutions for both values of $\nu$ and mesh partitions. Moreover, the solution is practically the same for both values of $\nu$.
 \begin{figure}[H]
     \centering
 	\includetikz{cook-2d-disp-legend-04999} \\
@@ -1231,7 +1227,7 @@ Figure \ref{fig:cooks-2d-displacement-nu-0.4999} shows a comparison of the verti
     \label{fig:cooks-2d-displacement-nu-0.4999999}
 \end{figure}
 
-The three dimensional case is studied using similar meshes with hexahedra and tetrahedra elements for $\nu=0.5$. Zero normal displacement is imposed at the facets parallel to the $x-y$ plane to simulate a plane strain condition. Table \ref{tab:cooks-3d} shows the displacement obtained with the different partitions and polynomial degrees. The results are in agreement with the two-dimensional case, whereas the competitiveness of the HDM-H(div) formulation to simulate three dimensional problems is enabled by the static condensation prodecure. For the most optimal case (hexahedra mesh with $k=4$), it is possible to reduce the number of degrees of freedom up to $90$\%. We plot the Von Mises stress and pressure over the deformed configuration using $k=1$, $k=3$ and $N_e=16$, as depicted in Figure \ref{fig:cooks-3d-stress}. A satisfactory stress and pressure distributions are observed even for linear approximation, where most of standard methods fail to display reasonable results.
+The three-dimensional case is studied using similar meshes with hexahedra and tetrahedra elements for $\nu=0.5$. Zero normal displacement is imposed at the facets parallel to the $x-y$ plane to simulate a plane strain condition. Table \ref{tab:cooks-3d} shows the displacement obtained with the different partitions and polynomial degrees. The results are in agreement with the two-dimensional case, whereas the competitiveness of the HDM-H(div) formulation to simulate three-dimensional problems is enabled by the static condensation procedure. For the most optimal case (hexahedra mesh with $k=4$), it is possible to reduce the number of degrees of freedom up to $90$\%. We plot the Von Mises stress and pressure over the deformed configuration using $k=1$, $k=3$ and $N_e=16$, as depicted in Figure \ref{fig:cooks-3d-stress}. A satisfactory stress and pressure distributions are observed even for linear approximation, where most of standard methods fail to display reasonable results.
 
 \begin{table}[H]
     \centering
@@ -1291,7 +1287,7 @@ The three dimensional case is studied using similar meshes with hexahedra and te
 
 \subsection{Application problem\label{subsec:module}}
 
-To assess the robustness of the proposed method for complex geometries, it is applied to a problem involving the geometry of a structural hull, shown in Figure \ref{fig:module-geometry}. The hull has the following dimensions: $L=1\m$, $r_i=0.345\m$, $r_e=0.390\m$. It is subjected to an internal pressure of $p=10.34$ MPa and fixed in the normal direction of all other faces. The material is assumed to have a linear behavior with a constant Young's modulus of $E=210000$ MPa and a Poisson ratio of $\nu=0.3$. Since the problem is axisymmetric, only one-forth of the domain is modeled, as shown in Figure \ref{fig:module-geometry}. The results obtained with the proposed formulation are compared with the results obtained using the classical Taylor-Hood formulation.
+To assess the robustness of the proposed method for complex geometries, it is applied to a problem involving the geometry of a structural hull, shown in Figure \ref{fig:module-geometry}. The hull has the following dimensions: $L=1\m$, $r_i=0.345\m$, $r_e=0.390\m$. It is subjected to an internal pressure of $p=10.34$ MPa and fixed in the normal direction of all other faces. The material is assumed to have a linear behavior with a constant Young's modulus of $E=210000$ MPa and a Poisson ratio of $\nu=0.3$. Since the problem is axisymmetric, only one-fourth of the domain is modeled, as shown in Figure \ref{fig:module-geometry}. The results obtained with the proposed formulation are compared with the results obtained using the classical Taylor-Hood formulation.
 
 \begin{figure}[h]
     \centering
@@ -1299,7 +1295,7 @@ To assess the robustness of the proposed method for complex geometries, it is ap
     % \includegraphics{bishop-beam-geometry.pdf}
     \input{hull-domain.pdf_tex}
     % \includegraphics{hull-domain.pdf}
-    \caption{Geometry of the structural hull. Only one-forth of the domain is modeled due to axisymmetry of the domain.}
+    \caption{Geometry of the structural hull. Only one-fourth of the domain is modeled due to axisymmetry of the domain.}
     \label{fig:module-geometry}
 \end{figure}
 
@@ -1342,11 +1338,11 @@ The plots for the displacement magnitude, pressure, and Von Mises stresses along
 
 \section{Conclusions} \label{sec:conclusions}
 
-In this work, a double hybrid formulation for two and tridimensional elasticity problems is developed. The approximation space composed of De Rham compatible $H(\text{div})$ functions for normal displacements and $L^2$ functions for the pressure, leads to a scheme that is uniformly convergent independent of the Poisson ratio. It is shown that, using a simple reconstruction of the normal stress, the boundary normal stresses are in local equilibrium.
-A second hybridization of the tangential stresses is applied yielding positive semi-definite element matrices. The resulting global system is symmetric and positive-definite when applied to compressible solids and is a saddle-point problem for incompressible cases, with a single mean pressure per element acting as a Lagrange multiplier to impose the incompressibility constraint.
+In this work, a double hybrid formulation for two and three-dimensional elasticity problems is developed. The approximation space composed of De Rham compatible $H(\text{div})$ functions for normal displacements and $L^2$ functions for the pressure leads to a scheme that is uniformly convergent, independent of the Poisson ratio. It is shown that, using a simple reconstruction of the normal stress, the boundary normal stresses are in local equilibrium.
+A second hybridization of the tangential stresses is applied, yielding positive semi-definite element matrices. The resulting global system is symmetric and positive-definite when applied to compressible solids and is a saddle-point problem for incompressible cases, with a single mean pressure per element acting as a Lagrange multiplier to impose the incompressibility constraint.
 
 
-The formulation is verified through a series of tests. The first one, of a solid mechanics problem with two elasticity coefficients, shows the formulation's ability to capture the correct stress and displacement distributions when compared to the popular Taylor-Hood approximation. The DHM-H(div) formulation is also applied to a cantilever beam subjected to an end shear load, with the results displaying optimal convergence rates of $k+1$ for the displacement and $k$ for the stresses, independent of the Poisson ratio. The formulation was able to capture the correct stress and displacement distributions for the compressible case and a divergence-free displacement field in the case of the incompressibility limit. The Cook's membrane benchmark is also simulated in two and three dimensions, where locking-free solutions are obtained for low-order approximations and good convergence properties are observed when compared against other results from the literature. The simulation of a real scale structural hull subjected to an internal pressure qualitatively indicates that the proposed method is applicable to complex domain problems.
+The formulation is verified through a series of tests. The first one, of a solid mechanics problem with two elasticity coefficients, shows the formulation's ability to capture the correct stress and displacement distributions when compared to the popular Taylor-Hood approximation. The DHM-H(div) formulation is also applied to a cantilever beam subjected to an end shear load, with the results displaying optimal convergence rates of $k+1$ for the displacement and $k$ for the stresses, independent of the Poisson ratio. The formulation was able to capture the correct stress and displacement distributions for the compressible case and a divergence-free displacement field in the case of the incompressibility limit. The Cook's membrane benchmark is also simulated in two and three dimensions, where locking-free solutions are obtained for low-order approximations and good convergence properties are observed when compared against other results from the literature. The simulation of a real-scale structural hull subjected to an internal pressure qualitatively indicates that the proposed method is applicable to complex domain problems.
 
 \bigskip\noindent {\bf Acknowledgments:} The authors thankfully acknowledge the support of ANP - Brazil's National Oil, Natural Gas and Biofuels Agency through the R\&D levy regulation. The acknowledgments are extended to the Center for Petroleum Studies (CEPETRO) and the School of Civil Engineering, Architecture and Urban Planning (FECFAU). G.~Avancini is grateful to Total Energies Brazil through FUNCAMP (processes 23289-2 and 76042-23) and EPIC - Energy Production Innovation Center through FAPESP/Equinor (grant 2023/06981/-5). N.~Shauer (scholarship 2021/03791-5) is grateful to FAPESP - S\~ao Paulo Research Foundation. H.L.~Oliveira thanks the support from FAEPEX PIND grant n. 519.287. P.R.B.~ Devloo acknowledges the Brazilian National Council for Scientific and Technological Development (grants 305823/2017-5 and 309597/2021-8).
 

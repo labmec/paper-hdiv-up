@@ -57,7 +57,7 @@
     \put(0.11781216,0.29740398){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_1$\end{tabular}}}}%
     \put(0.17068082,0.29788785){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_2$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=1]{hybridization.pdf}}%
-    \put(0.58652804,0.53344436){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Semi-hybrid mixed\end{tabular}}}}%
+    \put(0.62253225,0.53344436){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Semi-hybrid\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=2]{hybridization.pdf}}%
     \put(0.5084815,0.40585785){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_1$\end{tabular}}}}%
     \put(0.52226643,0.45624579){\color[rgb]{1,0.6,0.33333333}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathring{\bm{u}}_1\lvert_{\partial K_1}$\end{tabular}}}}%
@@ -67,7 +67,7 @@
     \put(0.81499278,0.40928018){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_2$\end{tabular}}}}%
     \put(0.65551278,0.49465594){\color[rgb]{0,0,1}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{t}^t \in \mathcal{L}^t$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{hybridization.pdf}}%
-    \put(0.5748379,0.25556991){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Double-hybrid mixed\end{tabular}}}}%
+    \put(0.61084211,0.25556991){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Double-hybrid\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{hybridization.pdf}}%
     \put(0.5084815,0.12798336){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_1$\end{tabular}}}}%
     \put(0.81499278,0.13140571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_2$\end{tabular}}}}%

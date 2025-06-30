@@ -139,6 +139,8 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
     }
 }
 
+\definecolor{MyRed}{rgb}{1,0,0}
+
 \journal{Computer Methods in Applied Mechanics and Engineering}
 
 \begin{document}
@@ -182,7 +184,7 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 
 Elasticity theory is fundamental in engineering, with applications spanning industries such as automotive, medicine, sports, construction, electronics, and biology \cite{banks2011brief, li2021topological, naddeo2021degradable, ferrari2022effect, sanfilippo2024revolutionising, mousavi2022experimental, weakley2022putting, mashaly2011evaluation, semnani2011advances, gosling2013analysis, edlund2009model, pan2023research, tian2024elastic, santos2025self, leonardi2024deeper}. Traditional  $H^1$-continuous Finite Element Method (FEM) formulations are known to work well for most classes of problems, especially if the material is compressible. However, depending on the problem's characteristics, employing a continuous displacement approximation can introduce numerical issues, such as shear-locking due to spurious energy modes in bending \cite{bletzinger2000unified,belytschko1985stress} and volume locking in nearly or fully incompressible regimes, where stresses approach infinity \cite{neto2005f,cervera2003mixed}.
 
-Various techniques have been developed to mitigate the shear-locking and problems with materials reaching the incompressibility limit. Examples of these techniques include: using reduced integration with hourglass control \cite{koh1987new, hutter2000total}, average nodal pressure formulations \cite{bonet1998simple, andrade2004assessment}, the weak Galerkin method \cite{lin2018weak,wang2024lowest,harper2019lowest}, the F- and B-bar techniques \cite{de1996design, neto2005f}, the enhanced strain method \cite{lovadina2003enhanced, de1995remarks}, the energy-sampling stabilization technique \cite{sivapuram2019energy, pakravan2017mean}, mixed formulations \cite{brezzi2012mixed,arnold1988new,taylor1973numerical}, and the smoothed Finite Element Method \cite{lee2020linear, jiang2018sharp}. 
+Various techniques have been developed to mitigate the shear-locking and problems with materials reaching the incompressibility limit. Examples of these techniques include: using reduced integration with hourglass control \cite{koh1987new, hutter2000total}, average nodal pressure formulations \cite{bonet1998simple, andrade2004assessment}, \textcolor{MyRed}{extended variational principles with mean pressure function \cite{HERRMANN}}, the weak Galerkin method \cite{lin2018weak,wang2024lowest,harper2019lowest}, the F- and B-bar techniques \cite{de1996design, neto2005f}, the enhanced strain method \cite{lovadina2003enhanced, de1995remarks}, the energy-sampling stabilization technique \cite{sivapuram2019energy, pakravan2017mean}, mixed formulations \cite{brezzi2012mixed,arnold1988new,taylor1973numerical}, and the smoothed Finite Element Method \cite{lee2020linear, jiang2018sharp}. 
 
 % The regularity of the solution to the Biot model can be used to indicate how displacement becomes divergence-free as Poisson's ratio approaches 0.5 \cite{yi2017study}. Using another scheme, a three-field formulation can be used to obtain symmetric saddle point problem expressed by a biorthogonal system of equations, which can be condensed to decrease the number of unknowns and generate locking-free approximations \cite{lamichhane2012symmetric, lamichhane2014mixed}. 
 
@@ -209,7 +211,7 @@ Let $\Omega \subset \mathbb{R}^d$, $d \in \{2, 3\}$, be a closed domain with Lip
 \end{equation*}
 \begin{equation*}
     H^1(\Omega) = \left\{v \in L^2(\Omega) : \partial_i v \in L^2 
-    (\Omega) : i \in\{1,2,3\} \right\},
+    (\Omega) : i \in\{1,\ldots,d\} \right\},
 \end{equation*}
 
 \noindent associated with their respective norms $\| \cdot \|_{L^2}$ and $\| \cdot \|_{H^1}$.
@@ -219,9 +221,13 @@ The space $H(\text{div},\Omega,\mathbb{R}^d)$ comprises square-integrable vector
 	H(\text{div},\Omega,\mathbb{R}^d) = \left\{\bm{v} \in L^2(\Omega,\mathbb{R}^d) : \nabla \cdot \bm{v} \in L^2(\Omega) \right\},
 \end{equation*}
 
-\noindent equipped with the norm $\| \cdot \|_{H(\text{div})}$. Henceforth, a space of vector-valued functions is denoted by the symbol $\mathbb{R}^d, \,d \in \{2,3\}$. The same notation can be used for tensor fields, e.g. $\mathbb{R}^d \times \mathbb{R}^d$. Thus, \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{2,3\} \}\).
+\noindent equipped with the norm $\| \cdot \|_{H(\text{div})}$. Henceforth, a space of vector-valued functions is denoted by the symbol $\mathbb{R}^d, \,d \in \{2,3\}$. The same notation can be used for tensor fields, e.g. $\mathbb{R}^d \times \mathbb{R}^d$. Thus, \(L^2(\Omega,\mathbb{R}^d)=\{\bm{v} : v_i \in L^2(\Omega) : i \in\{1,\ldots,d\} \}\).
 
-The notation used for the $L^2$ inner product is $(\cdot,\cdot)_{\Omega}$, while $\langle \cdot,\cdot\rangle_{\partial\Omega}$ stands for the duality pairing between the trace spaces
+\textcolor{MyRed}{The notation used for the $L^2$ inner product is $(\cdot,\cdot)_{\Omega}$, defined as
+\begin{equation*}
+	(u,v)_{\Omega}=\int_{\Omega} u v \,d\Omega \text{,}
+\end{equation*}}
+\noindent while $\langle \cdot,\cdot\rangle_{\partial\Omega}$ stands for the duality pairing between the trace spaces
 \begin{equation*}
 	H^{1/2}(\partial\Omega,\mathbb{R}^d) = \left\{\bm{v}=\bm{u} \lvert_{\partial\Omega}, \bm{u} \in H^1(\Omega,\mathbb{R}^d)\right\},
 \end{equation*}

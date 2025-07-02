@@ -1171,7 +1171,7 @@ To evaluate the proposed methodology across different compressibility regimes, T
 	\label{tab:bishop-convergence-050}
 \end{table}
 
-We compare the error as a function of the number of degrees of freedom in the global system against the Taylor-Hood formulation for $\nu=0.5$. According to Figure \ref{fig:bishop-comparison-TH}, the DHM-H(div) formulation demonstrates competitive performance, showing a similar convergence rate compared to the Taylor-Hood elements using both partitions. The most significant difference appears in the pressure error, where the results using Taylor-Hood elements indicate a superconvergent rate. This behavior can be attributed to the pressure analytic solution being already included in the approximation space, a phenomenon also reported in \cite{puga2025stable} for a Stokes flow problem. Nonetheless, the DHM-H(div) formulation exactly represent the volumetric strain independently of the number of degrees of freedom, being advantageous for fully incompressible materials.
+We compare the error as a function of the number of degrees of freedom in the global system \textcolor{MyRed}{(external DOFs)} against the Taylor-Hood formulation for $\nu=0.5$. According to Figure \ref{fig:bishop-comparison-TH}, the DHM-H(div) formulation demonstrates competitive performance, showing a similar convergence rate compared to the Taylor-Hood elements using both partitions. The most significant difference appears in the pressure error, where the results using Taylor-Hood elements indicate a superconvergent rate. This behavior can be attributed to the pressure analytic solution being already included in the approximation space, a phenomenon also reported in \cite{puga2025stable} for a Stokes flow problem. Nonetheless, the DHM-H(div) formulation exactly represent the volumetric strain independently of the number of degrees of freedom, being advantageous for fully incompressible materials.
 \begin{figure}[H]
     \centering
 	\includetikz{TH-bishop-legend} \\
@@ -1179,7 +1179,7 @@ We compare the error as a function of the number of degrees of freedom in the gl
 	\subfloat[\label{fig:bishop-comparison-TH-b}Pressure]{\includetikz{TH-bishop-hex-pres-05}\includetikz{TH-bishop-tet-pres-05}} \\
 	\subfloat[\label{fig:bishop-comparison-TH-c}Stress]{\includetikz{TH-bishop-hex-stress-05}\includetikz{TH-bishop-tet-stress-05}} \\
 	\subfloat[\label{fig:bishop-comparison-TH-d}Volumetric strain]{\includetikz{TH-bishop-hex-div-05}\includetikz{TH-bishop-tet-div-05}}
-    \caption{Cantilever beam subjected to an end shear load. Error analysis with respect to the number of degrees of freedom for $\nu=0.5$ with hexahedral (left) and tetrahedral (right) elements using the DHM-H(div) and Taylor-Hood formulations.}
+    \caption{Cantilever beam subjected to an end shear load. Error analysis with respect to the number of \textcolor{MyRed}{external} degrees of freedom for $\nu=0.5$ with hexahedral (left) and tetrahedral (right) elements using the DHM-H(div) and Taylor-Hood formulations.}
     \label{fig:bishop-comparison-TH}
 \end{figure}
 

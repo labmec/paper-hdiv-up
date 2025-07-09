@@ -140,6 +140,7 @@ decorations.shapes,decorations.pathmorphing,fit,backgrounds}
 }
 
 \definecolor{MyRed}{rgb}{1,0,0}
+\definecolor{MyGreen}{rgb}{0,1,0}
 
 \journal{Computer Methods in Applied Mechanics and Engineering}
 
@@ -520,7 +521,7 @@ Since $\{\bm{u}_0,p_0,\bm{t}^t_0\}$ satisfies the Eqs. \eqref{eq:semi-hybrid-wea
 
 \subsection{The double-hybrid-mixed \(H(\mathrm{div},\Omega)\) formulation}
 
-The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are proven in \cite{carvalho2024semi,carvalho2024two} provided that an appropriate combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some numerical challenges that must be highlighted. After some algebraic operations, the linear system to be solved is a saddle-point problem with two different constraints: the average element pressure $\bar{p} \in L^2(\Omega)$ and the shear component of the interface traction $\bm{t}^t \in \mathcal{L}^t(\Gamma_h,\mathbb{R}^d)$:
+\textcolor{MyGreen}{The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are proven in \cite{carvalho2024semi,carvalho2024two} provided that an appropriate combination of discrete finite element spaces is chosen. Although mathematically consistent, the semi-hybrid formulation poses some numerical challenges that must be highlighted. After some algebraic operations, the linear system to be solved is a saddle-point problem with two different constraints: the average element pressure $\bar{p} \in L^2(\Omega)$ and the shear component of the interface traction $\bm{t}^t \in \mathcal{L}^t(\Gamma_h,\mathbb{R}^d)$:}
 \begin{equation*}
 	\bm{K}=
 	\begin{bNiceArray}{c | c | c}[first-row,cell-space-top-limit=4pt,extra-margin=4pt]
@@ -531,7 +532,7 @@ The solvability and stability of the semi-hybrid $H(\text{div},\Omega)$ are prov
 	\end{bNiceArray}
 \end{equation*}
 
-This structure significantly increases the effort required to solve the linear system, as a specific permutation order must be chosen when decomposing the equations associated with the Lagrange multipliers. Moreover, we observed that using numerical techniques to impose shear stress boundary conditions (e.g., when using the penalty method) may lead to loss of accuracy, which directly affects the convergence rate.
+\textcolor{MyGreen}{This structure significantly increases the effort required to solve the linear system, as a specific permutation order must be chosen when decomposing the equations associated with the Lagrange multipliers. Moreover, we observed that using numerical techniques to impose shear stress boundary conditions (e.g., when using the penalty method) may lead to loss of accuracy, which directly affects the convergence rate.}
 
 The strategy adopted to overcome this issue was first proposed in \cite{puga2025stable} in the context of Stokes flows and consists of performing a second hybridization of the tangential stresses. This approach can be readily applied to the elasticity problem, as shall be demonstrated next. The tangential traction space defined in Eq. \eqref{eq:space-traction-tangential} is continuous on the boundary of two adjacent elements. The broken space of Lagrange multipliers, $\bar{\mathcal{L}}(\partial\mathcal{T}_h,\mathbb{R}^d)$, can be seen as the trace of the broken $\bar{H}(\text{div})$ space defined in Eq. \eqref{eq:brokenspace-div}, and is written as:
 \begin{equation}
@@ -918,7 +919,7 @@ The tangential tractions $\bm{t}^t$ in Eq. \eqref{eq:block-matrix-1} can be cond
 \end{bNiceArray}.
 \end{equation}
 
-As a consequence of this procedure, a symmetric positive-definite matrix is obtained for a compressible solid with two unknowns, $\{\bm{u}^\partial_h,\bm{w}\} \in \mathcal{V}^\partial \times \mathcal{W}$. In this case, the block matrix $\bm{C}$ is positive definite, allowing it to be condensed without the need to introduce $\bar{p}$ and $\bar{g}$. For the incompressible case, where pressures cannot be explicitly computed from the displacements, a single mean pressure per element $\bar{p}_h \in \bar{\mathcal{P}}$ acts as a Lagrange multiplier in the global system. This results in a saddle-point matrix, but with improved spectral properties and easier to solve compared to Eqs. \eqref{eq:semi-hybrid-weak-a}-\eqref{eq:semi-hybrid-weak-c}. The external and internal variables are illustrated in Figure \ref{fig:static-condensation} for a given set of neighboring elements of the mesh. 
+\textcolor{MyGreen}{As a consequence of this procedure, a symmetric positive-definite matrix is obtained for a compressible solid with two unknowns, $\{\bm{u}^\partial_h,\bm{w}\} \in \mathcal{V}^\partial \times \mathcal{W}$. In this case, the block matrix $\bm{C}$ is positive definite, allowing it to be condensed without the need to introduce $\bar{p}$ and $\bar{g}$. For the incompressible case, where pressures cannot be explicitly computed from the displacements, a single mean pressure per element $\bar{p}_h \in \bar{\mathcal{P}}$ acts as a Lagrange multiplier in the global system. This results in a saddle-point matrix, but with improved spectral properties and easier to solve compared to Eqs. \eqref{eq:semi-hybrid-weak-a}-\eqref{eq:semi-hybrid-weak-c}. The external and internal variables are illustrated in Figure \ref{fig:static-condensation} for a given set of neighboring elements of the mesh.}
 
 \begin{figure}[H]
 	\centering

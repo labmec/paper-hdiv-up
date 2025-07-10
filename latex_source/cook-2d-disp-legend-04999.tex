@@ -1,0 +1,37 @@
+\begin{tikzpicture} 
+    \begin{axis}[%
+    width=0.9\textwidth,
+    hide axis,
+    xmin=10,
+    xmax=50,
+    ymin=0,
+    ymax=0.4,
+    legend columns=4, 
+    legend style={/tikz/column 2/.style={
+                column sep=10pt
+    },/tikz/column 4/.style={
+        column sep=10pt
+},/tikz/column 2/.style={
+    column sep=10pt
+},legend cell align=left}
+    ]
+    \addlegendimage{red,mark=*}
+    \addlegendentry{DHM-H(div) $k=1$};
+    \addlegendimage{blue,mark=square*}
+    \addlegendentry{DHM-H(div) $k=2$};
+    \addlegendimage{orange,mark=triangle*}
+    \addlegendentry{DHM-H(div) $k=3$};
+    \addlegendimage{purple,mark=x}
+    \addlegendentry{DHM-H(div) $k=4$};
+
+    \addlegendimage{green,mark=o,dashed}
+    \addlegendentry{$P_2P_1$};
+    \addlegendimage{cyan,mark=square,dashed}
+    \addlegendentry{$P_3P_2$};
+    \addlegendimage{gray,mark=triangle,dashed}
+    \addlegendentry{$P_4P_3$};
+    \addlegendimage{black,mark=none,dashed}
+    \addlegendentry{$\bar{B}$ $Q_4/Q_3$ [68]};
+
+    \end{axis}
+\end{tikzpicture}

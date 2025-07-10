@@ -1,0 +1,80 @@
+%% Creator: Inkscape 1.1.2 (0a00cf5339, 2022-02-04), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'hybridization.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{453.54330709bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.5625)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0.14781957,0.44248593){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathcal{T}_h$\end{tabular}}}}%
+    \put(0.11781216,0.29740398){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_1$\end{tabular}}}}%
+    \put(0.17068082,0.29788785){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_2$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{hybridization.pdf}}%
+    \put(0.62253225,0.53344436){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Semi-hybrid\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{hybridization.pdf}}%
+    \put(0.5084815,0.40585785){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_1$\end{tabular}}}}%
+    \put(0.52226643,0.45624579){\color[rgb]{1,0.6,0.33333333}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathring{\bm{u}}_1\lvert_{\partial K_1}$\end{tabular}}}}%
+    \put(0.78091028,0.45319566){\color[rgb]{1,0.6,0.33333333}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathring{\bm{u}}_2 \lvert_{\partial K_2}$\end{tabular}}}}%
+    \put(0.51925974,0.1778044){\color[rgb]{1,0.6,0.33333333}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathring{\bm{u}}_1\lvert_{\partial K_1}$\end{tabular}}}}%
+    \put(0.78250081,0.17634223){\color[rgb]{1,0.6,0.33333333}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\mathring{\bm{u}}_2 \lvert_{\partial K_2}$\end{tabular}}}}%
+    \put(0.81499278,0.40928018){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_2$\end{tabular}}}}%
+    \put(0.65551278,0.49465594){\color[rgb]{0,0,1}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{t}^t \in \mathcal{L}^t$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{hybridization.pdf}}%
+    \put(0.61084211,0.25556991){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Double-hybrid\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{hybridization.pdf}}%
+    \put(0.5084815,0.12798336){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_1$\end{tabular}}}}%
+    \put(0.81499278,0.13140571){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$K_2$\end{tabular}}}}%
+    \put(0.59765422,0.21765678){\color[rgb]{0,0,1}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{t}^t_1 \in \bar{\mathcal{L}}^t$\end{tabular}}}}%
+    \put(0.73007047,0.21805361){\color[rgb]{0,0,1}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{t}^t_2 \in \bar{\mathcal{L}}^t$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{hybridization.pdf}}%
+    \put(0.64741013,0.04029691){\color[rgb]{0,0.50196078,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{w} \in \mathcal{W}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{hybridization.pdf}}%
+  \end{picture}%
+\endgroup%
